@@ -10,13 +10,13 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace SpeechProcessing.Editor
+namespace CommandSystem.Editor
 {
     /// <summary>
     /// Overrides the default property drawer for the SpeechCommandEvent.cs in the inspector to make it easier to read
     /// the enum values.
     /// </summary>
-    [CustomPropertyDrawer(typeof(BasicSpeechCommandEvent))]
+    [CustomPropertyDrawer(typeof(BasicCommandEvent))]
     public class SpeechCommandEventInspector : PropertyDrawer
     {
         private const string DEFAULT_LABEL = "None";

@@ -4,7 +4,7 @@ using MenuSystems.SpeechProcessing;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace SpeechProcessing
+namespace CommandSystem
 {
     /// <summary>
     /// Represents a speech command event that is triggered when a specified command label is processed by the
@@ -14,7 +14,7 @@ namespace SpeechProcessing
     /// allows users to specify whether a command has a value or not.s
     /// </summary>
     [Serializable]
-    public class AdvancedSpeechCommandEvent : BasicSpeechCommandEvent
+    public class AdvancedCommandEvent : BasicCommandEvent
     {
         [SerializeField] private List<string> variations;
         [SerializeField] private bool hasValue;
@@ -22,7 +22,7 @@ namespace SpeechProcessing
         public List<string> Variations => variations;
         public bool HasValue => hasValue;
         
-        public AdvancedSpeechCommandEvent(SpeechLabel commandLabel, string optionNeeded, bool hasValue, List<string> variations,
+        public AdvancedCommandEvent(CommandLabel commandLabel, string optionNeeded, bool hasValue, List<string> variations,
             bool processWhenDisabled, Action nonValueCommand = null, Action<int> valueCommand = null) 
             : base(commandLabel, optionNeeded, processWhenDisabled, nonValueCommand, valueCommand)
         {
@@ -30,7 +30,7 @@ namespace SpeechProcessing
             this.hasValue = hasValue;
         }
         
-        public AdvancedSpeechCommandEvent(BasicSpeechCommandEvent commandEvent) 
+        public AdvancedCommandEvent(BasicCommandEvent commandEvent) 
             : base(commandEvent.CommandLabel, commandEvent.OptionNeeded, commandEvent.ProcessWhenDisabled)
         {
             variations = new List<string>();

@@ -3,27 +3,27 @@ using System.Linq;
 using MenuSystems.SpeechProcessing;
 using UnityEngine;
 
-namespace SpeechProcessing
+namespace CommandSystem
 {
-    public abstract class SpeechCommandListener : MonoBehaviour
+    public abstract class CommandListener : MonoBehaviour
     {
         [SerializeField] protected bool manuallyAdd;
         
-        protected SpeechToCommandHandler SpeechToCommandHandler;
+        protected CommandHandler CommandHandler;
         private bool isInitialized;
 
-        protected abstract IEnumerable<BasicSpeechCommandEvent> CommandEvents { get; }
+        protected abstract IEnumerable<BasicCommandEvent> CommandEvents { get; }
         
-        public void Initialize(SpeechToCommandHandler handler = null)
+        public void Initialize(CommandHandler handler = null)
         {
             if (isInitialized) return;
             isInitialized = true;
-            SpeechToCommandHandler.OnCommandReceived += ProcessCommands;
-            handler ??= FindObjectOfType<SpeechToCommandHandler>(true);
+            CommandHandler.OnCommandReceived += ProcessCommands;
+            handler ??= FindObjectOfType<CommandHandler>(true);
             
             Debug.Assert(handler != null, "Unable to find a speech to command handler");
             
-            SpeechToCommandHandler = handler;
+            CommandHandler = handler;
             if (manuallyAdd)
                 AddOptions();
         }
@@ -35,7 +35,7 @@ namespace SpeechProcessing
             manuallyAdd = true;
         }
 
-        private void ProcessCommands(SpeechCommand command)
+        private void ProcessCommands(Command command)
         {
             foreach (var commandEvent in CommandEvents.Where(ValidateCommandIsActive))
             {
@@ -43,7 +43,7 @@ namespace SpeechProcessing
             }
         }
 
-        private bool ValidateCommandIsActive(BasicSpeechCommandEvent command)
+        private bool ValidateCommandIsActive(BasicCommandEvent command)
         {
             try
             {
@@ -51,14 +51,14 @@ namespace SpeechProcessing
             }
             catch // Fails if the object was destroyed before being enabled
             {
-                SpeechToCommandHandler.OnCommandReceived -= ProcessCommands;
+                CommandHandler.OnCommandReceived -= ProcessCommands;
                 return false;
             }
         }
 
         public void Destroy()
         {
-            SpeechToCommandHandler.OnCommandReceived -= ProcessCommands;
+            CommandHandler.OnCommandReceived -= ProcessCommands;
         }
 
         /// <summary>
@@ -66,8 +66,8 @@ namespace SpeechProcessing
         /// it will also add the option to the SpeechToCommandHandler
         /// </summary>
         /// <param name="commandEvent">The Command Event to add</param>
-        public abstract void AddCommand(BasicSpeechCommandEvent commandEvent);
+        public abstract void AddCommand(BasicCommandEvent commandEvent);
 
-        public abstract void RemoveCommand(BasicSpeechCommandEvent commandEvent);
+        public abstract void RemoveCommand(BasicCommandEvent commandEvent);
     }
 }

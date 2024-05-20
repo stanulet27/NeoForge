@@ -11,11 +11,10 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using MenuSystems.SpeechProcessing.Editor;
-using Microsoft.MixedReality.Toolkit.UI;
 using UnityEditor;
 using UnityEngine;
 
-namespace SpeechProcessing.Editor
+namespace CommandSystem.Editor
 {
     /// <summary>
     /// Adds a new window to unity to be able to invoke Speech Commands from the editor. It is in the style of a
@@ -27,7 +26,7 @@ namespace SpeechProcessing.Editor
         private string commandTerminalExecutionLog = "";
         private bool isPlayingTracker;
         private Vector2 currentScrollPosition;
-        private SpeechToCommandHandler commandHandler;
+        private CommandHandler commandHandler;
         private static Dictionary<string, string> commandShortCuts = new ()
             {
                 {"#setup", "open ros => download => open thickness setter => create"}
@@ -58,7 +57,7 @@ namespace SpeechProcessing.Editor
             if (isPlayingTracker == Application.isPlaying) return;
             
             isPlayingTracker = Application.isPlaying;
-            commandHandler = isPlayingTracker ? FindObjectOfType<SpeechToCommandHandler>() : null;
+            commandHandler = isPlayingTracker ? FindObjectOfType<CommandHandler>() : null;
             commandTerminalExecutionLog = isPlayingTracker ? "" : "Can only execute commands in play mode!";
         }
         
@@ -103,7 +102,7 @@ namespace SpeechProcessing.Editor
 
         private void ActivateCommand()
         {
-            if (commandHandler == null) commandHandler = FindObjectOfType<SpeechToCommandHandler>();
+            if (commandHandler == null) commandHandler = FindObjectOfType<CommandHandler>();
             if(CommandLineArguments == "") return;
 
             if(commandShortCuts.ContainsKey(CommandLineArguments.Trim())) 

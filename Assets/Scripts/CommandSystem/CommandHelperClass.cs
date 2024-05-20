@@ -12,12 +12,12 @@ using System.Collections.Generic;
 using System.Linq;
 using MenuSystems.SpeechProcessing;
 
-namespace SpeechProcessing
+namespace CommandSystem
 {
     /// <summary>
     /// Provides helper methods for speech processing.
     /// </summary>
-    public static class SpeechHelperClass
+    internal static class CommandHelperClass
     {
         private static readonly Dictionary<string, int> NUMBERS = new()
         {  
@@ -26,13 +26,13 @@ namespace SpeechProcessing
         };
         
         /// <summary>
-        /// Will convert a speech label to a string. (Removes underscores and converts to lower case)
+        /// Will convert a command label to a string. (Removes underscores and converts to lower case)
         /// </summary>
-        /// <param name="speechLabel">Speech label to convert</param>
-        /// <returns>Converted speech label</returns>
-        public static string SpeechLabelToString(SpeechLabel speechLabel)
+        /// <param name="commandLabel">Command label to convert</param>
+        /// <returns>Converted command label</returns>
+        public static string SpeechLabelToString(CommandLabel commandLabel)
         {
-            return speechLabel.ToString().ToLowerInvariant().Replace("_", " ");
+            return commandLabel.ToString().ToLowerInvariant().Replace("_", " ");
         }
 
         /// <summary>
@@ -53,9 +53,9 @@ namespace SpeechProcessing
         /// <param name="validCommands">The command database of valid commands to search through</param>
         /// <param name="commandData">The command found, an invalid command if not found</param>
         /// <returns>True if the command was found, false otherwise</returns>
-        public static bool TryToFindCommand(string text, IEnumerable<CommandData> validCommands, out SpeechCommand commandData)
+        public static bool TryToFindCommand(string text, IEnumerable<CommandData> validCommands, out Command commandData)
         {
-            commandData = new SpeechCommand();
+            commandData = new Command();
             var match = string.Empty;
             
             foreach (var validCommand in validCommands.Where(x => CheckForMatchingLabel(text, x, out match)))
@@ -76,12 +76,12 @@ namespace SpeechProcessing
             return match != null;
         }
 
-        private static SpeechCommand ProcessCommand(string userText, CommandData commandData)
+        private static Command ProcessCommand(string userText, CommandData commandData)
         {
-            var command = new SpeechCommand
+            var command = new Command
             {
                 IsValid = true,
-                Label = commandData.speechLabel
+                Label = commandData.commandLabel
             };
             
             userText = RemoveString(userText, command.Label.ToString());

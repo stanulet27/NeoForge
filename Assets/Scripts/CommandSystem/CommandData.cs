@@ -9,8 +9,9 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using SpeechProcessing;
+using CommandSystem;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace MenuSystems.SpeechProcessing
 {
@@ -22,9 +23,9 @@ namespace MenuSystems.SpeechProcessing
     [System.Serializable]
     public class CommandData
     {
-        public string Label => SpeechHelperClass.SpeechLabelToString(speechLabel);
+        public string Label => CommandHelperClass.SpeechLabelToString(commandLabel);
         
-        public SpeechLabel speechLabel;
+        [FormerlySerializedAs("speechLabel")] public CommandLabel commandLabel;
         public List<string> PossibleAlternatives = new();
         public List<string> ValidOptions = new();
         public bool HasOptions => ValidOptions != null && ValidOptions.Count != 0;

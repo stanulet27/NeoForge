@@ -9,13 +9,13 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-namespace MenuSystems.SpeechProcessing
+namespace CommandSystem
 {
     /// <summary>
     /// An enum of possible speech labels
     /// </summary>
     [SuppressMessage("ReSharper", "InconsistentNaming")]
-    public enum SpeechLabel
+    public enum CommandLabel
     {
         Open = 1,
         Close = 2,

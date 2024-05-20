@@ -12,7 +12,7 @@ using MenuSystems.SpeechProcessing;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace SpeechProcessing
+namespace CommandSystem
 {
     
     /// <summary>
@@ -21,9 +21,9 @@ namespace SpeechProcessing
     /// be sent through the UnityEvent
     /// </summary>
     [Serializable]
-    public class BasicSpeechCommandEvent
+    public class BasicCommandEvent
     {
-        [SerializeField] private SpeechLabel commandLabel;
+        [SerializeField] private CommandLabel commandLabel;
         [SerializeField] private string optionNeeded;
         [SerializeField] private bool processWhenDisabled;
         [SerializeField] private UnityEvent<int> onCommand;
@@ -32,10 +32,10 @@ namespace SpeechProcessing
         private Action<int> valueCommand;
 
         public bool ProcessWhenDisabled => processWhenDisabled;
-        public SpeechLabel CommandLabel => commandLabel;
+        public CommandLabel CommandLabel => commandLabel;
         public string OptionNeeded => optionNeeded.ToLower();
         
-        public BasicSpeechCommandEvent(SpeechLabel commandLabel, string optionNeeded, bool processWhenDisabled,
+        public BasicCommandEvent(CommandLabel commandLabel, string optionNeeded, bool processWhenDisabled,
             Action nonValueCommand = null, Action<int> valueCommand = null)
         {
             this.commandLabel = commandLabel;
@@ -45,7 +45,7 @@ namespace SpeechProcessing
             this.valueCommand = valueCommand;
         }
         
-        public void TryToInvokeCommand(SpeechCommand command)
+        public void TryToInvokeCommand(Command command)
         {
             var validLabel = command.Label == commandLabel;
             var needsOption = optionNeeded != "";

@@ -9,17 +9,16 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using SpeechProcessing;
 
-namespace MenuSystems.SpeechProcessing
+namespace CommandSystem
 {
     /// <summary>
-    /// Represents a speech command that can be given by a user. Includes a the command identifying label, any options
+    /// Represents a command that can be given by a user. Includes a the command identifying label, any options
     /// selected for that command, any values given for that command, and whether that command is valid
     /// </summary>
-    public struct SpeechCommand
+    public struct Command
     {
-        public SpeechLabel Label;
+        public CommandLabel Label;
         public List<string> OptionsSelected;
         public bool HasOption;
         public int NumberValue;
@@ -28,7 +27,7 @@ namespace MenuSystems.SpeechProcessing
 
         public override string ToString()
         {
-            var s = SpeechHelperClass.SpeechLabelToString(Label);
+            var s = CommandHelperClass.SpeechLabelToString(Label);
             s = char.ToUpper(s[0]) + s[1..];
             if (HasOption)
             {
