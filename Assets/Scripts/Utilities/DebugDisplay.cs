@@ -7,12 +7,12 @@
 ///
 /// Author: Chase Oberg
 
- using System;
- using System.IO;
- using TMPro;
- using UnityEngine;
+using System;
+using System.IO;
+using UnityEngine;
+using TMPro;
 
- namespace Utilities
+namespace Utilities
 {
     /// <summary>
     /// Handles displaying a console to the user that shows all of the debug logs.
@@ -31,7 +31,7 @@
         
         private static string TimeStamp => $"{DateTime.Now.Hour}-{DateTime.Now.Minute}-{DateTime.Now.Second}";
         
-        [SerializeField] private TextMeshProUGUI textfield;
+        [SerializeField] private TMP_Text textfield;
 
         private string log = "";
 
