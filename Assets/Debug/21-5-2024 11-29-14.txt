@@ -1,0 +1,21 @@
+11-29-3 Log Successfully wrote to C:\Users\chase\AppData\Local\Temp\tmp5865dd93.tmp
+
+UnityEngine.Debug:Log (object)
+DeformationSystem.Deformable:ScaleMeshVertices () (at Assets/Scripts/DeformationSystem/Deformable.cs:119)
+DeformationSystem.Deformable:Update () (at Assets/Scripts/DeformationSystem/Deformable.cs:36)
+
+
+11-29-0 Log Successfully wrote to C:\Users\chase\AppData\Local\Temp\tmp37fba292.tmp
+
+UnityEngine.Debug:Log (object)
+DeformationSystem.Deformable:ScaleMeshVertices () (at Assets/Scripts/DeformationSystem/Deformable.cs:119)
+DeformationSystem.Deformable:Update () (at Assets/Scripts/DeformationSystem/Deformable.cs:36)
+
+
+11-28-59 Log Successfully wrote to C:\Users\chase\AppData\Local\Temp\tmp1bf13c40.tmp
+
+UnityEngine.Debug:Log (object)
+DeformationSystem.Deformable:ScaleMeshVertices () (at Assets/Scripts/DeformationSystem/Deformable.cs:119)
+DeformationSystem.Deformable:Update () (at Assets/Scripts/DeformationSystem/Deformable.cs:36)
+
+
