@@ -1,0 +1,22 @@
+12-2-1 Exception NullReferenceException: Object reference not set to an instance of an object
+DeformationSystem.Deformable.ScaleMeshVertices () (at Assets/Scripts/DeformationSystem/Deformable.cs:181)
+DeformationSystem.Deformable.Update () (at Assets/Scripts/DeformationSystem/Deformable.cs:83)
+
+
+12-2-1 Log 
+UnityEngine.Debug:Log (object)
+DeformationSystem.Deformable:ScaleMeshVertices () (at Assets/Scripts/DeformationSystem/Deformable.cs:171)
+DeformationSystem.Deformable:Update () (at Assets/Scripts/DeformationSystem/Deformable.cs:83)
+
+
+12-2-1 Error Python error: Traceback (most recent call last):
+  File "C:\My Games\NeoForge\Assets\StreamingAssets\mesh_modifier.py", line 3, in <module>
+    import numpy as np
+ModuleNotFoundError: No module named 'numpy'
+
+UnityEngine.Debug:LogError (object)
+DeformationSystem.Deformable:CallPythonScript (string,string,string,string) (at Assets/Scripts/DeformationSystem/Deformable.cs:250)
+DeformationSystem.Deformable:ScaleMeshVertices () (at Assets/Scripts/DeformationSystem/Deformable.cs:168)
+DeformationSystem.Deformable:Update () (at Assets/Scripts/DeformationSystem/Deformable.cs:83)
+
+

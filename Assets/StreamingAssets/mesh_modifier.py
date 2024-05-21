@@ -1,17 +1,17 @@
 ﻿import sys
 import json
-import numpy as np
 
 def multiply_vertices(mesh_data, multiplier=1.5):
     try:
-        # Convert the flattened vertices array back to a 2D array
-        vertices = np.array(mesh_data['vertices']).reshape(-1, 3)
+        vertices = mesh_data['vertices']
     except KeyError:
         raise ValueError("The input JSON does not contain the 'vertices' key or it is not properly formatted.")
 
-    vertices *= multiplier
-    # Flatten the vertices array back before saving
-    mesh_data['vertices'] = vertices.flatten().tolist()
+    # Multiply each vertex coordinate by the multiplier
+    for i in range(len(vertices)):
+        vertices[i] *= multiplier
+
+    mesh_data['vertices'] = vertices
     return mesh_data
 
 if __name__ == "__main__":
