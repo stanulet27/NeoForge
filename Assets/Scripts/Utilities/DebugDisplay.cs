@@ -42,7 +42,7 @@ namespace Utilities
         
         private void UpdateLog(string logString, string stackTrace, LogType type)
         {
-            textfield.text = logString + "\n" + textfield.text;
+            textfield.text = textfield.text + "\n" + logString;
             log = TimeStamp + " " + type + " " + logString + "\n" + stackTrace + "\n\n" + log;
         }
 

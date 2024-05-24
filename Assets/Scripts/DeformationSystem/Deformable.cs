@@ -1,4 +1,4 @@
-﻿using System.Diagnostics;
+﻿using System;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -13,35 +13,43 @@ namespace DeformationSystem
         [SerializeField] private Collider selector;
         [SerializeField] private float force = 1f;
         [SerializeField] private Transform cam;
+        [SerializeField] private Testing testing;
 
-        private string pythonPath;
+        private string executablePath;
         private string pythonScriptPath;
         MeshFilter meshFilter;
         MeshCollider meshCollider;
+        
+        private Action<string, string> methodToExecute;
 
         private void Awake()
         {
-            pythonPath = PythonFinder.FindPythonPath();
-            if (string.IsNullOrEmpty(pythonPath))
+            executablePath = Path.Combine(Application.streamingAssetsPath, "Program.exe");
+            if (string.IsNullOrEmpty(executablePath))
             {
-                UnityEngine.Debug.LogError("Python executable not found.");
+                Debug.LogError("Python executable not found.");
+            }
+            
+            pythonScriptPath = Path.Combine(Application.streamingAssetsPath, "mesh_modifier.py");
+            if (string.IsNullOrEmpty(pythonScriptPath))
+            {
+                Debug.LogError("Python script not found.");
             }
 
             meshFilter = GetComponent<MeshFilter>();
             meshCollider = GetComponent<MeshCollider>();
-
-            pythonScriptPath = Path.Combine(Application.streamingAssetsPath, "mesh_modifier.py");
-            if (!File.Exists(pythonScriptPath))
-            {
-                UnityEngine.Debug.LogError($"Python script not found at: {pythonScriptPath}");
-                return;
-            }
         }
 
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.V))
             {
+                methodToExecute = (x, y) => PythonTools.CallPythonScript(pythonScriptPath, x, y);
+                ScaleMeshVertices();
+            }
+            else if (Input.GetKeyDown(KeyCode.B))
+            {
+                methodToExecute = (x, y) => PythonTools.CallExecutable(executablePath, x, y);
                 ScaleMeshVertices();
             }
         }
@@ -56,7 +64,8 @@ namespace DeformationSystem
             try
             {
                 var start = Time.realtimeSinceStartup;
-                CallPythonScript(pythonPath, pythonScriptPath, JsonUtility.ToJson(meshData), tempOutputPath);
+                methodToExecute(JsonUtility.ToJson(meshData), tempOutputPath);
+                StartCoroutine(testing.SendRequest(JsonUtility.ToJson(meshData)));
                 var end = Time.realtimeSinceStartup;
                 Debug.Log($"Output in {end - start} seconds");
                 
@@ -103,13 +112,13 @@ namespace DeformationSystem
 
             if (modifiedVertices.Length == 0)
             {
-                UnityEngine.Debug.LogError("Modified mesh vertices are not properly assigned or empty.");
+                Debug.LogError("Modified mesh vertices are not properly assigned or empty.");
                 return;
             }
 
             if (modifiedMeshData.triangles == null || modifiedMeshData.triangles.Length == 0)
             {
-                UnityEngine.Debug.LogError("Modified mesh triangles are not properly assigned or empty.");
+                Debug.LogError("Modified mesh triangles are not properly assigned or empty.");
                 return;
             }
 
@@ -119,31 +128,6 @@ namespace DeformationSystem
             mesh.RecalculateNormals();
             mesh.RecalculateBounds();
         }
-
-        private void CallPythonScript(string pythonExePath, string scriptPath, string inputFilePath,
-            string outputFilePath)
-        {
-            var startInfo = new ProcessStartInfo
-            {
-                FileName = pythonExePath,
-                Arguments = $"\"{scriptPath}\" \"{inputFilePath.Replace('\"', '?')}\" \"{outputFilePath}\"",
-                RedirectStandardInput = false,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
-                UseShellExecute = false,
-                CreateNoWindow = true
-            };
-
-            using var process = Process.Start(startInfo);
-            process.WaitForExit();
-
-            string error = process.StandardError.ReadToEnd();
-            Debug.Log("Output: " + process.StandardOutput.ReadToEnd());
-
-            if (!string.IsNullOrEmpty(error))
-            {
-                UnityEngine.Debug.LogError($"Python error: {error}");
-            }
-        }
     }
+
 }
