@@ -8,7 +8,9 @@ namespace DeformationSystem
     public class Testing : MonoBehaviour
     {
         private const string serverURL = "http://127.0.0.1:5000/multiply-vertices"; // Change this to your server URL
-
+        
+        
+        
         [ContextMenu("Test")]
         public void CallServer()
         {
@@ -18,7 +20,7 @@ namespace DeformationSystem
         public IEnumerator SendRequest(string data)
         {
             // Create the request
-            using (UnityWebRequest request = UnityWebRequest.PostWwwForm(serverURL, data))
+            using (UnityWebRequest request = UnityWebRequest.Put(serverURL, data))
             {
                 request.SetRequestHeader("Content-Type", "application/json");
                 Debug.Log(data);
