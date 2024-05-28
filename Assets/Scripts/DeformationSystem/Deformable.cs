@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEngine;
@@ -45,17 +47,17 @@ namespace DeformationSystem
             if (Input.GetKeyDown(KeyCode.V))
             {
                 methodToExecute = (x, y) => PythonTools.CallPythonScript(pythonScriptPath, x, y);
-                ScaleMeshVertices();
+                StartCoroutine(ScaleMeshVertices());
             }
             else if (Input.GetKeyDown(KeyCode.B))
             {
                 methodToExecute = (x, y) => PythonTools.CallExecutable(executablePath, x, y);
-                ScaleMeshVertices();
+                StartCoroutine(ScaleMeshVertices());
             }
         }
 
         [ContextMenu("Scale Mesh Vertices")]
-        public void ScaleMeshVertices()
+        public IEnumerator ScaleMeshVertices()
         {
             var mesh = meshFilter.mesh;
             var intersections = mesh.vertices.Where(IsHit).Distinct().ToArray();
@@ -64,21 +66,12 @@ namespace DeformationSystem
             try
             {
                 var start = Time.realtimeSinceStartup;
-                methodToExecute(JsonUtility.ToJson(meshData), tempOutputPath);
-                StartCoroutine(testing.SendRequest(JsonUtility.ToJson(meshData)));
-                var end = Time.realtimeSinceStartup;
-                Debug.Log($"Output in {end - start} seconds");
-                
-                if (File.Exists(tempOutputPath))
-                {
-                    RebuildMesh(tempOutputPath, mesh);
-                    meshCollider.sharedMesh = mesh;
-                    meshCollider.cookingOptions = MeshColliderCookingOptions.EnableMeshCleaning;
-                }
-                else
-                {
-                    Debug.LogError($"Output file not found: {tempOutputPath}");
-                }
+                yield return testing.SendRequest(JsonUtility.ToJson(meshData));
+                Debug.Log($"Request took {Time.realtimeSinceStartup - start} seconds.");
+            
+                RebuildMesh(testing.ReturnData, mesh);
+                meshCollider.sharedMesh = mesh;
+                meshCollider.cookingOptions = MeshColliderCookingOptions.EnableMeshCleaning;
             }
             finally
             {
@@ -96,7 +89,7 @@ namespace DeformationSystem
 
         private static void RebuildMesh(string tempOutputPath, Mesh mesh)
         {
-            var outputJson = File.ReadAllText(tempOutputPath);
+            var outputJson = tempOutputPath;
             var modifiedMeshData = JsonUtility.FromJson<MeshData>(outputJson);
 
             // Convert float array back to Vector3 array

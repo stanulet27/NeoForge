@@ -1003,6 +1003,7 @@ MonoBehaviour:
   selector: {fileID: 852596201}
   force: 1
   cam: {fileID: 954002217}
+  testing: {fileID: 0}
 --- !u!64 &884103750
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1615,6 +1616,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1325846991}
   - component: {fileID: 1325846992}
+  - component: {fileID: 1325846993}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -1651,6 +1653,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerMesh: {fileID: 884103747}
   goalMesh: {fileID: 1123580630}
+--- !u!114 &1325846993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1325846990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee4b0b3888dd4933825449febf15434c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  x:
+    E: 2000000
 --- !u!1 &1350065307
 GameObject:
   m_ObjectHideFlags: 0
