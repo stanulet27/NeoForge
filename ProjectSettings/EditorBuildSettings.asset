@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Testing - Chase.unity
+    path: Assets/_InDevelopment/Chase/Scenes/TestingChase.unity
     guid: c98292f4d98eeee438cf809c73b02cfa
   m_configObjects: {}
