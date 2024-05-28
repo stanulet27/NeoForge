@@ -8,21 +8,14 @@ using Debug = UnityEngine.Debug;
 
 namespace DeformationSystem
 {
-    [RequireComponent(typeof(MeshFilter))]
-    [RequireComponent(typeof(MeshCollider))]
-    public class Deformable : MonoBehaviour
+    public class DeformationHandler : MonoBehaviour
     {
-        [SerializeField] private Collider selector;
+        [SerializeField] Transform cam;
+        [SerializeField] Testing testing;
         [SerializeField] private float force = 1f;
-        [SerializeField] private Transform cam;
-        [SerializeField] private Testing testing;
-
+        
         private string executablePath;
         private string pythonScriptPath;
-        MeshFilter meshFilter;
-        MeshCollider meshCollider;
-        
-        private Action<string, string> methodToExecute;
 
         private void Awake()
         {
@@ -37,30 +30,14 @@ namespace DeformationSystem
             {
                 Debug.LogError("Python script not found.");
             }
-
-            meshFilter = GetComponent<MeshFilter>();
-            meshCollider = GetComponent<MeshCollider>();
         }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.V))
-            {
-                methodToExecute = (x, y) => PythonTools.CallPythonScript(pythonScriptPath, x, y);
-                StartCoroutine(ScaleMeshVertices());
-            }
-            else if (Input.GetKeyDown(KeyCode.B))
-            {
-                methodToExecute = (x, y) => PythonTools.CallExecutable(executablePath, x, y);
-                StartCoroutine(ScaleMeshVertices());
-            }
-        }
-
+        
         [ContextMenu("Scale Mesh Vertices")]
-        public IEnumerator ScaleMeshVertices()
+        public IEnumerator ScaleMeshVertices(MeshFilter meshFilter, Action<Mesh> meshReassignment)
         {
             var mesh = meshFilter.mesh;
             var intersections = mesh.vertices.Where(IsHit).Distinct().ToArray();
+
             var meshData = new MeshData(mesh, intersections, force, transform.worldToLocalMatrix.MultiplyVector(cam.forward));
             var tempOutputPath = Path.GetTempFileName();
             try
@@ -68,7 +45,9 @@ namespace DeformationSystem
                 var start = Time.realtimeSinceStartup;
                 yield return testing.SendRequest(JsonUtility.ToJson(meshData));
                 Debug.Log($"Request took {Time.realtimeSinceStartup - start} seconds.");
-            
+
+                meshReassignment(RebuildMesh(testing.ReturnData, mesh));
+                
                 RebuildMesh(testing.ReturnData, mesh);
                 meshCollider.sharedMesh = mesh;
                 meshCollider.cookingOptions = MeshColliderCookingOptions.EnableMeshCleaning;
@@ -85,6 +64,37 @@ namespace DeformationSystem
         private bool IsHit(Vector3 vertex)
         {
             return selector.bounds.Contains(transform.localToWorldMatrix.MultiplyPoint(vertex));
+        }
+    }
+    
+    [RequireComponent(typeof(MeshFilter))]
+    [RequireComponent(typeof(MeshCollider))]
+    public class Deformable : MonoBehaviour
+    {
+        [SerializeField] private Collider selector;
+        [SerializeField] private float force = 1f;
+
+        MeshFilter meshFilter;
+        MeshCollider meshCollider;
+        
+        private void Awake()
+        {
+            meshFilter = GetComponent<MeshFilter>();
+            meshCollider = GetComponent<MeshCollider>();
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                methodToExecute = (x, y) => PythonTools.CallPythonScript(pythonScriptPath, x, y);
+                StartCoroutine(ScaleMeshVertices());
+            }
+            else if (Input.GetKeyDown(KeyCode.B))
+            {
+                methodToExecute = (x, y) => PythonTools.CallExecutable(executablePath, x, y);
+                StartCoroutine(ScaleMeshVertices());
+            }
         }
 
         private static void RebuildMesh(string tempOutputPath, Mesh mesh)

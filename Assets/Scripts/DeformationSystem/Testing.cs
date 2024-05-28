@@ -61,7 +61,6 @@ namespace DeformationSystem
             using (UnityWebRequest request = UnityWebRequest.Put(serverURL, data))
             {
                 request.SetRequestHeader("Content-Type", "application/json");
-                Debug.Log(data);
 
                 // Send the request
                 yield return request.SendWebRequest();
@@ -70,11 +69,6 @@ namespace DeformationSystem
                 if (request.result != UnityWebRequest.Result.Success)
                 {
                     Debug.LogError("Error: " + request.error);
-                }
-                else
-                {
-                    // Print the response
-                    Debug.Log("Response: " + request.downloadHandler.text);
                 }
                 
                 returnData = request.result != UnityWebRequest.Result.Success ? data : request.downloadHandler.text;
