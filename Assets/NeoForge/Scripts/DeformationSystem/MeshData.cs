@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace DeformationSystem
@@ -6,44 +8,36 @@ namespace DeformationSystem
     [Serializable]
     public class MeshData
     {
-        public float[] vertices;
-        public int[] triangles;
-        public float[] hits;
-        public float force;
-        public float[] direction;
+        public float[] Vertices;
+        public int[] Triangles;
+        public float[] Hits;
+        public float Force;
+        public float[] Direction;
         
-        public MeshData(Mesh mesh, Vector3[] hits, float force, Vector3 direction)
+        /// <summary>
+        /// Creates the data structure that is passed between the game and the Python server.
+        /// </summary>
+        /// <param name="mesh">The surface mesh being modified</param>
+        /// <param name="hits">The vertices that are going to be impacted</param>
+        /// <param name="force">The amount of force being applied by the hit</param>
+        /// <param name="direction">The direction that the hit is coming from</param>
+        public MeshData(Mesh mesh, IEnumerable<Vector3> hits, float force, Vector3 direction)
         {
-            this.hits = Unwrap(hits);
-            this.force = force;
-            this.direction = new[] {direction.x, direction.y, direction.z};
+            Hits = Unwrap(hits);
+            Force = force;
+            Direction = new[] {direction.x, direction.y, direction.z};
+            
             var meshVertices = mesh.vertices;
-            vertices = Unwrap(meshVertices);
-
-            triangles = mesh.triangles;
-
-            if (vertices == null || vertices.Length == 0)
-            {
-                Debug.LogError("Mesh vertices are not properly assigned or empty.");
-            }
-
-            if (triangles == null || triangles.Length == 0)
-            {
-                Debug.LogError("Mesh triangles are not properly assigned or empty.");
-            }
+            Vertices = Unwrap(meshVertices);
+            Triangles = mesh.triangles;
+            
+            Debug.Assert(Vertices is { Length: > 0 }, "Mesh vertices are not properly assigned or empty.");
+            Debug.Assert(Triangles is { Length: > 0 }, "Mesh triangles are not properly assigned or empty.");
         }
 
-        private float[] Unwrap(Vector3[] points)
+        private float[] Unwrap(IEnumerable<Vector3> points)
         {
-            var unwrapped = new float[points.Length * 3];
-            for (int i = 0; i < points.Length; i++)
-            {
-                unwrapped[i * 3] = points[i].x;
-                unwrapped[i * 3 + 1] = points[i].y;
-                unwrapped[i * 3 + 2] = points[i].z;
-            }
-
-            return unwrapped;
+            return points.SelectMany(p => new[] { p.x, p.y, p.z }).ToArray();;
         }
     }
 }

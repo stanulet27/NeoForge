@@ -28,26 +28,25 @@ namespace Utilities.Editor
     {
         private enum UserPath
         {
-            MAIN,
-            CHASE,
-            CHRIS
+            Main,
+            Chase,
+            Chris
         }
 
         private const string SCENE_FOLDER = "Assets/NeoForge/Scenes/";
         private const string FILE_EXTENSION = ".unity";
         
-        [SerializeField] private UserPath _path = UserPath.MAIN;
+        [SerializeField] private UserPath _path = UserPath.Main;
 
-        private List<string> _currentScenes = new();
-
-
+        private readonly List<string> _currentScenes = new();
+        
         [MenuItem("Tools/Scene Swapper")]
         public static void ShowWindow()
         {
             var window = (SceneSwapperWindow)GetWindow(typeof(SceneSwapperWindow), false, "Scene Swapper");
             window.UpdateSceneList();
         }
-
+        
         private void SwapToScene(string sceneName)
         {
             if (Application.isPlaying)
@@ -56,25 +55,22 @@ namespace Utilities.Editor
             }
             else if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
             {
-                EditorSceneManager.OpenScene(GetPath() + sceneName, OpenSceneMode.Additive);
+                EditorSceneManager.OpenScene(GetPath() + sceneName, OpenSceneMode.Single);
             }
         }
 
         private void OnGUI()
         {
-            UserPath lastPath = _path;
+            var lastPath = _path;
             _path = (UserPath)EditorGUILayout.EnumPopup("User Path", _path);
             if (lastPath != _path)
             {
                 UpdateSceneList();
             }
             
-            foreach (var scene in _currentScenes)
+            foreach (var scene in _currentScenes.Where(scene => GUILayout.Button(GetNameWithoutExtension(scene))))
             {
-                if (GUILayout.Button(GetNameWithoutExtension(scene)))
-                {
-                    SwapToScene(scene);
-                }
+                SwapToScene(scene);
             }
             
             if (GUILayout.Button("Update Scene List"))
@@ -98,9 +94,9 @@ namespace Utilities.Editor
         {
             return _path switch
             {
-                UserPath.CHASE => "Assets/_InDevelopment/Chase/Scenes/",
-                UserPath.CHRIS => "Assets/_InDevelopment/Chris/Scenes/",
-                UserPath.MAIN => SCENE_FOLDER,
+                UserPath.Chase => "Assets/_InDevelopment/Chase/Scenes/",
+                UserPath.Chris => "Assets/_InDevelopment/Chris/Scenes/",
+                UserPath.Main => SCENE_FOLDER,
                 _ => "Assets/"
             };
         }

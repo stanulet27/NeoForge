@@ -6,40 +6,43 @@ namespace DeformationSystem
 {
     public class Moveable : MonoBehaviour
     {
-        [SerializeField] private float moveSpeed = 1f;
-        [SerializeField] private float rotationSpeed = 10f;
+        [Tooltip("The speed at which the object moves.")]
+        [SerializeField] private float _moveSpeed = 1f;
+        
+        [Tooltip("The speed at which the object rotates around its pivot.")]
+        [SerializeField] private float _rotationSpeed = 10f;
+
+        private readonly List<InputBinding> _movementBindings = new()
+        {
+            new InputBinding(KeyCode.W, Vector3.back),
+            new InputBinding(KeyCode.S, Vector3.forward),
+            new InputBinding(KeyCode.A, Vector3.right),
+            new InputBinding(KeyCode.D, Vector3.left),
+        };
+
+        private readonly List<InputBinding> _rotationBindings = new()
+        {
+            new InputBinding(KeyCode.Q, Vector3.forward),
+            new InputBinding(KeyCode.E, Vector3.back),
+            new InputBinding(KeyCode.Z, Vector3.up),
+            new InputBinding(KeyCode.X, Vector3.down),
+            new InputBinding(KeyCode.R, Vector3.left),
+            new InputBinding(KeyCode.T, Vector3.right),
+        };
         
         private void Update()
         {
             var moveDirection = Vector3.zero;
             var rotationDirection = Vector3.zero;
 
-            var movementBindings = new List<InputBinding>
-            {
-                new(KeyCode.W, Vector3.back),
-                new(KeyCode.S, Vector3.forward),
-                new(KeyCode.A, Vector3.right),
-                new(KeyCode.D, Vector3.left),
-            };
-            
-            var rotationBindings = new List<InputBinding>
-            {
-                new(KeyCode.Q, Vector3.forward),
-                new(KeyCode.E, Vector3.back),
-                new(KeyCode.Z, Vector3.up),
-                new(KeyCode.X, Vector3.down),
-                new(KeyCode.R, Vector3.left),
-                new(KeyCode.T, Vector3.right),
-            };
-
-            moveDirection = movementBindings.Where(binding => Input.GetKey(binding.KeyCode))
+            moveDirection = _movementBindings.Where(binding => Input.GetKey(binding.KeyCode))
                 .Aggregate(moveDirection, (current, binding) => current + binding.Direction);
             
-            rotationDirection = rotationBindings.Where(binding => Input.GetKey(binding.KeyCode))
+            rotationDirection = _rotationBindings.Where(binding => Input.GetKey(binding.KeyCode))
                 .Aggregate(rotationDirection, (current, binding) => current + binding.Direction);
             
-            transform.position += moveDirection * (moveSpeed * Time.deltaTime);
-            transform.Rotate(rotationDirection * (rotationSpeed * Time.deltaTime));
+            transform.position += moveDirection * (_moveSpeed * Time.deltaTime);
+            transform.Rotate(rotationDirection * (_rotationSpeed * Time.deltaTime));
         }
 
         private class InputBinding

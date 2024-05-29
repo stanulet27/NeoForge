@@ -10,15 +10,16 @@ namespace DeformationSystem
     
     public class SelectionZone : MonoBehaviour
     {
-        [SerializeField] private GameObject selectedObject;
+        [Tooltip("The object that will be moved to the intersection point.")]
+        [SerializeField] private GameObject _selectedObject;
         
         private void Update()
         {
             var hitOccured = 
                 Physics.Raycast(transform.position, transform.forward, out var hit, Mathf.Infinity, LayerMask.GetMask("Part"));
 
-            selectedObject.transform.position = hitOccured ? hit.point : transform.position + transform.forward * 10f;
-            selectedObject.SetActive(hitOccured);
+            _selectedObject.transform.position = hitOccured ? hit.point : transform.position + transform.forward * 10f;
+            _selectedObject.SetActive(hitOccured);
         }
     }
 }
