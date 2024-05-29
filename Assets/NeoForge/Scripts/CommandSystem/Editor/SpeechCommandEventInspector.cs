@@ -27,6 +27,11 @@ namespace CommandSystem.Editor
             EditorGUI.PropertyField(position, property, label, true);
         }
 
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            return EditorGUI.GetPropertyHeight(property);
+        }
+
         private static string GetLabel(SerializedProperty property)
         {
             var enumProperty = property.FindPropertyRelative("commandLabel");
@@ -34,9 +39,5 @@ namespace CommandSystem.Editor
             return enumIndex == -1 ? DEFAULT_LABEL : enumProperty.enumDisplayNames[enumIndex];
         }
 
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            return EditorGUI.GetPropertyHeight(property);
-        }
     }
 }

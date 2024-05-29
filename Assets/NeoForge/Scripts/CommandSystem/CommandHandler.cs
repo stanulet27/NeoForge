@@ -8,7 +8,6 @@
 /// Author: Chase Oberg
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -24,53 +23,73 @@ namespace CommandSystem
     /// </summary>
     public class CommandHandler : MonoBehaviour
     {
-        [SerializeField] private List<CommandData> validCommands;
-        [SerializeField] private UnityEvent<string> onCommandProcessed;
-
-        private string lastSpokenCommand;
-        private string executionLog;
-        
         /// <summary>
         /// Broadcasted when a user gives a valid command.
         /// </summary>
         public static event Action<Command> OnCommandReceived;
-        public string ExecutionLog => executionLog;
-        public string ValidCommands => validCommands.ConvertAll(x => x.ToString()).Aggregate((x, y) => x + "\n" + y);
+
+        [SerializeField] private List<CommandData> _validCommands;
+        [SerializeField] private UnityEvent<string> _onCommandProcessed;
+
+        public string ExecutionLog => _executionLog;
+        public string ValidCommands => _validCommands.ConvertAll(x => x.ToString()).Aggregate((x, y) => x + "\n" + y);
+
+        private string _lastSpokenCommand;
+        private string _executionLog;
+       
 
         private void Awake()
         {
-            lastSpokenCommand = "";
-            var listeners = FindObjectsOfType<CommandListener>(includeInactive: true);
+            _lastSpokenCommand = "";
+            var listeners = FindObjectsOfType<CommandListenerBase>(includeInactive: true);
             listeners.ToList().ForEach(x => x.Initialize(handler: this));
+        }
+        private void OnDestroy()
+        {
+            var listeners = FindObjectsOfType<CommandListenerBase>(includeInactive: true);
+            listeners.ToList().ForEach(x => x.Destroy());
         }
 
         public void TestCommandConverter(string command)
         {
-            lastSpokenCommand = command;
+            _lastSpokenCommand = command;
             ConvertToCommand();
         }
 
         private void ConvertToCommand()
         {
-            if (lastSpokenCommand == "")
-            {
-                return;
-            }
+            if (_lastSpokenCommand == "") return;
 
-            executionLog = "";
-            lastSpokenCommand = Regex.Replace(lastSpokenCommand, @"(?![-])\p{P}", "").Trim().ToLower();
+            _executionLog = "";
+            _lastSpokenCommand = Regex.Replace(_lastSpokenCommand, @"(?![-])\p{P}", "").Trim().ToLower();
 
-            SearchForValidCommand(lastSpokenCommand);
+            SearchForValidCommand(_lastSpokenCommand);
+        }
+
+        public void AddOption(BasicCommandEvent commandEvent)
+        {
+            AddOption(commandEvent.CommandLabel, commandEvent.OptionNeeded);
+        }
+
+        public void AddOption(AdvancedCommandEvent commandEvent)
+        {
+            AddOption(commandEvent.CommandLabel, commandEvent.OptionNeeded, commandEvent.Variations, commandEvent.HasValue);
+        }
+
+        public void RemoveOption(CommandLabel label, string option)
+        {
+            var matchingOption = _validCommands.Find(x => x.CommandLabel == label);
+            matchingOption?.ValidOptions.Remove(option);
         }
 
         private void SearchForValidCommand(string userText)
         {
-            var foundCommand = CommandHelperClass.TryToFindCommand(userText, validCommands, out var processedCommand);
-            executionLog = foundCommand ? $"Command Found:\n{processedCommand}" : "No Command Found";
+            var foundCommand = CommandHelperClass.TryToFindCommand(userText, _validCommands, out var processedCommand);
+            _executionLog = foundCommand ? $"Command Found:\n{processedCommand}" : "No Command Found";
             
             if (foundCommand)
             {
-                onCommandProcessed?.Invoke(processedCommand.ToString());
+                _onCommandProcessed?.Invoke(processedCommand.ToString());
                 OnCommandReceived?.Invoke(processedCommand);
             }
         }
@@ -83,7 +102,7 @@ namespace CommandSystem
         private void AddOption(CommandLabel label, string newOption, List<string> variations = null, bool hasValue = false)
         {
             variations ??= new List<string>();
-            var matchingOption = validCommands.Find(x => x.commandLabel == label);
+            var matchingOption = _validCommands.Find(x => x.CommandLabel == label);
             if(matchingOption != null)
             {
                 matchingOption.Update(newOption, variations);
@@ -91,34 +110,16 @@ namespace CommandSystem
             else
             {
                 matchingOption = 
-                    new CommandData { commandLabel = label, PossibleAlternatives = variations, 
+                    new CommandData 
+                    { 
+                        CommandLabel = label, 
+                        PossibleAlternatives = variations, 
                         ValidOptions = newOption != "" ? new List<string> { newOption } : new List<string>(),
                         HasNumericValue = hasValue
                     };
-                validCommands.Add(matchingOption);
+                _validCommands.Add(matchingOption);
             }
         }
-        
-        public void AddOption(BasicCommandEvent commandEvent)
-        {
-            AddOption(commandEvent.CommandLabel, commandEvent.OptionNeeded);
-        }
-        
-        public void AddOption(AdvancedCommandEvent commandEvent)
-        {
-            AddOption(commandEvent.CommandLabel, commandEvent.OptionNeeded, commandEvent.Variations, commandEvent.HasValue);
-        }
-        
-        public void RemoveOption(CommandLabel label, string option)
-        {
-            var matchingOption = validCommands.Find(x => x.commandLabel == label);
-            matchingOption?.ValidOptions.Remove(option);
-        }
-
-        private void OnDestroy()
-        {
-            var listeners = FindObjectsOfType<CommandListener>(includeInactive: true);
-            listeners.ToList().ForEach(x => x.Destroy());
-        }
+       
     }
 }

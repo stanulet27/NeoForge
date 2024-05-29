@@ -81,7 +81,7 @@ namespace CommandSystem
             var command = new Command
             {
                 IsValid = true,
-                Label = commandData.commandLabel
+                Label = commandData.CommandLabel
             };
             
             userText = RemoveString(userText, command.Label.ToString());
@@ -131,7 +131,7 @@ namespace CommandSystem
             if (!stringToModify.Contains(stringToRemove)) return stringToModify;
 
             var lastCharacterIndex = stringToModify.IndexOf(stringToRemove, StringComparison.InvariantCulture) +
-                                     stringToRemove.Length;
+                stringToRemove.Length;
             
             return stringToModify[lastCharacterIndex..].Trim();
         }

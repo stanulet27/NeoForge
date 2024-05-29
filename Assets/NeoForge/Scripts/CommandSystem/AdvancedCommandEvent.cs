@@ -16,25 +16,30 @@ namespace CommandSystem
     [Serializable]
     public class AdvancedCommandEvent : BasicCommandEvent
     {
-        [SerializeField] private List<string> variations;
-        [SerializeField] private bool hasValue;
+        [SerializeField] private List<string> _variations;
+        [SerializeField] private bool _hasValue;
         
-        public List<string> Variations => variations;
-        public bool HasValue => hasValue;
+        public List<string> Variations => _variations;
+        public bool HasValue => _hasValue;
         
-        public AdvancedCommandEvent(CommandLabel commandLabel, string optionNeeded, bool hasValue, List<string> variations,
-            bool processWhenDisabled, Action nonValueCommand = null, Action<int> valueCommand = null) 
+        public AdvancedCommandEvent(CommandLabel commandLabel,
+                                    string optionNeeded, 
+                                    bool hasValue, 
+                                    List<string> variations,
+                                    bool processWhenDisabled, 
+                                    Action nonValueCommand = null, 
+                                    Action<int> valueCommand = null) 
             : base(commandLabel, optionNeeded, processWhenDisabled, nonValueCommand, valueCommand)
         {
-            this.variations = variations;
-            this.hasValue = hasValue;
+            _variations = variations;
+            _hasValue = hasValue;
         }
         
         public AdvancedCommandEvent(BasicCommandEvent commandEvent) 
             : base(commandEvent.CommandLabel, commandEvent.OptionNeeded, commandEvent.ProcessWhenDisabled)
         {
-            variations = new List<string>();
-            hasValue = false;
+            _variations = new List<string>();
+            _hasValue = false;
         }
     }
 }

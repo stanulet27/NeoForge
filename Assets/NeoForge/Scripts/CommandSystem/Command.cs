@@ -34,8 +34,11 @@ namespace CommandSystem
                 OptionsSelected.Where(x => x != "").ToList().ForEach(x => s += " " + x + " and");
                 s = s.Remove(s.Length - 4);
             }
-            s += HasNumber ? " by " + NumberValue : "";
-            
+            if (HasNumber)
+            {
+                s += " by " + NumberValue;
+            }
+
             return s;
         }
     }

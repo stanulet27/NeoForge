@@ -15,17 +15,17 @@ namespace CommandSystem
     /// <summary>
     /// Adds CommandEvents to the game object that will listen to the scene's ToCommandHandler.cs
     /// </summary>
-    public class BasicCommandListener : CommandListener
+    public class BasicCommandListener : CommandListenerBase
     {
-        [SerializeField] private List<BasicCommandEvent> commandEvents = new();
+        [SerializeField] private List<BasicCommandEvent> _commandEventElements = new();
 
-        protected override IEnumerable<BasicCommandEvent> CommandEvents => commandEvents;
+        protected override IEnumerable<BasicCommandEvent> _commandEvents => _commandEventElements;
 
         protected override void AddOptions()
         {
-            commandEvents.ForEach(x => CommandHandler.AddOption(x));
+            _commandEventElements.ForEach(x => _commandHandler.AddOption(x));
         }
-        
+
         /// <summary>
         /// Adds a command to the command events and if the CommandListener is set to manually add its command events,
         /// it will also add the option to the ToCommandHandler
@@ -33,10 +33,8 @@ namespace CommandSystem
         /// <param name="commandEvent">The Command Event to add</param>
         public override void AddCommand(BasicCommandEvent commandEvent)
         {
-            commandEvents.Add(commandEvent);
-            
-            if (manuallyAdd) 
-                CommandHandler.AddOption(commandEvent);
+            _commandEventElements.Add(commandEvent);
+            if (_manuallyAdd) _commandHandler.AddOption(commandEvent);
         }
 
         /// <summary>
@@ -44,13 +42,14 @@ namespace CommandSystem
         /// it will also remove the option from the CommandHandler
         /// </summary>
         /// <param name="commandEvent"></param>
-        /// <exception cref="NotImplementedException"></exception>
         public override void RemoveCommand(BasicCommandEvent commandEvent)
         {
-            var matchingCommand = commandEvents.Find(m => m.CommandLabel == commandEvent.CommandLabel && 
-                                                          m.OptionNeeded == commandEvent.OptionNeeded);
-            if(matchingCommand != null && commandEvents.Remove(matchingCommand) && manuallyAdd)
-                CommandHandler.RemoveOption(commandEvent.CommandLabel, commandEvent.OptionNeeded);
+            var matchingCommand = _commandEventElements.Find(m => m.CommandLabel == commandEvent.CommandLabel &&
+                m.OptionNeeded == commandEvent.OptionNeeded);
+            if (matchingCommand != null && _commandEventElements.Remove(matchingCommand) && _manuallyAdd)
+            {
+                _commandHandler.RemoveOption(commandEvent.CommandLabel, commandEvent.OptionNeeded);
+            }
         }
     }
 }

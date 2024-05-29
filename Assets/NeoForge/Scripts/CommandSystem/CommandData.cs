@@ -23,9 +23,9 @@ namespace MenuSystems.SpeechProcessing
     [System.Serializable]
     public class CommandData
     {
-        public string Label => CommandHelperClass.SpeechLabelToString(commandLabel);
+        public string Label => CommandHelperClass.SpeechLabelToString(CommandLabel);
         
-        [FormerlySerializedAs("speechLabel")] public CommandLabel commandLabel;
+        public CommandLabel CommandLabel;
         public List<string> PossibleAlternatives = new();
         public List<string> ValidOptions = new();
         public bool HasOptions => ValidOptions != null && ValidOptions.Count != 0;
@@ -34,9 +34,9 @@ namespace MenuSystems.SpeechProcessing
         public override string ToString()
         {
             return $"Label: {Label} " +
-                   $"| Possible Alternatives: {PossibleAlternatives.Aggregate("", (x, y) => x + ", " + y)} " +
-                   $"| Valid Options: {ValidOptions.Aggregate("",(x, y) => x + ", " + y)} " +
-                   $"| Has Numeric Value: {HasNumericValue}";
+                $"| Possible Alternatives: {PossibleAlternatives.Aggregate("", (x, y) => x + ", " + y)} " +
+                $"| Valid Options: {ValidOptions.Aggregate("",(x, y) => x + ", " + y)} " +
+                $"| Has Numeric Value: {HasNumericValue}";
         }
 
         /// <summary>

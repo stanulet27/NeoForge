@@ -7,7 +7,6 @@
 ///
 /// Author: Chase Oberg
 
-using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using MenuSystems.SpeechProcessing.Editor;
@@ -23,27 +22,36 @@ namespace CommandSystem.Editor
     /// </summary>
     public class CommandTerminalWindow : EditorWindow
     {
-        private string commandTerminalExecutionLog = "";
-        private bool isPlayingTracker;
-        private Vector2 currentScrollPosition;
-        private CommandHandler commandHandler;
-        private static Dictionary<string, string> commandShortCuts = new ()
-            {
-                {"#setup", "open ros => download => open thickness setter => create"}
-            };
-
-        private Regex multiplesPattern = new("x(\\d+)");
-        
         public static string CommandLineArguments
         {
             get => EditorPrefs.GetString(nameof(CommandLineArguments), "");
             set => EditorPrefs.SetString(nameof(CommandLineArguments), value);
         }
+
+        private string _commandTerminalExecutionLog = "";
+        private bool _isPlayingTracker;
+        private Vector2 _currentScrollPosition;
+        private CommandHandler _commandHandler;
+        private static Dictionary<string, string> _commandShortCuts = new ()
+            {
+                {"#setup", "open ros => download => open thickness setter => create"}
+            };
+
+        private Regex _multiplesPattern = new("x(\\d+)");
+        
         
         [MenuItem("Tools/Command Terminal")]
         public static void ShowWindow()
         {
             GetWindow<CommandTerminalWindow>(false, "Command Terminal", true);
+        }
+
+        private static void DisplayClearButton()
+        {
+            if (GUILayout.Button("Clear"))
+            {
+                CommandLineArguments = "";
+            }
         }
 
         private void OnGUI()
@@ -54,11 +62,11 @@ namespace CommandSystem.Editor
 
         private void UpdateIsPlayingTracker()
         {
-            if (isPlayingTracker == Application.isPlaying) return;
+            if (_isPlayingTracker == Application.isPlaying) return;
             
-            isPlayingTracker = Application.isPlaying;
-            commandHandler = isPlayingTracker ? FindObjectOfType<CommandHandler>() : null;
-            commandTerminalExecutionLog = isPlayingTracker ? "" : "Can only execute commands in play mode!";
+            _isPlayingTracker = Application.isPlaying;
+            _commandHandler = _isPlayingTracker ? FindObjectOfType<CommandHandler>() : null;
+            _commandTerminalExecutionLog = _isPlayingTracker ? "" : "Can only execute commands in play mode!";
         }
         
         private void DisplayGUI()
@@ -74,9 +82,9 @@ namespace CommandSystem.Editor
         {
 
             EditorGUILayout.LabelField("Command Terminal Execution Log");
-            currentScrollPosition = EditorGUILayout.BeginScrollView(currentScrollPosition, GUILayout.Height(100));
+            _currentScrollPosition = EditorGUILayout.BeginScrollView(_currentScrollPosition, GUILayout.Height(100));
             GUI.enabled = false;
-            EditorGUILayout.TextArea(commandTerminalExecutionLog, GUILayout.ExpandHeight(true));
+            EditorGUILayout.TextArea(_commandTerminalExecutionLog, GUILayout.ExpandHeight(true));
             GUI.enabled = true;
             EditorGUILayout.EndScrollView();
 
@@ -91,7 +99,7 @@ namespace CommandSystem.Editor
                 EditorGUILayout.TextField(label, CommandLineArguments)
                     .KeyPressed(label, KeyCode.Return, out bool enterWasPressed);
             
-            if(enterWasPressed && isPlayingTracker)
+            if(enterWasPressed && _isPlayingTracker)
             {
                 ActivateCommand();
                 CommandLineArguments = "";
@@ -102,28 +110,28 @@ namespace CommandSystem.Editor
 
         private void ActivateCommand()
         {
-            if (commandHandler == null) commandHandler = FindObjectOfType<CommandHandler>();
+            if (_commandHandler == null) _commandHandler = FindObjectOfType<CommandHandler>();
             if(CommandLineArguments == "") return;
 
-            if(commandShortCuts.ContainsKey(CommandLineArguments.Trim())) 
-                CommandLineArguments = commandShortCuts[CommandLineArguments.Trim()];
+            if(_commandShortCuts.ContainsKey(CommandLineArguments.Trim())) 
+                CommandLineArguments = _commandShortCuts[CommandLineArguments.Trim()];
 
-            commandTerminalExecutionLog = "";
+            _commandTerminalExecutionLog = "";
             foreach (var command in CommandLineArguments.Split("=>"))
             {
-                var multiples = multiplesPattern.IsMatch(command) ? int.Parse(multiplesPattern.Split(command)[1]) : 1;
+                var multiples = _multiplesPattern.IsMatch(command) ? int.Parse(_multiplesPattern.Split(command)[1]) : 1;
                 
                 for (int i = 0; i < multiples; i++)
                 {
-                    commandHandler.TestCommandConverter(command);
-                    commandTerminalExecutionLog += commandHandler.ExecutionLog + "\n";
+                    _commandHandler.TestCommandConverter(command);
+                    _commandTerminalExecutionLog += _commandHandler.ExecutionLog + "\n";
                 }
             }
         }
 
         private void DisplaySubmitButton()
         {
-            GUI.enabled = isPlayingTracker;
+            GUI.enabled = _isPlayingTracker;
 
             if (GUILayout.Button("Submit"))
             {
@@ -133,21 +141,13 @@ namespace CommandSystem.Editor
             GUI.enabled = true;
         }
 
-        private static void DisplayClearButton()
-        {
-            if (GUILayout.Button("Clear"))
-            {
-                CommandLineArguments = "";
-            }
-        }
-
         private void DisplayOptionsButton()
         {
-            GUI.enabled = isPlayingTracker;
+            GUI.enabled = _isPlayingTracker;
 
             if (GUILayout.Button("Display Options"))
             {
-                commandTerminalExecutionLog = commandHandler.ValidCommands;
+                _commandTerminalExecutionLog = _commandHandler.ValidCommands;
             }
         }
     }

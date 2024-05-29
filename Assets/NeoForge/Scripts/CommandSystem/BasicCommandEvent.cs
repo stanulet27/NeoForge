@@ -8,13 +8,11 @@
 /// Author: Chase Oberg
 
 using System;
-using MenuSystems.SpeechProcessing;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace CommandSystem
 {
-    
     /// <summary>
     /// Represents a speech command event that is triggered when a specified command label is processed by the
     /// SpeechToCommandHandler.cs and will invoke a UnityEvent given. If the command has a value, the value will also
@@ -22,43 +20,46 @@ namespace CommandSystem
     /// </summary>
     [Serializable]
     public class BasicCommandEvent
-    {
-        [SerializeField] private CommandLabel commandLabel;
-        [SerializeField] private string optionNeeded;
-        [SerializeField] private bool processWhenDisabled;
-        [SerializeField] private UnityEvent<int> onCommand;
-        
-        private Action nonValueCommand;
-        private Action<int> valueCommand;
+    { 
+        private Action _nonValueCommand;
+        private Action<int> _valueCommand;
 
-        public bool ProcessWhenDisabled => processWhenDisabled;
-        public CommandLabel CommandLabel => commandLabel;
-        public string OptionNeeded => optionNeeded.ToLower();
+        [SerializeField] private CommandLabel _commandLabel;
+        [SerializeField] private string _optionNeeded;
+        [SerializeField] private bool _processWhenDisabled;
+        [SerializeField] private UnityEvent<int> _onCommand;
+
+        public bool ProcessWhenDisabled => _processWhenDisabled;
+        public CommandLabel CommandLabel => _commandLabel;
+        public string OptionNeeded => _optionNeeded.ToLower();
         
-        public BasicCommandEvent(CommandLabel commandLabel, string optionNeeded, bool processWhenDisabled,
-            Action nonValueCommand = null, Action<int> valueCommand = null)
+        public BasicCommandEvent(   CommandLabel commandLabel,
+                                    string optionNeeded, 
+                                    bool processWhenDisabled,
+                                    Action nonValueCommand = null, 
+                                    Action<int> valueCommand = null)
         {
-            this.commandLabel = commandLabel;
-            this.optionNeeded = optionNeeded;
-            this.processWhenDisabled = processWhenDisabled;
-            this.nonValueCommand = nonValueCommand;
-            this.valueCommand = valueCommand;
+            _commandLabel = commandLabel;
+            _optionNeeded = optionNeeded;
+            _processWhenDisabled = processWhenDisabled;
+            _nonValueCommand = nonValueCommand;
+            _valueCommand = valueCommand;
         }
         
         public void TryToInvokeCommand(Command command)
         {
-            var validLabel = command.Label == commandLabel;
-            var needsOption = optionNeeded != "";
+            var validLabel = command.Label == _commandLabel;
+            var needsOption = _optionNeeded != "";
             var hasGenericOption = command.HasOption && command.OptionsSelected.Contains("all") &&
-                                   command.OptionsSelected.Count == 1;
+                command.OptionsSelected.Count == 1;
             var hasNeededOption = command.HasOption && command.OptionsSelected.Contains(OptionNeeded);
             var validOption = !needsOption || hasGenericOption || hasNeededOption;
 
             if (validLabel && validOption)
             {
-                nonValueCommand?.Invoke();
-                valueCommand?.Invoke(command.NumberValue);
-                onCommand?.Invoke(command.NumberValue);
+                _nonValueCommand?.Invoke();
+                _valueCommand?.Invoke(command.NumberValue);
+                _onCommand?.Invoke(command.NumberValue);
             }
         }
     }

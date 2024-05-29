@@ -29,8 +29,8 @@ namespace MenuSystems.SpeechProcessing.Editor
         {
             
             success = GUI.GetNameOfFocusedControl() == controlName 
-                      && Event.current.type == EventType.KeyUp 
-                      && Event.current.keyCode == key;
+                && Event.current.type == EventType.KeyUp 
+                && Event.current.keyCode == key;
             return self;
         }
     }
