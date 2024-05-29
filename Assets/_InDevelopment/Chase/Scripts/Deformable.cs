@@ -28,8 +28,9 @@ namespace DeformationSystem
                 .Where(x => isHit(transform.localToWorldMatrix.MultiplyPoint(x)))
                 .Distinct()
                 .ToArray();
+            var localHitDirection = transform.worldToLocalMatrix.MultiplyVector(direction);
             
-            var meshData = new MeshData(mesh, intersections, force, direction);
+            var meshData = new MeshData(mesh, intersections, force, localHitDirection);
             var tempOutputPath = Path.GetTempFileName();
             try
             {
