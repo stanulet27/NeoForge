@@ -1552,7 +1552,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0728c1a3b2474eca9e97a77a129cd582, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textfield: {fileID: 406439237}
+  _textfield: {fileID: 406439237}
 --- !u!1 &1232970216
 GameObject:
   m_ObjectHideFlags: 0
@@ -1675,7 +1675,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _selector: {fileID: 852596205}
-  _cam: {fileID: 954002217}
+  _camera: {fileID: 954002217}
   _force: 1
 --- !u!1 &1350065307
 GameObject:
