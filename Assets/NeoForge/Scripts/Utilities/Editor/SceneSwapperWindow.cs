@@ -26,31 +26,20 @@ namespace Utilities.Editor
     /// </summary>
     public class SceneSwapperWindow : EditorWindow
     {
+        private enum UserPath
+        {
+            MAIN,
+            CHASE,
+            CHRIS
+        }
+
         private const string SCENE_FOLDER = "Assets/NeoForge/Scenes/";
         private const string FILE_EXTENSION = ".unity";
-
-        enum UserPath
-        {
-            CHASE,
-            CHRIS,
-            MAIN
-        }
         
-        [SerializeField] private UserPath path = UserPath.MAIN;
+        [SerializeField] private UserPath _path = UserPath.MAIN;
 
-        private List<string> currentScenes = new();
-        
-        private void SwapToScene(string sceneName)
-        {
-            if (Application.isPlaying)
-            {
-                SceneManager.LoadScene(NameWithoutExtension(sceneName));
-            }
-            else if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
-            {
-                EditorSceneManager.OpenScene(GetPath() + sceneName, OpenSceneMode.Additive);
-            }
-        }
+        private List<string> _currentScenes = new();
+
 
         [MenuItem("Tools/Scene Swapper")]
         public static void ShowWindow()
@@ -59,18 +48,30 @@ namespace Utilities.Editor
             window.UpdateSceneList();
         }
 
+        private void SwapToScene(string sceneName)
+        {
+            if (Application.isPlaying)
+            {
+                SceneManager.LoadScene(GetNameWithoutExtension(sceneName));
+            }
+            else if (EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+            {
+                EditorSceneManager.OpenScene(GetPath() + sceneName, OpenSceneMode.Additive);
+            }
+        }
+
         private void OnGUI()
         {
-            var lastPath = path;
-            path = (UserPath)EditorGUILayout.EnumPopup("User Path", path);
-            if (lastPath != path)
+            UserPath lastPath = _path;
+            _path = (UserPath)EditorGUILayout.EnumPopup("User Path", _path);
+            if (lastPath != _path)
             {
                 UpdateSceneList();
             }
             
-            foreach (var scene in currentScenes)
+            foreach (var scene in _currentScenes)
             {
-                if (GUILayout.Button(NameWithoutExtension(scene)))
+                if (GUILayout.Button(GetNameWithoutExtension(scene)))
                 {
                     SwapToScene(scene);
                 }
@@ -86,16 +87,16 @@ namespace Utilities.Editor
         {
             var info = new DirectoryInfo(GetPath());
             var fileInfo = info.GetFiles();
-            currentScenes.Clear();
+            _currentScenes.Clear();
             foreach (var file in fileInfo.Where(x => x.Name.EndsWith(FILE_EXTENSION)))
             {
-                currentScenes.Add(file.Name);
+                _currentScenes.Add(file.Name);
             }
         }
         
         private string GetPath()
         {
-            return path switch
+            return _path switch
             {
                 UserPath.CHASE => "Assets/_InDevelopment/Chase/Scenes/",
                 UserPath.CHRIS => "Assets/_InDevelopment/Chris/Scenes/",
@@ -104,7 +105,7 @@ namespace Utilities.Editor
             };
         }
 
-        private static string NameWithoutExtension(string name)
+        private static string GetNameWithoutExtension(string name)
         {
             return name.Remove(name.Length - FILE_EXTENSION.Length);
         }

@@ -22,28 +22,22 @@ namespace Utilities
         private const string EXTENSION = ".txt";
 
 #if UNITY_EDITOR
-        private static string SaveFolderPath => $"{Application.dataPath}//Debug//";
+        private static string _saveFolderPath => $"{Application.dataPath}//Debug//";
 #else
-        private static string SaveFolderPath => $"{Application.persistentDataPath}//Debug//";
+        private static string _saveFolderPath => $"{Application.persistentDataPath}//Debug//";
 #endif
-        private static string FilePath => SaveFolderPath + SaveName;
-        private static string SaveName => $"{DateTime.Now.Day}-{DateTime.Now.Month}-{DateTime.Now.Year} {TimeStamp}" + EXTENSION;
+        private static string _filePath => _saveFolderPath + _saveName;
+        private static string _saveName => $"{DateTime.Now.Day}-{DateTime.Now.Month}-{DateTime.Now.Year} {_timeStamp}" + EXTENSION;
         
-        private static string TimeStamp => $"{DateTime.Now.Hour}-{DateTime.Now.Minute}-{DateTime.Now.Second}";
+        private static string _timeStamp => $"{DateTime.Now.Hour}-{DateTime.Now.Minute}-{DateTime.Now.Second}";
         
-        [SerializeField] private TMP_Text textfield;
+        [SerializeField] private TMP_Text _textfield;
 
-        private string log = "";
+        private string _log = "";
 
         private void Awake()
         {
             Application.logMessageReceived += UpdateLog;
-        }
-        
-        private void UpdateLog(string logString, string stackTrace, LogType type)
-        {
-            textfield.text = textfield.text + "\n" + logString;
-            log = TimeStamp + " " + type + " " + logString + "\n" + stackTrace + "\n\n" + log;
         }
 
         /// <summary>
@@ -51,10 +45,17 @@ namespace Utilities
         /// </summary>
         public void UpdateLogFile()
         {
-            if (!Directory.Exists(SaveFolderPath))
-                Directory.CreateDirectory(SaveFolderPath);
-            
-            File.WriteAllText(FilePath, log);
+            if (!Directory.Exists(_saveFolderPath))
+            {
+                Directory.CreateDirectory(_saveFolderPath);
+            }
+            File.WriteAllText(_filePath, _log);
+        }
+
+        private void UpdateLog(string logString, string stackTrace, LogType type)
+        {
+            _textfield.text = _textfield.text + "\n" + logString;
+            _log = _timeStamp + " " + type + " " + logString + "\n" + stackTrace + "\n\n" + _log;
         }
 
         private void OnDestroy()

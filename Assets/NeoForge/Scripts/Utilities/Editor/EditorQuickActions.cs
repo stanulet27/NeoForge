@@ -22,8 +22,8 @@ namespace Utilities.Editor
     /// </summary>
     public class EditorQuickActions : EditorWindow
     {
-        [SerializeField] private GameObject target;
-        [SerializeField] private bool includeChildren;
+        [SerializeField] private GameObject _target;
+        [SerializeField] private bool _includeChildren;
         
         [MenuItem("Tools/Editor Actions")]
         public static void ShowWindow()
@@ -33,27 +33,27 @@ namespace Utilities.Editor
 
         private void OnGUI()
         {
-            target = EditorGUILayout.ObjectField("Target: ", target, typeof(GameObject), true) as GameObject;
-            includeChildren = EditorGUILayout.Toggle("Include children: ", includeChildren);
+            _target = EditorGUILayout.ObjectField("Target: ", _target, typeof(GameObject), true) as GameObject;
+            _includeChildren = EditorGUILayout.Toggle("Include children: ", _includeChildren);
             
             if (GUILayout.Button("Destroy Meshes"))
             {
-                DestroyComponent<MeshRenderer>(target, includeChildren);
+                DestroyComponent<MeshRenderer>(_target, _includeChildren);
             }
             
-            if(GUILayout.Button("Destroy Colliders"))
+            if (GUILayout.Button("Destroy Colliders"))
             {
-                DestroyComponent<Collider>(target, includeChildren);
+                DestroyComponent<Collider>(_target, _includeChildren);
             }
 
             if (GUILayout.Button("Destroy Rigidbodies"))
             {
-                DestroyComponent<Rigidbody>(target, includeChildren);
+                DestroyComponent<Rigidbody>(_target, _includeChildren);
             }
 
             if (GUILayout.Button("Clear Tags"))
             {
-                SetTags(target, includeChildren);
+                SetTags(_target, _includeChildren);
             }
         }
 
@@ -64,8 +64,9 @@ namespace Utilities.Editor
                 DestroyImmediate(component);
             }
             
-            if(!includeChildren) return;
-            foreach (var child in  gameObject.transform.GetComponentsInChildren<T>(true))
+            if (!includeChildren) return;
+
+            foreach (var child in gameObject.transform.GetComponentsInChildren<T>(true))
             {
                 DestroyImmediate(child);
             }
