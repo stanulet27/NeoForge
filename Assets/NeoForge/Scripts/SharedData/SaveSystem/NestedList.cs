@@ -21,7 +21,7 @@ namespace SharedData.SaveSystem
     {
         public List<T> list;
 
-        public NestedList(SharedList<T> list)
+        public NestedList(SharedListBase<T> list)
         {
             this.list = list.GetCopyOfElements();
         }

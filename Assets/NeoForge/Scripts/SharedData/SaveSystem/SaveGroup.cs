@@ -23,10 +23,10 @@ namespace SharedData.SaveSystem
     [CreateAssetMenu(fileName = "New Data to Save", menuName = "Save Group")]
     public class SaveGroup : ScriptableObject
     {
-        [SerializeField] private List<SharedList<string>> stringLists;
-        [SerializeField] private List<SharedData<string>> strings;
-        [SerializeField] private List<SharedData<int>> ints;
-        [SerializeField] private List<SharedData<bool>> booleans;
+        [SerializeField] private List<SharedListBase<string>> stringLists;
+        [SerializeField] private List<SharedDataBase<string>> strings;
+        [SerializeField] private List<SharedDataBase<int>> ints;
+        [SerializeField] private List<SharedDataBase<bool>> booleans;
 
         public SaveData SaveData => new()
         {
@@ -39,14 +39,9 @@ namespace SharedData.SaveSystem
         public bool ValidateData(SaveData data)
         {
             return ValidateData(stringLists, data.stringLists)
-                   && ValidateData(strings, data.strings)
-                   && ValidateData(ints, data.ints)
-                   && ValidateData(booleans, data.booleans);
-        }
-
-        private static bool ValidateData(ICollection references, ICollection values)
-        {
-            return references.Count == values.Count;
+                && ValidateData(strings, data.strings)
+                && ValidateData(ints, data.ints)
+                && ValidateData(booleans, data.booleans);
         }
 
         public void LoadData(SaveData data)
@@ -57,7 +52,12 @@ namespace SharedData.SaveSystem
             Load(booleans, data.booleans);
         }
 
-        private void Load<T>(List<SharedList<T>> references, List<NestedList<T>> values)
+        private static bool ValidateData(ICollection references, ICollection values)
+        {
+            return references.Count == values.Count;
+        }
+
+        private void Load<T>(List<SharedListBase<T>> references, List<NestedList<T>> values)
         {
             Debug.Assert(references.Count == values.Count);
 
@@ -73,7 +73,7 @@ namespace SharedData.SaveSystem
             }
         }
 
-        private void Load<T>(List<SharedData<T>> references, List<T> values)
+        private void Load<T>(List<SharedDataBase<T>> references, List<T> values)
         {
             Debug.Assert(references.Count == values.Count);
 

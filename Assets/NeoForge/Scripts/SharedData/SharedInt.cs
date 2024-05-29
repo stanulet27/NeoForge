@@ -15,38 +15,38 @@ namespace SharedData
     ///     This serves as scriptable object that can be used to have a shared int between objects
     /// </summary>
     [CreateAssetMenu(fileName = "New Shared Int", menuName = "Shared Data/Normalizable/Integer")]
-    public class SharedInt : SharedData<int>, INormalizable, IBoundable<int>
+    public class SharedInt : SharedDataBase<int>, INormalizable, IBoundable<int>
     {
-        [SerializeField] private int minValue;
-        [SerializeField] private int maxValue;
-        [SerializeField] private int value;
+        [SerializeField] private int _minValue;
+        [SerializeField] private int _maxValue;
+        [SerializeField] private int _value;
 
         public override int Value
         {
-            get => value;
+            get => _value;
             set
             {
-                this.value = Mathf.Clamp(value, minValue, maxValue);
+                _value = Mathf.Clamp(value, _minValue, _maxValue);
                 BroadcastValueChanged();
             }
         }
 
-        public int LowerBound => minValue;
-        public int UpperBound => maxValue;
+        public int LowerBound => _minValue;
+        public int UpperBound => _maxValue;
 
         public void SetFromNormal(float normalizedValue)
         {
-            Value = Mathf.RoundToInt(minValue + normalizedValue * (maxValue - minValue));
+            Value = Mathf.RoundToInt(_minValue + normalizedValue * (_maxValue - _minValue));
         }
 
         public float GetNormal()
         {
-            return (value - minValue) / (float)(maxValue - minValue);
+            return (_value - _minValue) / (float)(_maxValue - _minValue);
         }
 
         public string DebugInformation()
         {
-            return $"Min Value: {minValue} | Max Value: {maxValue} | Value: {value} | Normalized Value: {GetNormal()}";
+            return $"Min Value: {_minValue} | Max Value: {_maxValue} | Value: {_value} | Normalized Value: {GetNormal()}";
         }
     }
 }

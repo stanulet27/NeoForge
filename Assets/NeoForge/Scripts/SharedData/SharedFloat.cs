@@ -15,19 +15,19 @@ namespace SharedData
     ///     This serves as scriptable object that can be used to have a shared float between objects
     /// </summary>
     [CreateAssetMenu(fileName = "New Shared Float", menuName = "Shared Data/Normalizable/Float")]
-    public class SharedFloat : SharedData<float>, INormalizable
+    public class SharedFloat : SharedDataBase<float>, INormalizable
     {
-        [SerializeField] private float minValue;
-        [SerializeField] private float maxValue;
-        [SerializeField] private float value;
-        [SerializeField] private int sigFigs = -1;
+        [SerializeField] private float _minValue;
+        [SerializeField] private float _maxValue;
+        [SerializeField] private float _value;
+        [SerializeField] private int _sigFigs = -1;
 
         public override float Value
         {
-            get => value;
+            get => _value;
             set
             {
-                this.value = Mathf.Clamp(value, minValue, maxValue);
+                _value = Mathf.Clamp(value, _minValue, _maxValue);
                 BroadcastValueChanged();
             }
         }
@@ -35,27 +35,27 @@ namespace SharedData
 
         public void SetFromNormal(float normalizedValue)
         {
-            Value = minValue + normalizedValue * (maxValue - minValue);
+            Value = _minValue + normalizedValue * (_maxValue - _minValue);
         }
 
         public float GetNormal()
         {
-            return (Value - minValue) / (maxValue - minValue);
+            return (Value - _minValue) / (_maxValue - _minValue);
         }
 
         public string DebugInformation()
         {
-            return $"Min Value: {minValue} | Max Value: {maxValue} | Value: {Value} | Normalized Value: {GetNormal()}";
+            return $"Min Value: {_minValue} | Max Value: {_maxValue} | Value: {Value} | Normalized Value: {GetNormal()}";
         }
 
         public void SetMax(float newMax)
         {
-            maxValue = newMax;
+            _maxValue = newMax;
         }
 
         public override string ToString()
         {
-            return sigFigs == -1 ? value.ToString() : value.ToString($"F{sigFigs}");
+            return _sigFigs == -1 ? _value.ToString() : _value.ToString($"F{_sigFigs}");
         }
     }
 }

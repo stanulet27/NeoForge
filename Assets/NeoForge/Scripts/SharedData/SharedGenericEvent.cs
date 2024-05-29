@@ -20,16 +20,16 @@ namespace SharedData
     {
         public Action<object> Value
         {
-            get => OnTrigger;
-            set => OnTrigger = value;
+            get => _onTrigger;
+            set => _onTrigger = value;
         }
 
-        private event Action<object> OnTrigger;
+        private event Action<object> _onTrigger;
 
         [ContextMenu("Trigger Event")]
         public void Trigger(object obj)
         {
-            OnTrigger?.Invoke(obj);
+            _onTrigger?.Invoke(obj);
         }
     }
 }

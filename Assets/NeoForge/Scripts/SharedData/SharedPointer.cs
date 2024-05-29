@@ -15,16 +15,16 @@ namespace SharedData
     /// A shared pointer to an object
     /// </summary>
     [CreateAssetMenu(fileName = "New Shared Pointer", menuName = "Shared Data/Pointer")]
-    public class SharedPointer : SharedData<object>
+    public class SharedPointer : SharedDataBase<object>
     {
-        private object value;
+        private object _value;
 
         public override object Value
         {
-            get => value;
+            get => _value;
             set
             {
-                this.value = value;
+                _value = value;
                 BroadcastValueChanged();
             }
         }
@@ -32,14 +32,14 @@ namespace SharedData
         public T ValueAs<T>()
         {
             Debug.Assert(Value is T,
-                $"Expected {typeof(T)} but did not get it", this);
+                $"Expected {typeof(T)} but got {Value.GetType()}", this);
             return (T)Value;
         }
         
         public static T ValueAs<T>(object obj)
         {
             Debug.Assert(obj is T,
-                $"Expected {typeof(T)} but did not get it from {obj}");
+                $"Expected {typeof(T)} but did got {obj.GetType()}");
             return (T)obj;
         }
     }

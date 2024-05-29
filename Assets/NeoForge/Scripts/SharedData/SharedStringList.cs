@@ -16,14 +16,14 @@ namespace SharedData
     ///     This serves as scriptable object that can be used to have a shared list of strings between objects
     /// </summary>
     [CreateAssetMenu(fileName = "New Shared Strings List", menuName = "Shared Data/List/Strings")]
-    public class SharedStringList : SharedList<string>
+    public class SharedStringList : SharedListBase<string>
     {
-        [SerializeField] private List<string> elements;
+        [SerializeField] private List<string> _itmes;
 
-        protected override List<string> Elements
+        protected override List<string> _elements
         {
-            get => elements;
-            set => elements = value;
+            get => _elements;
+            set =>_elements = value;
         }
     }
 }

@@ -17,8 +17,8 @@ namespace SharedData
     [Serializable]
     public class SharedIntVector3
     {
-        public SharedData<int> x;
-        public SharedData<int> y;
-        public SharedData<int> z;
+        public SharedDataBase<int> x;
+        public SharedDataBase<int> y;
+        public SharedDataBase<int> z;
     }
 }

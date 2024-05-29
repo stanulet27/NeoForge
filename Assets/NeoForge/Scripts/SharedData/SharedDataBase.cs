@@ -16,7 +16,7 @@ namespace SharedData
     ///     This serves as the interface for a scriptable object data type that allows for sharing of variables
     ///     between game objects.
     /// </summary>
-    public abstract class SharedData<T> : ScriptableObject, IShareableData
+    public abstract class SharedDataBase<T> : ScriptableObject, IShareableData
     {
         public abstract T Value { get; set; }
         public virtual event Action OnValueChanged;
@@ -31,14 +31,14 @@ namespace SharedData
             return Value.ToString();
         }
 
+        public static implicit operator T(SharedDataBase<T> x)
+        {
+            return x.Value;
+        }
+
         protected void BroadcastValueChanged()
         {
             OnValueChanged?.Invoke();
-        }
-
-        public static implicit operator T(SharedData<T> x)
-        {
-            return x.Value;
         }
     }
 }

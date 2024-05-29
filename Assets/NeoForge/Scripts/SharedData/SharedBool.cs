@@ -15,7 +15,7 @@ namespace SharedData
     ///     This serves as scriptable object that can be used to have a shared bool between objects
     /// </summary>
     [CreateAssetMenu(fileName = "New Shared Bool", menuName = "Shared Data/Bool")]
-    public class SharedBool : SharedData<bool>
+    public class SharedBool : SharedDataBase<bool>
     {
         [SerializeField] private bool value;
 

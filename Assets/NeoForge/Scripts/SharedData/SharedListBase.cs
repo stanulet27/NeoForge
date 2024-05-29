@@ -17,23 +17,23 @@ namespace SharedData
     /// <summary>
     ///     This serves as scriptable object that can be used to have a shared list of type T between objects
     /// </summary>
-    public abstract class SharedList<T> : ScriptableObject, IEnumerable<T>
+    public abstract class SharedListBase<T> : ScriptableObject, IEnumerable<T>
     {
-        protected abstract List<T> Elements { get; set; }
+        protected abstract List<T> _elements { get; set; }
 
         public T this[int i]
         {
-            get => Elements[i];
+            get => _elements[i];
             set
             {
-                Elements[i] = value;
+                _elements[i] = value;
                 OnValueChanged?.Invoke();
             }
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            return Elements.GetEnumerator();
+            return _elements.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -45,54 +45,55 @@ namespace SharedData
 
         public void AddElement(T element)
         {
-            if (Elements == null) Debug.Log("no elements");
+            if (_elements == null) Debug.Log("no elements");
             if (element == null) Debug.Log("no element");
-            Elements.Add(element);
+            _elements.Add(element);
             OnValueChanged?.Invoke();
         }
 
         public void Insert(int position, T element)
         {
-            Elements.Insert(position, element);
+            _elements.Insert(position, element);
+            OnValueChanged?.Invoke();
         }
 
         public void RemoveElement(T element)
         {
-            Elements.Remove(element);
+            _elements.Remove(element);
             OnValueChanged?.Invoke();
         }
 
         public void RemoveElement(int index)
         {
-            Elements.RemoveAt(index);
+            _elements.RemoveAt(index);
             OnValueChanged?.Invoke();
         }
 
         public void SetTo(List<T> elements)
         {
-            Elements = elements;
+            _elements = elements;
             OnValueChanged?.Invoke();
         }
 
         public void Clear()
         {
-            Elements = new List<T>();
+            _elements = new List<T>();
             OnValueChanged?.Invoke();
         }
 
         public int Count()
         {
-            return Elements.Count;
+            return _elements.Count;
         }
 
         public List<T> GetCopyOfElements()
         {
-            return new List<T>(Elements);
+            return new List<T>(_elements);
         }
 
         public T GetElement(int index)
         {
-            return Elements[index];
+            return _elements[index];
         }
     }
 }

@@ -16,16 +16,16 @@ namespace SharedData
     ///     This serves as scriptable object that can be used to have a vector 3 of shared ints between objects
     /// </summary>
     [CreateAssetMenu(fileName = "New Shared Int Vector3", menuName = "Shared Data/Collection/Int Vector3")]
-    public class SharedVector3 : SharedData<SharedIntVector3>
+    public class SharedVector3 : SharedDataBase<SharedIntVector3>
     {
-        [SerializeField] private SharedIntVector3 value;
+        [SerializeField] private SharedIntVector3 _value;
 
         public override SharedIntVector3 Value
         {
-            get => value;
+            get => _value;
             set
             {
-                this.value = value;
+                _value = value;
                 BroadcastValueChanged();
             }
         }
@@ -35,22 +35,22 @@ namespace SharedData
             add
             {
                 base.OnValueChanged += value;
-                this.value.x.OnValueChanged += value;
-                this.value.y.OnValueChanged += value;
-                this.value.z.OnValueChanged += value;
+                _value.x.OnValueChanged += value;
+                _value.y.OnValueChanged += value;
+                _value.z.OnValueChanged += value;
             }
             remove
             {
                 base.OnValueChanged -= value;
-                this.value.x.OnValueChanged -= value;
-                this.value.y.OnValueChanged -= value;
-                this.value.z.OnValueChanged -= value;
+                _value.x.OnValueChanged -= value;
+                _value.y.OnValueChanged -= value;
+                _value.z.OnValueChanged -= value;
             }
         }
 
         public override string ToString()
         {
-            return $"({value.x}, {value.y}, {value.z})";
+            return $"({_value.x}, {_value.y}, {_value.z})";
         }
     }
 }

@@ -16,17 +16,17 @@ namespace SharedData
     /// A string that is able to be shared between multiple objects
     /// </summary>
     [CreateAssetMenu(menuName = "Shared Data/String", fileName = "New Shared String")]
-    public class SharedString : SharedData<string>
+    public class SharedString : SharedDataBase<string>
     {
-        [SerializeField] private string value;
-        [SerializeField, Tooltip("Regex Expression")] private string requiredFormat = "";
+        [SerializeField] private string _value;
+        [SerializeField, Tooltip("Regex Expression")] private string _requiredFormat = "";
 
         public override string Value
         {
-            get => value;
+            get => _value;
             set
             {
-                this.value = requiredFormat == "" || new Regex(requiredFormat).IsMatch(value) ? value : this.value;
+                _value = _requiredFormat == "" || new Regex(_requiredFormat).IsMatch(value) ? value : _value;
                 BroadcastValueChanged();
             }
         }
@@ -38,12 +38,12 @@ namespace SharedData
 
         public void Backspace()
         {
-            if(value.Length > 0) Value = value[..^1];
+            if(_value.Length > 0) Value = _value[..^1];
         }
 
         public override string ToString()
         {
-            return value;
+            return _value;
         }
     }
 }

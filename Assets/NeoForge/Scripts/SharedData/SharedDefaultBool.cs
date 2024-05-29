@@ -16,24 +16,24 @@ namespace SharedData
     ///     contains a default value that will be set when the object is enabled.
     /// </summary>
     [CreateAssetMenu(fileName = "New Shared Bool", menuName = "Shared Data/Defaultable/Bool")]
-    public class SharedDefaultBool : SharedData<bool>
+    public class SharedDefaultBool : SharedDataBase<bool>
     {
-        [SerializeField] private bool value;
-        [SerializeField] private bool defaultValue;
+        [SerializeField] private bool _value;
+        [SerializeField] private bool _defaultValue;
 
         public override bool Value
         {
-            get => value;
+            get => _value;
             set
             {
-                this.value = value;
+                this._value = value;
                 BroadcastValueChanged();
             }
         }
 
         private void OnEnable()
         {
-            Value = defaultValue;
+            Value = _defaultValue;
             Debug.Log("Set To Default");
         }
 

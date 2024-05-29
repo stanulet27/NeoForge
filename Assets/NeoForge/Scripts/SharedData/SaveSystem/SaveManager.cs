@@ -23,15 +23,11 @@ namespace SharedData.SaveSystem
         private const string EXTENSION = ".json";
 
 #if UNITY_EDITOR
-        private static string SaveFolderPath => $"{Application.dataPath}//{SAVE_FOLDER_NAME}//";
-        private static string DefaultPath => Application.dataPath + "/Resources/" + DEFAULT_SAVE_FILE_NAME + EXTENSION;
+        private static string _saveFolderPath => $"{Application.dataPath}//{SAVE_FOLDER_NAME}//";
+        private static string _defaultPath => Application.dataPath + "/Resources/" + DEFAULT_SAVE_FILE_NAME + EXTENSION;
 #else
-        private static string SaveFolderPath => $"{Application.persistentDataPath}//{SAVE_FOLDER_NAME}//";
+        private static string _saveFolderPath => $"{Application.persistentDataPath}//{SAVE_FOLDER_NAME}//";
 #endif
-        private static string FilePathTo(string fileName)
-        {
-            return SaveFolderPath + fileName + EXTENSION;
-        }
 
         [SerializeField] private SaveGroup saveGroup;
         [SerializeField] private SharedEvent onReset;
@@ -43,16 +39,6 @@ namespace SharedData.SaveSystem
             onReset.Value += ResetToDefault;
             onSave.Value += SaveGame;
             SetupSaveFolder();
-        }
-
-        private static void SetupSaveFolder()
-        {
-            if (!Directory.Exists(SaveFolderPath)) Directory.CreateDirectory(SaveFolderPath);
-        }
-
-        private void Start()
-        {
-            SceneManager.sceneLoaded += OnSceneChanged;
         }
 
         [ContextMenu("Reset to Default")]
@@ -74,15 +60,6 @@ namespace SharedData.SaveSystem
                 Debug.Log("Data Reset");
             }
         }
-
-#if UNITY_EDITOR
-        [ContextMenu("Set Default to Current Save")]
-        private void SetDefaultToCurrentSave()
-        {
-            var savesAsJson = JsonUtility.ToJson(saveGroup.SaveData);
-            File.WriteAllText(DefaultPath, savesAsJson);
-        }
-#endif
 
         public void SwitchToSave(string newSaveName)
         {
@@ -148,6 +125,30 @@ namespace SharedData.SaveSystem
 #endif
             }
         }
+
+        private static string FilePathTo(string fileName)
+        {
+            return _saveFolderPath + fileName + EXTENSION;
+        }
+
+        private static void SetupSaveFolder()
+        {
+            if (!Directory.Exists(_saveFolderPath)) Directory.CreateDirectory(_saveFolderPath);
+        }
+
+        private void Start()
+        {
+            SceneManager.sceneLoaded += OnSceneChanged;
+        }
+
+#if UNITY_EDITOR
+        [ContextMenu("Set Default to Current Save")]
+        private void SetDefaultToCurrentSave()
+        {
+            var savesAsJson = JsonUtility.ToJson(saveGroup.SaveData);
+            File.WriteAllText(_defaultPath, savesAsJson);
+        }
+#endif
 
         private void OnSceneChanged(Scene scene, LoadSceneMode __)
         {
