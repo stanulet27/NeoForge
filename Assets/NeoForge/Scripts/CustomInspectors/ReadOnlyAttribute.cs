@@ -18,6 +18,7 @@ namespace CustomInspectors
     [AttributeUsage(AttributeTargets.Field)]
     public class ReadOnlyAttribute : PropertyAttribute
     {
-        
+        // DO NOT REMOVE
+        // This is a marker attribute the logic behind this is located in the ReadOnlyPropertyDrawer editor script.
     }
 }

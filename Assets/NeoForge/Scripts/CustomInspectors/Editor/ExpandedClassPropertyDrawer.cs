@@ -9,7 +9,6 @@
 
 using UnityEditor;
 using UnityEngine;
-using System.Linq;
 
 namespace CustomInspectors.Editor
 {
@@ -23,19 +22,17 @@ namespace CustomInspectors.Editor
         {
             EditorGUI.BeginProperty(position, label, property);
 
-            // Draw label
-            //position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
 
-            // Don't make child fields be indented
+            
             var indent = EditorGUI.indentLevel;
-            EditorGUI.indentLevel = 0;
+            EditorGUI.indentLevel = 0; // Don't make child fields be indented
 
             int i = 0;
             foreach (var child in property)
             {
                 if (child is not SerializedProperty childProperty) continue;
-                // Calculate rects
-                var unitRect = new Rect(position.x, position.y + i * 22, position.width, 20);
+               
+                var unitRect = new Rect(position.x, position.y + i * 22, position.width, 20); // Calculate rects
 
                 // Draw fields - pass GUIContent.none to each so they are drawn without labels
                 EditorGUI.PropertyField(unitRect, childProperty, new GUIContent(childProperty.displayName));
@@ -44,8 +41,7 @@ namespace CustomInspectors.Editor
 
             position.height = i * position.height;
 
-            // Set indent back to what it was
-            EditorGUI.indentLevel = indent;
+            EditorGUI.indentLevel = indent; // Set indent back to what it was
 
             EditorGUI.EndProperty();
         }

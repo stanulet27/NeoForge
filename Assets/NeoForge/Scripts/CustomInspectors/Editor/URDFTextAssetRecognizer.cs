@@ -16,12 +16,14 @@ namespace CustomInspectors.Editor
     /// <summary>
     /// This class will enabled files with the extension .urdf to be recognized as TextAsset files by the Unity Asset Importer.
     /// </summary>
-    [ScriptedImporter( 1, "urdf" )]
-    public class URDFTextAssetRecognizer : ScriptedImporter {
-        public override void OnImportAsset( AssetImportContext asset ) {
-            var subAsset = new TextAsset( File.ReadAllText( asset.assetPath ) );
-            asset.AddObjectToAsset( "text", subAsset );
-            asset.SetMainObject( subAsset );
+    [ScriptedImporter(1, "urdf")]
+    public class URDFTextAssetRecognizer : ScriptedImporter 
+    {
+        public override void OnImportAsset(AssetImportContext asset) 
+        {
+            var subAsset = new TextAsset(File.ReadAllText( asset.assetPath));
+            asset.AddObjectToAsset("text", subAsset);
+            asset.SetMainObject(subAsset);
         }
     }
 }

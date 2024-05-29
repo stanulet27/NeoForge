@@ -17,6 +17,7 @@ namespace CustomInspectors
     /// </summary>
     public class ExpandedClassAttribute : PropertyAttribute
     {
-        
+        // DO NOT REMOVE
+        // This is a marker attribute the logic behind this is located in the ExpandedClassPropertyDrawer editor script.
     }
 }
