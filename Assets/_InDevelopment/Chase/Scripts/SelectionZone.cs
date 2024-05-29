@@ -3,30 +3,21 @@ using UnityEngine;
 
 namespace DeformationSystem
 {
-    /*
-     * This class is attached to the camera so that it can fire a ray cast straight ahead.
-     * If the raycast intersects with anything in layer "Player" then it will move the game object provided
-     * to the intersection point
-     */
-    
     public class SelectionZone : MonoBehaviour
     {
         [Tooltip("The object that will be moved to the intersection point.")]
         [SerializeField] private GameObject _selectedObject;
+        [Tooltip("The object that will be displayed if no part is hit.")]
         [SerializeField] private GameObject _noHitObject;
+        [Tooltip("The size of the selection zone. Assumes square zone.")]
         [SerializeField] private float _size;
 
-        private Vector3[] raysFired =
+        // Center and the top 4 corners and side midpoints
+        private readonly Vector3[] _raysFired =
         {
-            Vector3.zero,
-            Vector3.forward,
-            Vector3.back,
-            Vector3.left,
-            Vector3.right,
-            Vector3.forward + Vector3.left,
-            Vector3.forward + Vector3.right,
-            Vector3.back + Vector3.left,
-            Vector3.back + Vector3.right
+            Vector3.zero, Vector3.forward, Vector3.back, Vector3.left, Vector3.right,
+            Vector3.forward + Vector3.left, Vector3.forward + Vector3.right,
+            Vector3.back + Vector3.left, Vector3.back + Vector3.right
         };
         
         private void Update()
@@ -34,7 +25,7 @@ namespace DeformationSystem
             _selectedObject.SetActive(false);
             _noHitObject.SetActive(true);
             
-            foreach (var ray in raysFired.Select(x => x * _size / 2f))
+            foreach (var ray in _raysFired.Select(x => x * _size / 2f))
             {
                 if (!CheckWithOffset(ray, out var hitPoint)) continue;
                 _selectedObject.transform.position = hitPoint;
@@ -42,7 +33,6 @@ namespace DeformationSystem
                 _noHitObject.SetActive(false);
                 break;
             }
-            
         }
         
         private bool CheckWithOffset(Vector3 corner, out Vector3 hitPoint)

@@ -6,16 +6,12 @@ namespace _InDevelopment.Chase.Scripts
 {
     public class PartBoundsLocker : MonoBehaviour
     {
+        [Tooltip("X, Y, Z bounds. Will prevent the part from moving outside of these bounds. Based in world origin")]
         [SerializeField] private FloatRange[] _bounds;
 
         private void Update()
         {
             ClampPosition();
-        }
-
-        public void SetClampedMovement(FloatRange[] clampedMovement)
-        {
-            _bounds = clampedMovement;
         }
         
         private void ClampPosition()
