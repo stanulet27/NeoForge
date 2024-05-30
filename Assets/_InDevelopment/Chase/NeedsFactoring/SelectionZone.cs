@@ -22,17 +22,18 @@ namespace DeformationSystem
         
         private void Update()
         {
-            _selectedObject.SetActive(false);
-            _noHitObject.SetActive(true);
-            
+            var rayFoundTarget = false;
+
             foreach (var ray in _raysFired.Select(x => x * _size / 2f))
             {
                 if (!CheckWithOffset(ray, out var hitPoint)) continue;
                 _selectedObject.transform.position = hitPoint;
-                _selectedObject.SetActive(true);
-                _noHitObject.SetActive(false);
+                rayFoundTarget = true;
                 break;
             }
+            
+            _selectedObject.SetActive(rayFoundTarget);
+            _noHitObject.SetActive(rayFoundTarget);
         }
         
         private bool CheckWithOffset(Vector3 corner, out Vector3 hitPoint)

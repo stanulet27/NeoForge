@@ -1,5 +1,4 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 namespace DeformationSystem
@@ -35,8 +34,8 @@ namespace DeformationSystem
         private void RefreshDisplay()
         {
             _hudDisplay.text = $"Score: {_score:F2}%" + "\n" +
-                               $"Force: {_force}" + "\n" +
-                               $"Size: {_size}";
+                               $"Force: {_force:F2}" + "\n" +
+                               $"Size: {_size:F2}";
         }
     }
 }

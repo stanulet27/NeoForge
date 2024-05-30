@@ -15,10 +15,10 @@ namespace DeformationSystem
         [Header("Speed Up")]
         [Tooltip("The key used to speed up the movement and rotation.")]
         [SerializeField] private KeyCode _speedUpKey = KeyCode.LeftShift;
-        [Tooltip("The amount rotational speed is sped up")]
-        [SerializeField] private float _rotationalSpeedUp = 2f;
         [Tooltip("The amount move speed is sped up")]
         [SerializeField] private float _movementSpeedUp = 2f;
+        [Tooltip("The amount rotational speed is sped up")]
+        [SerializeField] private float _rotationalSpeedUp = 2f;
         
         private readonly List<InputBinding> _movementBindings = new()
         {

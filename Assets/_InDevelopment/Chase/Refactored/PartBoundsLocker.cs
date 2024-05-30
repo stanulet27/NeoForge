@@ -1,8 +1,6 @@
-﻿using System;
-using DeformationSystem;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace _InDevelopment.Chase.Scripts
+namespace DeformationSystem
 {
     public class PartBoundsLocker : MonoBehaviour
     {

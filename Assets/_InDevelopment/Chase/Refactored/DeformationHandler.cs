@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using _InDevelopment.Chase.Scripts;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace DeformationSystem
 {
@@ -13,7 +10,7 @@ namespace DeformationSystem
         public static Action OnDeformationPerformed;
         
         [Header("Selector")]
-        
+
         [Tooltip("The trigger tracker that is used to determine parts and vertices that are hit.")]
         [SerializeField] private TriggerTracker _selector;
 
@@ -36,6 +33,7 @@ namespace DeformationSystem
         
         private void Update()
         {
+            _hud.UpdateDisplay(force: _force, size: _selector.GetSize());
             if (Input.GetKeyDown(KeyCode.V)) ModifyMeshesHit();
         }
         
