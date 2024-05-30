@@ -18,6 +18,7 @@ namespace DeformationSystem
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Space)) SwapToNextCamera();
+            if (Input.GetKeyDown(KeyCode.Backslash)) SwapPerspective();
         }
 
         private void SwapToNextCamera()
@@ -25,6 +26,11 @@ namespace DeformationSystem
             _cameras[_currentCameraIndex].enabled = false;
             _currentCameraIndex = (_currentCameraIndex + 1) % _cameras.Count;
             _cameras[_currentCameraIndex].enabled = true;
+        }
+
+        private void SwapPerspective()
+        {
+            _cameras[_currentCameraIndex].orthographic = !_cameras[_currentCameraIndex].orthographic;
         }
     }
 }
