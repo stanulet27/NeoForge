@@ -12,18 +12,23 @@ namespace DeformationSystem
     {
         public static Action OnDeformationPerformed;
         
+        [Header("Selector")]
+        
         [Tooltip("The trigger tracker that is used to determine parts and vertices that are hit.")]
         [SerializeField] private TriggerTracker _selector;
+
+        [Header("Other")]
         
-        [FormerlySerializedAs("_cam")]
         [Tooltip("The camera that is used to determine the direction of the hit.")]
         [SerializeField] private Transform _camera;
         
+        [Range(0, 10)]
         [Tooltip("The force that is applied by the hit.")]
-        [SerializeField, Range(0, 10)] private float _force = 1f;
+        [SerializeField] private float _force = 1f;
         
+        [Tooltip("The HUD that is used to display the force and size of the selector.")]
         [SerializeField] private ForgeHUD _hud;
-        
+
         private void Start()
         {
             _hud.UpdateDisplay(force: _force, size: _selector.GetSize());

@@ -12,6 +12,14 @@ namespace DeformationSystem
         [Tooltip("The speed at which the object rotates around its pivot.")]
         [SerializeField] private float _rotationSpeed = 10f;
         
+        [Header("Speed Up")]
+        [Tooltip("The key used to speed up the movement and rotation.")]
+        [SerializeField] private KeyCode _speedUpKey = KeyCode.LeftShift;
+        [Tooltip("The amount rotational speed is sped up")]
+        [SerializeField] private float _rotationalSpeedUp = 2f;
+        [Tooltip("The amount move speed is sped up")]
+        [SerializeField] private float _movementSpeedUp = 2f;
+        
         private readonly List<InputBinding> _movementBindings = new()
         {
             new InputBinding(KeyCode.W, Vector3.back),
@@ -40,6 +48,12 @@ namespace DeformationSystem
 
             rotationDirection = _rotationBindings.Where(binding => Input.GetKey(binding.KeyCode))
                 .Aggregate(rotationDirection, (current, binding) => current + binding.Direction);
+
+            if (Input.GetKey(_speedUpKey))
+            {
+                moveDirection *= _movementSpeedUp;
+                rotationDirection *= _rotationalSpeedUp;
+            }
 
             transform.position += moveDirection * (_moveSpeed * Time.deltaTime);
             transform.Rotate(rotationDirection * (_rotationSpeed * Time.deltaTime));
