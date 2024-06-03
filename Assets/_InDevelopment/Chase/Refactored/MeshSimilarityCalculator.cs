@@ -13,6 +13,7 @@ namespace _InDevelopment.Chase.Scripts
         // The number is irrelevant, but it must be a constant
         private const int SEED = 1987;
         private const int POINTS_TO_GENERATE = 10000;
+        private const float MAX_SCORE = 100.0f;
         private static readonly Color _successColor = Color.green;
         private static readonly Color _failureColor = Color.red;
         
@@ -36,6 +37,8 @@ namespace _InDevelopment.Chase.Scripts
         [Tooltip("Determines which points to display in editor.")]
         [SerializeField] private RaycastPoint.Mode _displayMode = RaycastPoint.Mode.Undershot;
 
+        private float _initialScore;
+        
         private void Awake()
         {
             _heatMapRenderer.material = _vertexColorMaterial;
@@ -45,6 +48,8 @@ namespace _InDevelopment.Chase.Scripts
         private void Start()
         {
             CalculateScore();
+            _initialScore = DetermineScore();
+            _hud.UpdateDisplay(DetermineScore());
             DeformationHandler.OnDeformationPerformed += CalculateScore;
         }
         
@@ -101,10 +106,12 @@ namespace _InDevelopment.Chase.Scripts
                 .ToArray();
         }
 
-        private static float DetermineScore()
+        private float DetermineScore()
         {
-            return RaycastPoint.GetScore(RaycastPoint.Mode.Undershot) * 0.8f +
-                   RaycastPoint.GetScore(RaycastPoint.Mode.Overshot) * 0.2f;
+            var currentPercent = RaycastPoint.GetScore(RaycastPoint.Mode.Undershot) * 0.8f +
+                                 RaycastPoint.GetScore(RaycastPoint.Mode.Overshot) * 0.2f;
+            
+            return (currentPercent - _initialScore) / (MAX_SCORE - _initialScore) * 100.0f;
         }
 
         private static List<Triangle> ConvertMeshToTriangles(Mesh mesh)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace DeformationSystem
@@ -7,18 +8,22 @@ namespace DeformationSystem
     {
         private readonly List<Camera> _cameras = new();
         private int _currentCameraIndex;
+
+        private void OnEnable()
+        {
+            ControllerManager.OnSwapCamera += SwapToNextCamera;
+        }
         
+        private void OnDisable()
+        {
+            ControllerManager.OnSwapCamera -= SwapToNextCamera;
+        }
+
         private void Start()
         {
             GetComponentsInChildren(true, _cameras);
             _cameras.ForEach(camera => camera.enabled = false);
             _cameras[0].enabled = true;
-        }
-        
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Space)) SwapToNextCamera();
-            if (Input.GetKeyDown(KeyCode.Backslash)) SwapPerspective();
         }
 
         private void SwapToNextCamera()

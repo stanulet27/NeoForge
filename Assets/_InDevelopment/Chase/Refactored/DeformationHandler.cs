@@ -23,16 +23,24 @@ namespace DeformationSystem
         [Tooltip("The HUD that is used to display the force and size of the selector.")]
         [SerializeField] private ForgeHUD _hud;
 
+        private void OnEnable()
+        {
+            ControllerManager.OnHit += HitIntersectedMeshes;
+        }
+        
+        private void OnDisable()
+        {
+            ControllerManager.OnHit -= HitIntersectedMeshes;
+        }
+
         private void Start()
         {
             _hud.UpdateDisplay(force: _force, size: _selector.GetSize());
         }
-        
+
         private void Update()
         {
             _hud.UpdateDisplay(force: _force, size: _selector.GetSize());
-
-            if (Input.GetKeyDown(KeyCode.V)) HitIntersectedMeshes();
         }
 
         private void HitIntersectedMeshes()

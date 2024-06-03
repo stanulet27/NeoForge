@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -15,41 +16,58 @@ namespace DeformationSystem
         [Tooltip("If true, the object will not be able to move.")]
         [SerializeField] private bool _positionLocked;
 
+        public bool InRotationMode { get; private set; }
+
+        private bool _beingSlowed;
+        private Vector3 _moveDirection;
+        private Vector3 _rotationDirection;
+        
+        private void OnEnable()
+        {
+            ControllerManager.OnMove += ApplyMovement;
+            ControllerManager.OnRotate += ApplyRotation;
+            ControllerManager.OnSwapMode += SwapMode;
+            ControllerManager.OnSlowDown += SlowDown;
+        }
+        
+        private void OnDisable()
+        {
+            ControllerManager.OnMove -= ApplyMovement;
+            ControllerManager.OnRotate -= ApplyRotation;
+            ControllerManager.OnSwapMode -= SwapMode;
+            ControllerManager.OnSlowDown -= SlowDown;
+        }
+        
+        private void SwapMode()
+        {
+            InRotationMode = !InRotationMode;
+            _moveDirection = Vector2.zero;
+            _rotationDirection = Vector3.zero;
+        }
+        
+        private void SlowDown(bool spedUp)
+        {
+            _beingSlowed = spedUp;
+        }
+
         private void Update()
         {
-            var moveDirection = GetDirection(_config.MovementBindings);
-            var rotationDirection = GetDirection(_config.RotationBindings);
-
-            if (Input.GetKey(_config.SpeedUpKey))
-            {
-                moveDirection *= _config.MovementSpeedUp;
-                rotationDirection *= _config.RotationalSpeedUp;
-            }
-
-            if (!_positionLocked) ApplyMovement(moveDirection);
-            if (!_rotationLocked) ApplyRotation(rotationDirection);
+            var moveModifer = _beingSlowed ? _config.MovementSpeedUp : 1f;
+            var rotationModifer = _beingSlowed ? _config.RotationalSpeedUp : 1f;
+            transform.position += _moveDirection * (_config.MoveSpeed * Time.deltaTime * moveModifer);
+            transform.Rotate(_rotationDirection * (_config.RotationSpeed * Time.deltaTime * rotationModifer), Space.World);
         }
 
-        private static Vector3 GetDirection(IEnumerable<InputBinding> bindings)
+        private void ApplyMovement(Vector2 moveDirection)
         {
-            return bindings.Where(binding => Input.GetKey(binding.KeyCode))
-                .Aggregate(Vector3.zero, (current, binding) => current + binding.Direction);
-        }
-
-        private void ApplyMovement(Vector3 moveDirection)
-        {
-            if (!_positionLocked)
-            {
-                transform.position += moveDirection * (_config.MoveSpeed * Time.deltaTime);
-            }
+            if (_positionLocked || InRotationMode) return;
+            _moveDirection = new Vector3(moveDirection.x, 0, moveDirection.y);
         }
 
         private void ApplyRotation(Vector3 rotationDirection)
         {
-            if (!_rotationLocked)
-            {
-                transform.Rotate(rotationDirection * (_config.RotationSpeed * Time.deltaTime), Space.World);
-            }
+            if (_rotationLocked || !InRotationMode) return;
+            _rotationDirection = rotationDirection;
         }
     }
 }
