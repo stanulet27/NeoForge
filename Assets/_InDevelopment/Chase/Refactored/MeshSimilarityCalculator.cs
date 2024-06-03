@@ -1,70 +1,110 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 using DeformationSystem;
 using UnityEngine;
+using Color = UnityEngine.Color;
 
 namespace _InDevelopment.Chase.Scripts
 {
     public class MeshSimilarityCalculator : MonoBehaviour
     {
-        [Header("Meshes")]
+        // The number is irrelevant, but it must be a constant
+        private const int SEED = 1987;
+        private const int POINTS_TO_GENERATE = 10000;
+        private static readonly Color _successColor = Color.green;
+        private static readonly Color _failureColor = Color.red;
+        
+        [Header("References")]
         [Tooltip("The mesh filter of the current mesh.")]
         [SerializeField] private MeshFilter _userMeshFilter;
         [Tooltip("The mesh filter of the desired mesh.")]
         [SerializeField] private MeshFilter _desiredMeshFilter;
+        [Tooltip("The renderer to display the heat map of successful points.")]
+        [SerializeField] private Renderer _heatMapRenderer;
         
         [Header("Settings")]
         [Tooltip("The buffer that is used to expand the bounding box of the current mesh.")]
         [SerializeField] private float _buffer = 0.05f;
         [Tooltip("The material that is used to color the vertices of the desired mesh to show score")]
         [SerializeField] private Material _vertexColorMaterial;
-        [Tooltip("The HUD that is used to display the score.")]
+        [Tooltip("The HUD that displays the score.")]
         [SerializeField] private ForgeHUD _hud;
         
+        [Header("Debug Display")]
+        [Tooltip("Determines which points to display in editor.")]
+        [SerializeField] private RaycastPoint.Mode _displayMode = RaycastPoint.Mode.Undershot;
+
+        private void Awake()
+        {
+            _heatMapRenderer.material = _vertexColorMaterial;
+            GeneratePoints(RaycastPoint.Mode.Undershot);
+        }
+
         private void Start()
         {
-            _desiredMeshFilter.GetComponent<Renderer>().material = _vertexColorMaterial;
             CalculateScore();
             DeformationHandler.OnDeformationPerformed += CalculateScore;
         }
         
+        private void OnDrawGizmosSelected()
+        {
+            foreach (var point in RaycastPoint.Points[_displayMode])
+            {
+                Gizmos.color = point.DoesItScore() ? Color.green : Color.red;
+                Gizmos.DrawSphere(point.Origin, 0.01f);
+            }
+        }
+
+        private void GeneratePoints(RaycastPoint.Mode mode)
+        {
+            var meshFilter = mode == RaycastPoint.Mode.Undershot ? _desiredMeshFilter : _userMeshFilter;
+            var generator = new System.Random(SEED);
+            var bounds = meshFilter.mesh.bounds;
+            var min = bounds.min;
+            var max = bounds.max;
+
+            RaycastPoint.ClearPoints(mode);
+            
+            for (int i = 0; i < POINTS_TO_GENERATE; i++)
+            {
+                var x = GetRandomValue(generator, min.x, max.x);
+                var y = GetRandomValue(generator, min.y, max.y);
+                var z = GetRandomValue(generator, min.z, max.z);
+                var _ = new RaycastPoint(new Vector3(x, y, z), meshFilter.transform, mode);
+            }
+        }
+        
+        private static float GetRandomValue(System.Random generator, float min, float max)
+        {
+            return (float) generator.NextDouble() * (max - min) + min;
+        }
+
         private void CalculateScore()
+        {
+            GeneratePoints(RaycastPoint.Mode.Overshot);
+            DisplayHeatMap();
+            _hud.UpdateDisplay(DetermineScore());
+        }
+
+        private void DisplayHeatMap()
         {
             var desiredMesh = _desiredMeshFilter.mesh;
             var desiredPoints = new List<Vector3>(desiredMesh.vertices);
-            var expandedBoxes = GetTrianglesBoundingBoxes(_userMeshFilter);
+            var triangles = ConvertMeshToTriangles(_userMeshFilter.mesh);
+            var expandedBoxes = triangles.ConvertAll(x => x.GetBounds(_buffer));
+            bool IsContained(Vector3 point) => expandedBoxes.Any(b => b.Contains(point));
 
-            DetermineAndDisplayScore(desiredPoints, expandedBoxes, desiredMesh);
-        }
-        
-        private List<Bounds> GetTrianglesBoundingBoxes(MeshFilter meshFilter)
-        {
-            var triangles = ConvertMeshToTriangles(meshFilter.mesh);
-            return triangles.ConvertAll(triangle => triangle.GetBounds(_buffer));
+            desiredMesh.colors = desiredPoints
+                .Select(p => IsContained(p) ? _successColor : _failureColor)
+                .ToArray();
         }
 
-        private void DetermineAndDisplayScore(List<Vector3> desiredPoints, List<Bounds> expandedBoxes, Mesh desiredMesh)
+        private static float DetermineScore()
         {
-            var colors = new Color[desiredPoints.Count];
-            var matches = 0f;
-            
-            for (int i = 0; i < desiredPoints.Count; i++)
-            {
-                var point = desiredPoints[i];
-                var pointIsContained = expandedBoxes.Exists(box => box.Contains(point));
-                
-                if (pointIsContained)
-                {
-                    colors[i] = Color.green;
-                    matches += 1;
-                }
-                else
-                {
-                    colors[i] = Color.red;
-                }
-            }
-            
-            desiredMesh.colors = colors;
-            _hud.UpdateDisplay(matches / desiredPoints.Count * 100f);
+            return RaycastPoint.GetScore(RaycastPoint.Mode.Undershot) * 0.8f +
+                   RaycastPoint.GetScore(RaycastPoint.Mode.Overshot) * 0.2f;
         }
 
         private static List<Triangle> ConvertMeshToTriangles(Mesh mesh)
@@ -92,7 +132,7 @@ namespace _InDevelopment.Chase.Scripts
             {
                 _vertices = new[] { v1, v2, v3 };
             }
-            
+
             public Bounds GetBounds(float buffer = 0.0f)
             {
                 var bufferVector = new Vector3(buffer, buffer, buffer);

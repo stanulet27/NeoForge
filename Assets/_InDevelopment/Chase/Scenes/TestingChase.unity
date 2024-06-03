@@ -569,9 +569,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1837353198}
   - {fileID: 2117717666}
   - {fileID: 404348862}
-  - {fileID: 1837353198}
   m_Father: {fileID: 1975936184}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &250043406
@@ -2672,9 +2672,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _userMeshFilter: {fileID: 884103747}
   _desiredMeshFilter: {fileID: 1123580630}
+  _heatMapRenderer: {fileID: 1123580629}
   _buffer: 0.05
   _vertexColorMaterial: {fileID: 2100000, guid: 2ddf1cd21cc895d448408c9892d01d77, type: 2}
   _hud: {fileID: 1997095284}
+  _displayMode: 1
 --- !u!1 &1343697502
 GameObject:
   m_ObjectHideFlags: 0

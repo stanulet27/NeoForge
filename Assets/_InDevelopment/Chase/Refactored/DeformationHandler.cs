@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -9,13 +10,9 @@ namespace DeformationSystem
     {
         public static Action OnDeformationPerformed;
         
-        [Header("Selector")]
-
         [Tooltip("The trigger tracker that is used to determine parts and vertices that are hit.")]
         [SerializeField] private TriggerTracker _selector;
 
-        [Header("Other")]
-        
         [Tooltip("The camera that is used to determine the direction of the hit.")]
         [SerializeField] private Transform _camera;
         
@@ -34,18 +31,20 @@ namespace DeformationSystem
         private void Update()
         {
             _hud.UpdateDisplay(force: _force, size: _selector.GetSize());
-            if (Input.GetKeyDown(KeyCode.V)) ModifyMeshesHit();
+
+            if (Input.GetKeyDown(KeyCode.V)) HitIntersectedMeshes();
         }
-        
-        private void ModifyMeshesHit()
+
+        private void HitIntersectedMeshes()
         {
-            _selector.GetContainedObjects<Deformable>().ToList().ForEach(x => StartCoroutine(PerformDeformation(x)));
+            var meshesHit = _selector.GetContainedObjects<Deformable>().ToList();
+            meshesHit.ForEach(x => StartCoroutine(HitIntersectedMesh(x)));
         }
         
-        private IEnumerator PerformDeformation(Deformable deformable)
+        private IEnumerator HitIntersectedMesh(Deformable deformable)
         {
             var direction = _camera.transform.forward;
-            yield return deformable.ScaleMeshVertices(_force, direction, _selector.Contains);
+            yield return deformable.PerformHitOperation(_force, direction, _selector.Contains);
             OnDeformationPerformed?.Invoke();
         }
     }
