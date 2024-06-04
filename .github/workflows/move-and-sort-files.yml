@@ -2,7 +2,7 @@ name: Move and Sort Files on PR Merge
 
 on:
   pull_request:
-    types: [closed]
+    types: [created, edited]
 
 jobs:
   move-and-sort-files:
