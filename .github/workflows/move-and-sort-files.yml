@@ -10,7 +10,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4 # Updated to Node.js 20
+      run: git checkout HEAD # Updated to Node.js 20
 
     - name: Set up Python
       uses: actions/setup-python@v5 # Updated to Node.js 20
