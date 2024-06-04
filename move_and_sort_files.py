@@ -2,7 +2,7 @@ import os
 import shutil
 from pathlib import Path
 
-source_folder = Path("Assets/_InDevelopment/Chase/RefactoredScripts")
+source_folder = Path(".").glob("**/RefactoredScripts/*.cs")
 destination_base = Path("Assets/NeoForge/Scripts")
 
 # Function to get namespace from a C# file
@@ -14,7 +14,7 @@ def get_namespace(file_path):
     return None
 
 # Move and sort files
-for file_path in source_folder.glob("*.cs"):
+for file_path in source_folder:
     namespace = get_namespace(file_path)
     if namespace:
         namespace_path = destination_base / namespace.replace('.', '/').replace("NeoForge/", "")
