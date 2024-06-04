@@ -17,7 +17,7 @@ def get_namespace(file_path):
 for file_path in source_folder.glob("*.cs"):
     namespace = get_namespace(file_path)
     if namespace:
-        namespace_path = destination_base / namespace.replace('.', '/')
+        namespace_path = destination_base / namespace.replace('.', '/').replace("NeoForge/", "")
         namespace_path.mkdir(parents=True, exist_ok=True)
 
         # Move .cs file
