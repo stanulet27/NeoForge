@@ -19,9 +19,9 @@ jobs:
 
     - name: Commit and Push changes
       run: |
+        python move_and_sort_files.py
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        python move_and_sort_files.py
         git add .
         git commit -m "Move and sort files based on namespaces on PR merge"
         git push
