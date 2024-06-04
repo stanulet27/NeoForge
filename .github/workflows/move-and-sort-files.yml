@@ -10,18 +10,18 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4 # Updated to Node.js 20
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.pull_request.head.ref }}
 
     - name: Set up Python
       uses: actions/setup-python@v5 # Updated to Node.js 20
       with:
         python-version: '3.x'
 
-    - name: Move and Sort Files
-      run: python move_and_sort_files.py
-
     - name: Commit and Push changes
       run: |
+        python move_and_sort_files.py
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git add .
