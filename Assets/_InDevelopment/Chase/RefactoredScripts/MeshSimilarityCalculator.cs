@@ -6,7 +6,7 @@ using DeformationSystem;
 using UnityEngine;
 using Color = UnityEngine.Color;
 
-namespace _InDevelopment.Chase.Scripts
+namespace DeformationSystem
 {
     public class MeshSimilarityCalculator : MonoBehaviour
     {
