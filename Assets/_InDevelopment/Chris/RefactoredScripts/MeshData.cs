@@ -6,7 +6,6 @@ namespace DeformationSystem
     [Serializable]
     public class MeshData
     {
-        
         public float[] Vertices;
         public int[] Triangles;
   

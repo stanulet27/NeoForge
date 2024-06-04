@@ -16,7 +16,6 @@ namespace DeformationSystem
             Vertices = verticies;
             Triangles = traingles;
             Steps = steps;
-
         }
 
         private Mesh CreateMesh(float[] verticies)
@@ -37,14 +36,14 @@ namespace DeformationSystem
         public List<Mesh> ExtractMeshes()
         {
             int singleArrayLength = Vertices.Length / Steps;
-            List<float[]> vertexLists = new();
-            for (var i = 0; i < Vertices.Length; i += singleArrayLength)
+            var vertexLists = new List<float[]>();
+            for (int i = 0; i < Vertices.Length; i += singleArrayLength)
             {
-                float[] singleArray = new float[singleArrayLength];
+                var singleArray = new float[singleArrayLength];
                 Array.Copy(Vertices, i, singleArray, 0, singleArrayLength);
                 vertexLists.Add(singleArray);
             }
-            List<Mesh> Meshes = new();
+            var Meshes = new List<Mesh>();
             foreach (var vertexList in vertexLists)
             {
                 Meshes.Add(CreateMesh(vertexList));

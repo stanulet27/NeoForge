@@ -3,12 +3,12 @@
     public class MeshObject
     {
         public int ID;
-        public MeshData meshData;
+        public MeshData MeshData;
 
-        public MeshObject(int ID, MeshData meshData)
+        public MeshObject(int id, MeshData meshData)
         {
-            this.ID = ID;
-            this.meshData = meshData;
+            ID = id;
+            MeshData = meshData;
         }   
     }
 }
