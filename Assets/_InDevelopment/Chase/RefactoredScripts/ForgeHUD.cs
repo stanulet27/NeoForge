@@ -24,9 +24,9 @@ namespace DeformationSystem
         /// <param name="size">Displayed as "Size: X</param>
         public void UpdateDisplay(float score = -1f, float force = -1f, float size = -1f)
         {
-            _score = score < 0 ? _score : score;
-            _force = force < 0 ? _force : force;
-            _size = size < 0 ? _size : size;
+            if (score >= 0) _score = score;
+            if (force >= 0) _force = force;
+            if (size >= 0) _size = size;
             
             RefreshDisplay();
         }
