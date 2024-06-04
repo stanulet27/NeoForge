@@ -1,0 +1,40 @@
+name: Validate Unity Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Unity
+      uses: game-ci/unity-setup@v2
+      with:
+        unityVersion: '2021.1.10f1' # Set this to the version of Unity you are using
+
+    - name: Test Unity build
+      run: |
+        xvfb-run --auto-servernum --server-args='-screen 0 640x480x24' unity-editor \
+          -projectPath . \
+          -quit \
+          -batchmode \
+          -nographics \
+          -buildTarget StandaloneWindows64 \
+          -executeMethod BuildScript.PerformBuild \
+          -logFile /dev/stdout
+
+    - name: Archive build logs
+      if: failure()
+      uses: actions/upload-artifact@v3
+      with:
+        name: Unity-build-logs
+        path: /dev/stdout
