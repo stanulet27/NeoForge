@@ -32,16 +32,16 @@ namespace DeformationSystem
         }
 
         [ContextMenu("Scale Mesh Vertices")]
-        public IEnumerator PerformHitOperation(float force, Vector3 translation, Quaternion rotation, Predicate<Vector3> isHit)
+        public IEnumerator PerformHitOperation(float force, Transform part, Predicate<Vector3> isHit)
         {
             var mesh = _meshFilter.mesh;
             var intersections = FindIntersections(mesh, isHit);
     
-            var hitRequest = new HitData(force, rotation, translation, intersections, new int[] { });
+            var hitRequest = new HitData(force, part.rotation, part.position, intersections, new int[] { });
             yield return SendHitRequest(hitRequest);
         }
 
-        private IEnumerable<Vector3> FindIntersections(Mesh mesh, Predicate<Vector3> isHit)
+        private int[] FindIntersections(Mesh mesh, Predicate<Vector3> isHit)
         {
             return mesh.vertices
                 .Select((v, i) => new {v, i})
@@ -51,7 +51,7 @@ namespace DeformationSystem
                 .ToArray();
         }
 
-        private static IEnumerator SendHitRequest(HitData hitRequest)
+        private IEnumerator SendHitRequest(HitData hitRequest)
         {
               var start = Time.realtimeSinceStartup;
               yield return WebServerConnectionHandler.SendPutRequest(JsonUtility.ToJson(hitRequest), "/press");

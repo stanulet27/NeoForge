@@ -13,8 +13,11 @@ namespace DeformationSystem
         [Tooltip("The trigger tracker that is used to determine parts and vertices that are hit.")]
         [SerializeField] private TriggerTracker _selector;
 
-        [Tooltip("The camera that is used to determine the direction of the hit.")]
-        [SerializeField] private Transform _camera;
+        [Tooltip("This is the part that is being deformed.")]
+        [SerializeField] private GameObject _part;
+
+        [Tooltip("This is the target that the part is being deformed to.")]
+        [SerializeField] private GameObject _target;
         
         [Range(0, 10)]
         [Tooltip("The force that is applied by the hit.")]
@@ -71,7 +74,7 @@ namespace DeformationSystem
             mesh.RecalculateNormals();
             mesh.Optimize();
             return mesh;
-
+        }
         
         private void OnDisable()
         {
@@ -97,8 +100,8 @@ namespace DeformationSystem
         
         private IEnumerator HitIntersectedMesh(Deformable deformable)
         {
-            if(_force > _maxForce) _force = _maxForce;    
-            StartCoroutine(deformable.PreformHitOperation(_force, _part.transform.position ,_part.transform.rotation, _triggerTracker.Contains));
+            _force = Mathf.Min(_force, _maxForce);    
+            yield return deformable.PerformHitOperation(_force, _part.transform, _selector.Contains);
             OnDeformationPerformed?.Invoke();
         }
     }
