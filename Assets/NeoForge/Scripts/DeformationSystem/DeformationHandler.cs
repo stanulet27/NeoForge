@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,11 +22,56 @@ namespace DeformationSystem
         
         [Tooltip("The HUD that is used to display the force and size of the selector.")]
         [SerializeField] private ForgeHUD _hud;
+        
+        private float _maxForce;
+        
+        private IEnumerator SetupEnvironment()
+        {
+            //send environment data (all zeros is default)
+            ///TODO: Select environment data and replace defaults
+            EnvironmentChoices environmentChoices = new EnvironmentChoices(0, 0, 0, 0);
+            yield return WebServerConnectionHandler.SendPutRequest(JsonUtility.ToJson(environmentChoices), "/init");
+
+            yield return WebServerConnectionHandler.SendGetRequest("/starting-mesh");
+            MeshData startingMeshData = JsonUtility.FromJson<MeshData>(WebServerConnectionHandler.ReturnData);
+            _part.GetComponent<MeshFilter>().mesh = CreateMesh(startingMeshData);
+            _part.GetComponent<MeshCollider>().sharedMesh = _part.GetComponent<MeshFilter>().mesh;
+
+            yield return WebServerConnectionHandler.SendGetRequest("/target-mesh");
+            MeshData targetMeshData = JsonUtility.FromJson<MeshData>(WebServerConnectionHandler.ReturnData);
+            _target.GetComponent<MeshFilter>().mesh = CreateMesh(targetMeshData);
+            _target.GetComponent<MeshCollider>().sharedMesh = _target.GetComponent<MeshFilter>().mesh; 
+            
+            yield return WebServerConnectionHandler.SendGetRequest("/hammer");
+            HammerData hammerData = JsonUtility.FromJson<HammerData>(WebServerConnectionHandler.ReturnData);
+            _selector.transform.localScale = new Vector3(hammerData.SizeY, 1, hammerData.SizeX);
+
+            yield return WebServerConnectionHandler.SendGetRequest("/material");
+            MaterialData materialData = JsonUtility.FromJson<MaterialData>(WebServerConnectionHandler.ReturnData);
+            _maxForce =  materialData.MaximumDeformation;
+        }
 
         private void OnEnable()
         {
             ControllerManager.OnHit += HitIntersectedMeshes;
         }
+
+        private Mesh CreateMesh(MeshData meshData)
+        {
+            float[] vertices = meshData.Vertices;
+            int[] triangles = meshData.Triangles;
+            var mesh = new Mesh();
+            var meshVertices = new Vector3[vertices.Length / 3];
+            for (var i = 0; i < vertices.Length; i += 3)
+            {
+                meshVertices[i / 3] = new Vector3(vertices[i], vertices[i + 1], vertices[i + 2]);
+            }
+            mesh.vertices = meshVertices;
+            mesh.triangles = triangles;
+            mesh.RecalculateNormals();
+            mesh.Optimize();
+            return mesh;
+
         
         private void OnDisable()
         {
@@ -36,6 +81,7 @@ namespace DeformationSystem
         private void Start()
         {
             _hud.UpdateDisplay(force: _force, size: _selector.GetSize());
+            StartCoroutine(SetupEnvironment());
         }
 
         private void Update()
@@ -51,8 +97,8 @@ namespace DeformationSystem
         
         private IEnumerator HitIntersectedMesh(Deformable deformable)
         {
-            var direction = _camera.transform.forward;
-            yield return deformable.PerformHitOperation(_force, direction, _selector.Contains);
+            if(_force > _maxForce) _force = _maxForce;    
+            StartCoroutine(deformable.PreformHitOperation(_force, _part.transform.position ,_part.transform.rotation, _triggerTracker.Contains));
             OnDeformationPerformed?.Invoke();
         }
     }

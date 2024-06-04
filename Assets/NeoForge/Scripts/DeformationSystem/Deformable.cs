@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -20,86 +20,61 @@ namespace DeformationSystem
             _meshCollider = GetComponent<MeshCollider>();
         }
 
-        [ContextMenu("Scale Mesh Vertices")]
-        public IEnumerator PerformHitOperation(float force, Vector3 direction, Predicate<Vector3> isHit)
+        [ContextMenu("Export Mesh as JSON")]
+        public void ExportMeshAsJson()
         {
             var mesh = _meshFilter.mesh;
-            var localHitDirection = transform.worldToLocalMatrix.MultiplyVector(direction);
+            var meshData = new MeshData(mesh);
+            var json = JsonUtility.ToJson(meshData);
+            var tempOutputPath = "./mesh.json";
+            File.WriteAllText(tempOutputPath, json);
+            Debug.Log($"Mesh data exported to {tempOutputPath}");
+        }
+
+        [ContextMenu("Scale Mesh Vertices")]
+        public IEnumerator PerformHitOperation(float force, Vector3 translation, Quaternion rotation, Predicate<Vector3> isHit)
+        {
+            var mesh = _meshFilter.mesh;
             var intersections = FindIntersections(mesh, isHit);
     
-            var meshData = new MeshData(mesh, intersections, force, localHitDirection);
-            yield return SendHitRequest(meshData);
-
-            UpdateMeshFromJson(WebServerConnectionHandler.ReturnData, mesh);
-            ReplaceMesh(mesh);
+            var hitRequest = new HitData(force, rotation, translation, intersections, new int[] { });
+            yield return SendHitRequest(hitRequest);
         }
 
         private IEnumerable<Vector3> FindIntersections(Mesh mesh, Predicate<Vector3> isHit)
         {
             return mesh.vertices
-                .Where(vertex => isHit(transform.localToWorldMatrix.MultiplyPoint(vertex)))
+                .Select((v, i) => new {v, i})
+                .Where(vertex => isHit(transform.localToWorldMatrix.MultiplyPoint(vertex.v)))
                 .Distinct()
+                .Select(vertex => vertex.i)
                 .ToArray();
         }
 
-        private static IEnumerator SendHitRequest(MeshData meshData)
+        private static IEnumerator SendHitRequest(HitData hitRequest)
         {
-            var tempOutputPath = Path.GetTempFileName();
-            try
-            {
-                var start = Time.realtimeSinceStartup;
-                yield return WebServerConnectionHandler.SendRequest(JsonUtility.ToJson(meshData));
-                Debug.Log($"Request took {Time.realtimeSinceStartup - start} seconds.");
-            }
-            finally
-            {
-                CleanupTempFile(tempOutputPath);
-            }
-        }
-
-        private static void CleanupTempFile(string path)
-        {
-            if (File.Exists(path)) File.Delete(path);
-        }
-
-        private static void UpdateMeshFromJson(string jsonText, Mesh mesh)
-        {
-            var modifiedMeshData = JsonUtility.FromJson<MeshData>(jsonText);
-            var modifiedVertices = ConvertToVector3Array(modifiedMeshData.Vertices);
-            if (TryValidateMeshData(modifiedVertices, modifiedMeshData.Triangles))
-            {
-                UpdateMesh(mesh, modifiedVertices, modifiedMeshData.Triangles);
-            }
-        }
-
-        private static Vector3[] ConvertToVector3Array(float[] vertices)
-        {
-            return Enumerable.Range(0, vertices.Length / 3)
-                .Select(i => new Vector3(vertices[i * 3], vertices[i * 3 + 1], vertices[i * 3 + 2]))
-                .ToArray();
-        }
-
-        private static bool TryValidateMeshData(Vector3[] vertices, int[] triangles)
-        {
-            Debug.Assert(vertices.Length > 0, "Modified mesh vertices are not properly assigned or empty.");
-            Debug.Assert(triangles is { Length: > 0 }, "Modified mesh triangles are not properly assigned or empty.");
-            
-            return vertices.Length > 0 && triangles is { Length: > 0 };
-        }
-
-        private static void UpdateMesh(Mesh mesh, Vector3[] vertices, int[] triangles)
-        {
-            mesh.vertices = vertices;
-            mesh.triangles = triangles;
-            mesh.RecalculateNormals();
-            mesh.RecalculateBounds();
+              var start = Time.realtimeSinceStartup;
+              yield return WebServerConnectionHandler.SendPutRequest(JsonUtility.ToJson(hitRequest), "/press");
+              Debug.Log($"Request took {Time.realtimeSinceStartup - start} seconds.");     
+              HandleResponse(WebServerConnectionHandler.ReturnData);
         }
         
-        private void ReplaceMesh(Mesh mesh)
+        private void HandleResponse(string tempOutputPath)
         {
-            _meshFilter.mesh = mesh;
-            _meshCollider.sharedMesh = mesh;
-            _meshCollider.cookingOptions = MeshColliderCookingOptions.EnableMeshCleaning;
+            var newMeshes = JsonUtility.FromJson<ResultData>(tempOutputPath);
+            StartCoroutine(SwapMeshes(newMeshes.ExtractMeshes()));
+        }
+        
+        private IEnumerator SwapMeshes(List<Mesh> meshes)
+        {
+            foreach (var mesh in meshes)
+            {
+                yield return new WaitForSeconds(0.1f);
+                _meshFilter.mesh = mesh;
+                _meshCollider.sharedMesh = mesh;
+                _meshCollider.cookingOptions = MeshColliderCookingOptions.EnableMeshCleaning;
+            }
+
         }
     }
 }

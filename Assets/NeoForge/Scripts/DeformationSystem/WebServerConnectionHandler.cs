@@ -6,7 +6,8 @@ namespace DeformationSystem
 {
     public static class WebServerConnectionHandler
     {
-        private const string SERVER_URL = "http://127.0.0.1:5000/multiply-vertices"; // Change this to your server URL
+        /// TODO: Move off localhost
+        private const string SERVER_URL = "http://127.0.0.1:5000";
 
         /// <summary>
         /// The data returned from the server after the last request finished.
@@ -17,14 +18,24 @@ namespace DeformationSystem
         /// Will send a request to a predefined server URL with the given data.
         /// </summary>
         /// <param name="data">The json file to be sent</param>
-        public static IEnumerator SendRequest(string data)
+        public static IEnumerator SendPutRequest(string data, string endpoint = "/")
         {
-            using var request = UnityWebRequest.Put(SERVER_URL, data);
+            string url = SERVER_URL + endpoint;
+            using var request = UnityWebRequest.Put(url, data);
             request.SetRequestHeader("Content-Type", "application/json");
             yield return request.SendWebRequest();
             
             Debug.Assert(request.result == UnityWebRequest.Result.Success, "Error: " + request.error);
             ReturnData = request.result != UnityWebRequest.Result.Success ? data : request.downloadHandler.text;
+        }
+        public static IEnumerator SendGetRequest(string endpoint = "/")
+        {
+            string url = SERVER_URL + endpoint;
+            using var request = UnityWebRequest.Get(url);
+            yield return request.SendWebRequest();
+
+            Debug.Assert(request.result == UnityWebRequest.Result.Success, "Error: " + request.error);
+            ReturnData = request.result != UnityWebRequest.Result.Success ? "" : request.downloadHandler.text;
         }
     }
 }
