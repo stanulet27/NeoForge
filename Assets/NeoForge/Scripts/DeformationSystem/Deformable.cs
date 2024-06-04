@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -32,30 +32,33 @@ namespace DeformationSystem
         }
 
         [ContextMenu("Scale Mesh Vertices")]
-        public IEnumerator ScaleMeshVertices(float force, Vector3 translation, Quaternion rotation, Predicate<Vector3> isHit)
+        public IEnumerator PerformHitOperation(float force, Vector3 translation, Quaternion rotation, Predicate<Vector3> isHit)
         {
             var mesh = _meshFilter.mesh;
-            var intersections = mesh.vertices
-                .Select((v, i) => new { v, i })
-                .Where(x => isHit(transform.localToWorldMatrix.MultiplyPoint(x.v)))
-                .Select(x => x.i);
-            
-            var hitRequest = new HitData(force, rotation, translation, intersections.ToArray(), new int[] { });
-            var tempOutputPath = Path.GetTempFileName();
-            try
-            {
-                var start = Time.realtimeSinceStartup;
-                yield return WebServerConnectionHandler.SendPutRequest(JsonUtility.ToJson(hitRequest), "/press");
-                Debug.Log($"Request took {Time.realtimeSinceStartup - start} seconds.");
-                
-                HandleResponse(WebServerConnectionHandler.ReturnData);
-            }
-            finally
-            {
-                if (File.Exists(tempOutputPath)) File.Delete(tempOutputPath);
-            }
+            var intersections = FindIntersections(mesh, isHit);
+    
+            var hitRequest = new HitData(force, rotation, translation, intersections, new int[] { });
+            yield return SendHitRequest(hitRequest);
         }
 
+        private IEnumerable<Vector3> FindIntersections(Mesh mesh, Predicate<Vector3> isHit)
+        {
+            return mesh.vertices
+                .Select((v, i) => new {v, i})
+                .Where(vertex => isHit(transform.localToWorldMatrix.MultiplyPoint(vertex.v)))
+                .Distinct()
+                .Select(vertex => vertex.i)
+                .ToArray();
+        }
+
+        private static IEnumerator SendHitRequest(HitData hitRequest)
+        {
+              var start = Time.realtimeSinceStartup;
+              yield return WebServerConnectionHandler.SendPutRequest(JsonUtility.ToJson(hitRequest), "/press");
+              Debug.Log($"Request took {Time.realtimeSinceStartup - start} seconds.");     
+              HandleResponse(WebServerConnectionHandler.ReturnData);
+        }
+        
         private void HandleResponse(string tempOutputPath)
         {
             var newMeshes = JsonUtility.FromJson<ResultData>(tempOutputPath);

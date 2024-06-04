@@ -24,6 +24,11 @@ namespace DeformationSystem
         {
             if (_containedObjects.Contains(other.gameObject)) _containedObjects.Remove(other.gameObject);
         }
+        
+        public float GetSize()
+        {
+            return _collider.bounds.size.magnitude * transform.lossyScale.magnitude;
+        }
 
         /// <summary>
         /// Determines whether the trigger tracker contains a point.

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -6,55 +7,67 @@ namespace DeformationSystem
 {
     public class Moveable : MonoBehaviour
     {
-        [Tooltip("The speed at which the object moves.")]
-        [SerializeField] private float _moveSpeed = 1f;
+        [Tooltip("Configuration for the moveable object.")]
+        [SerializeField] private MoveableConfig _config;
         
-        [Tooltip("The speed at which the object rotates around its pivot.")]
-        [SerializeField] private float _rotationSpeed = 10f;
+        [Header("Overrides")]
+        [Tooltip("If true, the object will not be able to rotate.")]
+        [SerializeField] private bool _rotationLocked;
+        [Tooltip("If true, the object will not be able to move.")]
+        [SerializeField] private bool _positionLocked;
 
-        private readonly List<InputBinding> _movementBindings = new()
-        {
-            new InputBinding(KeyCode.W, Vector3.back),
-            new InputBinding(KeyCode.S, Vector3.forward),
-            new InputBinding(KeyCode.A, Vector3.right),
-            new InputBinding(KeyCode.D, Vector3.left),
-        };
+        public bool InRotationMode { get; private set; }
 
-        private readonly List<InputBinding> _rotationBindings = new()
-        {
-            new InputBinding(KeyCode.Q, Vector3.forward),
-            new InputBinding(KeyCode.E, Vector3.back),
-            new InputBinding(KeyCode.Z, Vector3.up),
-            new InputBinding(KeyCode.X, Vector3.down),
-            new InputBinding(KeyCode.R, Vector3.left),
-            new InputBinding(KeyCode.T, Vector3.right),
-        };
+        private bool _beingSlowed;
+        private Vector3 _moveDirection;
+        private Vector3 _rotationDirection;
         
-        private void Update()
+        private void OnEnable()
         {
-            var moveDirection = Vector3.zero;
-            var rotationDirection = Vector3.zero;
-
-            moveDirection = _movementBindings.Where(binding => Input.GetKey(binding.KeyCode))
-                .Aggregate(moveDirection, (current, binding) => current + binding.Direction);
-            
-            rotationDirection = _rotationBindings.Where(binding => Input.GetKey(binding.KeyCode))
-                .Aggregate(rotationDirection, (current, binding) => current + binding.Direction);
-            
-            transform.position += moveDirection * (_moveSpeed * Time.deltaTime);
-            transform.Rotate(rotationDirection * (_rotationSpeed * Time.deltaTime));
+            ControllerManager.OnMove += ApplyMovement;
+            ControllerManager.OnRotate += ApplyRotation;
+            ControllerManager.OnSwapMode += SwapMode;
+            ControllerManager.OnSlowDown += SlowDown;
+        }
+        
+        private void OnDisable()
+        {
+            ControllerManager.OnMove -= ApplyMovement;
+            ControllerManager.OnRotate -= ApplyRotation;
+            ControllerManager.OnSwapMode -= SwapMode;
+            ControllerManager.OnSlowDown -= SlowDown;
+        }
+        
+        private void SwapMode()
+        {
+            InRotationMode = !InRotationMode;
+            _moveDirection = Vector2.zero;
+            _rotationDirection = Vector3.zero;
+        }
+        
+        private void SlowDown(bool spedUp)
+        {
+            _beingSlowed = spedUp;
         }
 
-        private class InputBinding
+        private void Update()
         {
-            public KeyCode KeyCode { get; }
-            public Vector3 Direction { get; }
-            
-            public InputBinding(KeyCode keyCode, Vector3 direction)
-            {
-                KeyCode = keyCode;
-                Direction = direction;
-            }
+            var moveModifer = _beingSlowed ? _config.MovementSpeedUp : 1f;
+            var rotationModifer = _beingSlowed ? _config.RotationalSpeedUp : 1f;
+            transform.position += _moveDirection * (_config.MoveSpeed * Time.deltaTime * moveModifer);
+            transform.Rotate(_rotationDirection * (_config.RotationSpeed * Time.deltaTime * rotationModifer), Space.World);
+        }
+
+        private void ApplyMovement(Vector2 moveDirection)
+        {
+            if (_positionLocked || InRotationMode) return;
+            _moveDirection = new Vector3(moveDirection.x, 0, moveDirection.y);
+        }
+
+        private void ApplyRotation(Vector3 rotationDirection)
+        {
+            if (_rotationLocked || !InRotationMode) return;
+            _rotationDirection = rotationDirection;
         }
     }
 }

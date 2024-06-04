@@ -1,4 +1,6 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -6,29 +8,23 @@ namespace DeformationSystem
 {
     public class DeformationHandler : MonoBehaviour
     {
+        public static Action OnDeformationPerformed;
+        
+        [Tooltip("The trigger tracker that is used to determine parts and vertices that are hit.")]
+        [SerializeField] private TriggerTracker _selector;
 
-        [Tooltip("The game object that represents the hammer")]
-        [SerializeField] private GameObject _selector;
-
-        [Tooltip("The game object that represents the part that will be struck")]
-        [SerializeField] private GameObject _part;
-
-        [Tooltip("The mesh that represents the target geometry")]
-        [SerializeField] private GameObject _target;
-
+        [Tooltip("The camera that is used to determine the direction of the hit.")]
+        [SerializeField] private Transform _camera;
+        
+        [Range(0, 10)]
         [Tooltip("The force that is applied by the hit.")]
-        [SerializeField, Range(0, 10)] private float _force = 1f;
-
+        [SerializeField] private float _force = 1f;
+        
+        [Tooltip("The HUD that is used to display the force and size of the selector.")]
+        [SerializeField] private ForgeHUD _hud;
+        
         private float _maxForce;
-        private TriggerTracker _triggerTracker;
-
-        private void Start()
-        {
-            //Setup the connection
-            _triggerTracker = _selector.GetComponent<TriggerTracker>();
-            StartCoroutine(SetupEnvironment());
-        }
-
+        
         private IEnumerator SetupEnvironment()
         {
             //send environment data (all zeros is default)
@@ -55,22 +51,9 @@ namespace DeformationSystem
             _maxForce =  materialData.MaximumDeformation;
         }
 
-
-
-        private void Update()
+        private void OnEnable()
         {
-            if (Input.GetKeyDown(KeyCode.V)) ModifyMeshesHit();
-        }
-
-        private void ModifyMeshesHit()
-        {
-            _triggerTracker.GetContainedObjects<Deformable>().ToList().ForEach(ModifyMesh);
-        }
-
-        private void ModifyMesh(Deformable deformable)
-        {
-            if(_force > _maxForce) _force = _maxForce;    
-            StartCoroutine(deformable.ScaleMeshVertices(_force, _part.transform.position ,_part.transform.rotation, _triggerTracker.Contains));
+            ControllerManager.OnHit += HitIntersectedMeshes;
         }
 
         private Mesh CreateMesh(MeshData meshData)
@@ -88,6 +71,35 @@ namespace DeformationSystem
             mesh.RecalculateNormals();
             mesh.Optimize();
             return mesh;
+
+        
+        private void OnDisable()
+        {
+            ControllerManager.OnHit -= HitIntersectedMeshes;
+        }
+
+        private void Start()
+        {
+            _hud.UpdateDisplay(force: _force, size: _selector.GetSize());
+            StartCoroutine(SetupEnvironment());
+        }
+
+        private void Update()
+        {
+            _hud.UpdateDisplay(force: _force, size: _selector.GetSize());
+        }
+
+        private void HitIntersectedMeshes()
+        {
+            var meshesHit = _selector.GetContainedObjects<Deformable>().ToList();
+            meshesHit.ForEach(x => StartCoroutine(HitIntersectedMesh(x)));
+        }
+        
+        private IEnumerator HitIntersectedMesh(Deformable deformable)
+        {
+            if(_force > _maxForce) _force = _maxForce;    
+            StartCoroutine(deformable.PreformHitOperation(_force, _part.transform.position ,_part.transform.rotation, _triggerTracker.Contains));
+            OnDeformationPerformed?.Invoke();
         }
     }
 }
