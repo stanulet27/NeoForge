@@ -3,7 +3,7 @@ import shutil
 from pathlib import Path
 
 source_folder = Path("Assets/_InDevelopment/Chase/RefactoredScripts")
-destination_base = Path("Assets/Project-Name/Scripts")
+destination_base = Path("Assets/NeoForge/Scripts")
 
 # Function to get namespace from a C# file
 def get_namespace(file_path):
