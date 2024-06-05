@@ -29,7 +29,7 @@ namespace NeoForge.Deformation.JSON
             mesh.vertices = meshVertices;
             mesh.triangles = Triangles;
             mesh.RecalculateNormals();
-            mesh.Optimize();
+            mesh.RecalculateBounds();
             return mesh;
         }
         
