@@ -43,11 +43,11 @@ namespace NeoForge.Deformation.Scoring
         {
             StartCoroutine(SendScorePutRequest());
         }
+
         private IEnumerator SendScorePutRequest()
         {
             var json = JsonUtility.ToJson(new ScoreData(_score.Value));
             yield return WebServerConnectionHandler.SendPutRequest(json, "/post-score");
-            
         }
         
         private void Awake()
