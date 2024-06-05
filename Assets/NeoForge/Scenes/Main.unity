@@ -1075,8 +1075,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7f03b0fde8642a0b7c31d0962a103fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 1
-  _rotationSpeed: 10
+  _config: {fileID: 11400000, guid: 19aaa45143b57ec4a82727daa49ba098, type: 2}
+  _rotationLocked: 0
+  _positionLocked: 0
 --- !u!1 &954002214
 GameObject:
   m_ObjectHideFlags: 0
@@ -1183,6 +1184,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _selectedObject: {fileID: 852596200}
+  _noHitObject: {fileID: 0}
+  _size: 0
 --- !u!1 &955785449
 GameObject:
   m_ObjectHideFlags: 0
@@ -1675,8 +1678,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _selector: {fileID: 852596205}
-  _camera: {fileID: 954002217}
+  _part: {fileID: 884103744}
+  _target: {fileID: 1123580626}
   _force: 1
+  _hud: {fileID: 0}
 --- !u!1 &1350065307
 GameObject:
   m_ObjectHideFlags: 0
