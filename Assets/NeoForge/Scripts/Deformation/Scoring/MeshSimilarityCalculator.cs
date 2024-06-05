@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
-using NeoForge.Deformation.UI;
+using NeoForge.Deformation.JSON;
+using SharedData;
 using UnityEngine;
 using Color = UnityEngine.Color;
 
@@ -22,20 +24,31 @@ namespace NeoForge.Deformation.Scoring
         [SerializeField] private MeshFilter _desiredMeshFilter;
         [Tooltip("The renderer to display the heat map of successful points.")]
         [SerializeField] private Renderer _heatMapRenderer;
-        
+        [Tooltip("A scriptable object that contains the current score.")]
+        [SerializeField] private SharedFloat _score;
+
         [Header("Settings")]
         [Tooltip("The buffer that is used to expand the bounding box of the current mesh.")]
         [SerializeField] private float _buffer = 0.05f;
         [Tooltip("The material that is used to color the vertices of the desired mesh to show score")]
         [SerializeField] private Material _vertexColorMaterial;
-        [Tooltip("The HUD that displays the score.")]
-        [SerializeField] private ForgeHUD _hud;
         
         [Header("Debug Display")]
         [Tooltip("Determines which points to display in editor.")]
         [SerializeField] private RaycastPoint.Mode _displayMode = RaycastPoint.Mode.Undershot;
 
         private float _initialScore;
+
+        public void PostScore()
+        {
+            StartCoroutine(SendScorePutRequest());
+        }
+        private IEnumerator SendScorePutRequest()
+        {
+            var json = JsonUtility.ToJson(new ScoreData(_score.Value));
+            yield return WebServerConnectionHandler.SendPutRequest(json, "/post-score");
+            
+        }
         
         private void Awake()
         {
@@ -46,8 +59,7 @@ namespace NeoForge.Deformation.Scoring
         private void Start()
         {
             CalculateScore();
-            _initialScore = DetermineScore();
-            _hud.UpdateDisplay(DetermineScore());
+            _score.Value = DetermineScore();
             DeformationHandler.OnDeformationPerformed += CalculateScore;
         }
         
@@ -88,7 +100,7 @@ namespace NeoForge.Deformation.Scoring
         {
             GeneratePoints(RaycastPoint.Mode.Overshot);
             DisplayHeatMap();
-            _hud.UpdateDisplay(DetermineScore());
+            _score.Value = DetermineScore();
         }
 
         private void DisplayHeatMap()
