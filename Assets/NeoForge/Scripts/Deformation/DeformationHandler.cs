@@ -74,7 +74,7 @@ namespace NeoForge.Deformation
             mesh.vertices = meshVertices;
             mesh.triangles = triangles;
             mesh.RecalculateNormals();
-            mesh.Optimize();
+            mesh.RecalculateBounds();
             return mesh;
         }
         
