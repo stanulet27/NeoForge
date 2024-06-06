@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3011,9 +3011,9 @@ MonoBehaviour:
   _userMeshFilter: {fileID: 884103747}
   _desiredMeshFilter: {fileID: 1123580630}
   _heatMapRenderer: {fileID: 1123580629}
+  _score: {fileID: 11400000, guid: f6b8e6b7a53c4524baf10146749b465d, type: 2}
   _buffer: 0.025
   _vertexColorMaterial: {fileID: 2100000, guid: 2ddf1cd21cc895d448408c9892d01d77, type: 2}
-  _hud: {fileID: 1997095284}
   _displayMode: 1
 --- !u!1 &1343697502
 GameObject:
@@ -3803,7 +3803,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 397802122}
   m_HandleRect: {fileID: 397802121}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -4020,6 +4020,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hudDisplay: {fileID: 479802327}
+  _score: {fileID: 11400000, guid: f6b8e6b7a53c4524baf10146749b465d, type: 2}
 --- !u!1 &2092615042
 GameObject:
   m_ObjectHideFlags: 0

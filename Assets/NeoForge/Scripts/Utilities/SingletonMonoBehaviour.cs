@@ -27,6 +27,11 @@ namespace NeoForge.Utilities
             {
                 Destroy(gameObject);
             }
+            else
+            {
+                transform.SetParent(null);
+                DontDestroyOnLoad(gameObject);
+            }
         }
     }
 }
