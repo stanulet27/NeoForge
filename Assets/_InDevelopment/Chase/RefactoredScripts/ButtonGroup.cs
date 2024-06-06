@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace NeoForge.UI.Menus
+namespace NeoForge.UI.Buttons
 {
     public class ButtonGroup : MonoBehaviour
     {
@@ -24,13 +24,13 @@ namespace NeoForge.UI.Menus
         /// </summary>
         public void SelectFirst()
         {
-            GetComponentInChildren<IButton>().ToggleSelected(true);
+            GetComponentInChildren<IButton>().Select();
         }
 
         private void SetButton(int index)
         {
             Debug.Assert(index >= 0 && index < _buttons.Count, "Invalid button index");
-            _buttons[index].ToggleSelected(true);
+            _buttons[index].Select();
         }
     }
 }

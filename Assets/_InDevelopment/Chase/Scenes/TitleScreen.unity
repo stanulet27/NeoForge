@@ -13716,9 +13716,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e1d57efec489934eade798e464fa301, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startFullAplha: 1
-  autoFadeOut: 1
-  image: {fileID: 1264822580}
+  _startFullAlpha: 1
+  _autoFadeOut: 1
+  _image: {fileID: 1264822580}
 --- !u!114 &1264822580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14322,11 +14322,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62bcff8784fc6f044b2c25e6a9b33512, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  display: {fileID: 814392105}
-  pages:
-  - display: {fileID: 179803734}
-  - display: {fileID: 1776234919}
-  startsOpen: 1
+  _display: {fileID: 814392105}
+  _pages:
+  - _display: {fileID: 179803734}
+  - _display: {fileID: 1776234919}
+  _startsOpen: 1
 --- !u!114 &1307394707
 MonoBehaviour:
   m_ObjectHideFlags: 0

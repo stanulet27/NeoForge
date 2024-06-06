@@ -1,12 +1,12 @@
 ﻿using System;
 using UnityEngine;
 
-namespace UI.Menus
+namespace NeoForge.UI.Menus
 {
     public class GenericMenu : MenuBase
     {
-        [SerializeField] private bool startsOpen;
-        protected override bool StartOpen => startsOpen;
+        [SerializeField] private bool _startsOpen;
+        protected override bool StartOpen => _startsOpen;
         protected override Action OpenTrigger { get ; set; }
         protected override Action CloseTrigger { get; set; }
     }

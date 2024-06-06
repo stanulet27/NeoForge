@@ -1,4 +1,5 @@
 ﻿using System;
+using NeoForge.UI.Scenes;
 using NeoForge.Utilities;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -23,19 +24,24 @@ namespace NeoForge.Input
         private void Start()
         {
             OnSceneTransitionStart(SceneTools.CurrentSceneIndex);
-            SceneTools.onSceneTransitionStart += OnSceneTransitionStart;
+            SceneTools.OnSceneTransitionStart += OnSceneTransitionStart;
         }
 
         private void OnDestroy()
         {
-            SceneTools.onSceneTransitionStart -= OnSceneTransitionStart;
+            SceneTools.OnSceneTransitionStart -= OnSceneTransitionStart;
         }
 
         private void Update()
         {
+            HandleSlowDownInput();
+        }
+
+        private void HandleSlowDownInput()
+        {
             var newValue = _playerInput.actions.FindAction("SlowDownInput").IsPressed();
             if (newValue == _isSlowDown) return;
-            
+
             OnSlowDown?.Invoke(newValue);
             _isSlowDown = newValue;
         }
