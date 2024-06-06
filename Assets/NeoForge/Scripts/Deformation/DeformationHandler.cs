@@ -54,6 +54,8 @@ namespace NeoForge.Deformation
             yield return WebServerConnectionHandler.SendGetRequest("/material");
             MaterialData materialData = JsonUtility.FromJson<MaterialData>(WebServerConnectionHandler.ReturnData);
             _maxForce =  materialData.MaximumDeformation;
+            
+            OnDeformationPerformed?.Invoke(); //invoke this to get initial score/heatmap
         }
 
         private void OnEnable()
