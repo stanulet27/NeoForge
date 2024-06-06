@@ -6,14 +6,12 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace NeoForge.UITools
+namespace NeoForge.UI.Tools
 {
     [RequireComponent(typeof(Animator))]
     public class ButtonColorer : MonoBehaviour
     {
-        private static readonly List<string> _validStates = new() 
-            { "Normal", "Highlighted", "Pressed", "Disabled", "Selected" };
-
+        [Tooltip("The graphics to change the color of. The key is the graphic and the value is the color theme.")]
         [SerializeField] private SerializedDictionary<MaskableGraphic, ColorTheme> _graphics;
 
         private bool _isTransitioning;
@@ -23,9 +21,13 @@ namespace NeoForge.UITools
             SetColor("Normal");
         }
 
+        /// <summary>
+        /// Will change the color of each of its graphics to their corresponding theme color for the given state.
+        /// </summary>
+        /// <param name="stateName">The name of the state to transition to</param>
         public void OnAnimatorStateEnter(string stateName)
         {
-            if (!_validStates.Contains(stateName)) return;
+            if (!ColorTheme.IsValidState(stateName)) return;
             SetColor(stateName);
         }
 

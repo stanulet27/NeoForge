@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 public static class SceneTools

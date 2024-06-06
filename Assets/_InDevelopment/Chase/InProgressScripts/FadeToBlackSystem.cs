@@ -1,10 +1,7 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using System.Linq;
 using NeoForge.Utilities;
 
 public class FadeToBlackSystem : SingletonMonoBehaviour<FadeToBlackSystem>

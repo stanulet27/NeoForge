@@ -1,7 +1,6 @@
 using System;
 using NeoForge.Input;
 using UnityEngine.Device;
-using UnityEngine.SceneManagement;
 
 namespace UI.Menus
 {
