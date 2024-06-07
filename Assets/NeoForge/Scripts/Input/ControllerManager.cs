@@ -14,6 +14,15 @@ namespace NeoForge.Input
         public static Action OnSwapMode;
         public static Action<bool> OnSlowDown;
         public static Action OnHit;
+        public static Action OnOverlay;
+        
+        public void OnOverlayInput(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                OnOverlay?.Invoke();
+            }
+        }
         
         public void OnMoveInput(InputAction.CallbackContext context)
         {
@@ -24,6 +33,7 @@ namespace NeoForge.Input
         {
             OnRotate?.Invoke(context.ReadValue<Vector3>());
         }
+        
         
         public void OnSwapCameraInput(InputAction.CallbackContext context)
         {
