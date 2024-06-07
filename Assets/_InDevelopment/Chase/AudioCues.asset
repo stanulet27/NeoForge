@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81cce0236a7042c3ae65c8a87a7e933c, type: 3}
+  m_Name: AudioCues
+  m_EditorClassIdentifier: 
+  AudioClips:
+    _serializedList:
+    - Key: Huntsman
+      Value: {fileID: 8300000, guid: 7f6ba05afd97bdf4fbd4d02ec560adef, type: 3}

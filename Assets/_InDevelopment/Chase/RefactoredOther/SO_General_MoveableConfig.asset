@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 188e4dd1438a4683a75feb4971ae5098, type: 3}
   m_Name: SO_General_MoveableConfig
   m_EditorClassIdentifier: 
-  _moveSpeed: -2
+  _moveSpeed: 2
   _rotationSpeed: 40
-  _speedUpKey: 304
   _movementSpeedUp: 0.25
   _rotationalSpeedUp: 0.25

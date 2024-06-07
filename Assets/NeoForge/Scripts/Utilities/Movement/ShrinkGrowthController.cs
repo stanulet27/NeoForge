@@ -4,16 +4,8 @@ namespace NeoForge.Utilities.Movement
 {
     public class ShrinkGrowthController : MonoBehaviour
     {
-        [Header("Shrink")]
-        [Tooltip("Key to start shrinking when pressed")]
-        [SerializeField] private KeyCode _shrinkKey = KeyCode.LeftBracket;
-        
         [Tooltip("Rate at which the object shrinks")]
         [SerializeField] private Vector3 _shrinkRate = Vector3.one - Vector3.up;
-        
-        [Header("Growth")]
-        [Tooltip("Key to start growing when pressed")]
-        [SerializeField] private KeyCode _growKey = KeyCode.RightBracket;
         
         [Tooltip("Rate at which the object grows")]
         [SerializeField] private Vector3 _growthRate = Vector3.one - Vector3.up;
