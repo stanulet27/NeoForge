@@ -11,20 +11,29 @@ namespace NeoForge.Input
         [SerializeField] private GameObject _part;
         [SerializeField] private Material _opaqueMaterial;
         [SerializeField] private Material _transparentMaterial;
-        [SerializeField] private Camera _scoreCamera;
         
+        private Camera _scoreCamera;
         private bool _isOverlayActive;
         
         private void Start()
         {
+            _scoreCamera = Camera.main;
             ControllerManager.OnOverlay += ToggleOverlay;
         }
+
+        private void OnDestroy()
+        {
+            ControllerManager.OnOverlay -= ToggleOverlay;
+        }
+
         private void ToggleOverlay()
         {
             //toggle part material (transparent/opaque)
             _part.GetComponent<Renderer>().material = _isOverlayActive ? _opaqueMaterial : _transparentMaterial;
             //toggle score culling mask
-            _scoreCamera.cullingMask = _isOverlayActive ? 1 << 8 : -1;
+            var newMask = _scoreCamera.cullingMask ^ (1 << 9);
+            _scoreCamera.cullingMask = newMask;
+            _isOverlayActive = !_isOverlayActive;
             
         }
     }

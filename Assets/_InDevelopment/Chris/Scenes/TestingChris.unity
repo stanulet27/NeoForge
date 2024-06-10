@@ -1512,6 +1512,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: e73d16bb-4d91-48c5-a19f-1860e61376db
     m_ActionName: Player/Hit[/Keyboard/v]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 692873224}
+        m_TargetAssemblyTypeName: NeoForge.Input.ControllerManager, Assembly-CSharp
+        m_MethodName: OnOverlayInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a3e9e192-9a22-4233-a52c-907466d01635
+    m_ActionName: Player/Overlay[/Keyboard/tab]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
   m_DefaultActionMap: Player

@@ -18,10 +18,7 @@ namespace NeoForge.Input
         
         public void OnOverlayInput(InputAction.CallbackContext context)
         {
-            if (context.performed)
-            {
                 OnOverlay?.Invoke();
-            }
         }
         
         public void OnMoveInput(InputAction.CallbackContext context)
