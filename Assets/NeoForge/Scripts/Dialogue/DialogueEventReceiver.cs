@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -37,6 +38,7 @@ namespace NeoForge.Dialogue
             }
         }
         
+        [Button]
         private void TriggerEvent(string eventLabel)
         {
             _onEventReceived?.Invoke(eventLabel);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace NeoForge.Dialogue
@@ -38,6 +39,7 @@ namespace NeoForge.Dialogue
         /// </summary>
         /// <param name="key">The property of the world state.</param>
         /// <param name="value">The new value of the world state</param>
+        [Button]
         public static void SetState(string key, int value)
         {
             _currentState[key] = value;
@@ -92,6 +94,7 @@ namespace NeoForge.Dialogue
         /// Will reset the world state property to 0 / false
         /// </summary>
         /// <param name="key">The world state property</param>
+        [Button]
         public static void ClearState(string key)
         {
             _currentState.Remove(key);
@@ -100,6 +103,7 @@ namespace NeoForge.Dialogue
         /// <summary>
         /// Will reset all world state properties to 0 / false
         /// </summary>
+        [Button]
         public static void ClearAllStates()
         {
             _currentState.Clear();

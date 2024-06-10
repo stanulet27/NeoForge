@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using NeoForge.Deformation.JSON;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace NeoForge.Deformation

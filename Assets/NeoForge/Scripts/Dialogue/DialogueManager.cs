@@ -2,13 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using CustomInspectors;
 using NeoForge.Dialogue.Helper;
 using NeoForge.Input;
 using NeoForge.UI.Scenes;
 using NeoForge.Utilities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Sirenix.OdinInspector;
 
 namespace NeoForge.Dialogue
 {
@@ -31,10 +31,6 @@ namespace NeoForge.Dialogue
         [SerializeField] float _dialogueFastSpeed;
         [Tooltip("Loaded in from resources"), ReadOnly]
         [SerializeField] List<ConversationDataSO> _conversationGroup;
-        
-        [Tooltip("DEBUG PURPOSES")]
-        [Header("DEBUG")]
-        [SerializeField] private string _debugDialogueID;
 
         private readonly Dictionary<string, int> _dialogueProgress = new();
     
@@ -58,7 +54,7 @@ namespace NeoForge.Dialogue
         [ContextMenu("Clear World State")]
         private void ClearWorldState() => WorldState.ClearAllStates();
 
-        [ContextMenu("Display Conversants")]
+        [Button]
         private void DisplayConversants() =>
             Resources.LoadAll<ConversationDataSO>("Dialogue")
                 .SelectMany(x => x.Data.DialoguesSeries)
@@ -93,14 +89,12 @@ namespace NeoForge.Dialogue
             }
         }
 
-        [ContextMenu("Start Debug Dialogue")]
-        public void StartDebugDialogue() => StartDialogueName(_debugDialogueID);
-        
         /// <summary>
         /// Will start a new dialogue conversation using the conversation of the specified name that also is currently
         /// valid based on the world state.
         /// </summary>
         /// <param name="dialogueId">Name of the conversation</param>
+        [Button]
         public void StartDialogueName(string dialogueId)
         {
             if (_inDialogue) return;
@@ -141,7 +135,6 @@ namespace NeoForge.Dialogue
         private void ExitDialogue()
         {
             _inDialogue = false;
-            Debug.Log("Player one leaving");
             OnDialogueEnded?.Invoke();
             ControllerManager.Instance.SwapMode(ControllerManager.Mode.Gameplay);
         }

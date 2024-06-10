@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NeoForge.Input;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace NeoForge.UI.Menus
@@ -36,6 +37,7 @@ namespace NeoForge.UI.Menus
         /// <summary>
         /// Will open the menu and swap to UI mode. Will jump to the first page if there are multiple pages.
         /// </summary>
+        [Button]
         public virtual void OpenMenu()
         {
             _display.SetActive(true);
@@ -79,6 +81,7 @@ namespace NeoForge.UI.Menus
         /// <summary>
         /// Will close the menu and return to gameplay mode.
         /// </summary>
+        [Button]
         public virtual void CloseMenu()
         {
             _display.SetActive(false);
