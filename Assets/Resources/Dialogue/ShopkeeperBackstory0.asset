@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4c86d78dfd55d47a03b069c598849c, type: 3}
+  m_Name: ShopkeeperBackstory0
+  m_EditorClassIdentifier: 
+  _conversationData:
+    ID: ShopkeeperBackstory
+    DialoguesSeries:
+    - dialogues:
+      - Speaker: 1
+        SpeakerName: Shopkeeper
+        Dialogue: Eldoria, a city where shadows whisper secrets and the unseen thrives.
+          My family once traded in rare artifacts until fate intervened.
+      - Speaker: 1
+        SpeakerName: Shopkeeper
+        Dialogue: Now, I carry on in the hidden alleys, dealing in the rare and the
+          forbidden. Eldoria is my home, but the shadows are where I truly belong.
+    LeadsTo:
+    - _path: 'Prompt:  Leads to: ShopkeeperDiscuss'
+      Prompt: 
+      NextID: ShopkeeperDiscuss
+      IsEvent: 0
+    StateChanges:
+    - _components:
+      - ShopkeeperBackstory
+      _change: ShopkeeperBackstory
+      State: ShopkeeperBackstory
+    StateRequirements:
+    - _components:
+      - '!ShopkeeperBackstory'
+      _requirement: '!ShopkeeperBackstory'
+      State: ShopkeeperBackstory
+    Variation: 0
+    AudioCue: 

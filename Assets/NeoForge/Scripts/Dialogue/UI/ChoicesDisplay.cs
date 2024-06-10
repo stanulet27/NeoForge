@@ -4,7 +4,6 @@ using System.Linq;
 using NeoForge.UI.Buttons;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace NeoForge.Dialogue.UI
 {

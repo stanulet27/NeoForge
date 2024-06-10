@@ -15,9 +15,10 @@ namespace NeoForge.UI.Menus
         [SerializeField] private List<Page> _pages;
         
         protected virtual bool StartOpen => false;
+        protected bool OnFirstPage => _currentPage == 0;
         private int _currentPage;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             if (_display == null) _display = transform.GetChild(0).gameObject;
             if (_pages.Count == 0) _pages.Add(new Page(_display));

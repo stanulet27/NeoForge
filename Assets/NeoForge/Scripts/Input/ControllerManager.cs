@@ -100,6 +100,7 @@ namespace NeoForge.Input
         /// <param name="newMode">The mode to swap to</param>
         public void SwapMode(Mode newMode)
         {
+            Initialize();
             _playerInput.SwitchCurrentActionMap(newMode.ToString());
             OnModeSwapped?.Invoke(newMode);
         }

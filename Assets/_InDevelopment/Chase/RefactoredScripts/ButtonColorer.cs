@@ -1,5 +1,4 @@
-﻿using System;
-using AYellowpaper.SerializedCollections;
+﻿using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -45,7 +44,7 @@ namespace NeoForge.UI.Tools
         {
             foreach (var graphic in _graphics.Keys)
             {
-                graphic.color = _graphics[graphic].GetColorFromState(state);
+                graphic.color = _graphics[graphic].GetValueFromState(state);
             }
         }
     }
