@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
+using NeoForge.Dialogue.Helper;
 using UnityEngine;
 using UnityEngine.UI;
-using static NeoForge.Dialogue.DialogueHelperClass;
+using static NeoForge.Dialogue.Helper.DialogueVariables;
 
-namespace NeoForge.Dialogue
+namespace NeoForge.Dialogue.UI
 {
     public class DialogueBoxColorHandler : MonoBehaviour
     {

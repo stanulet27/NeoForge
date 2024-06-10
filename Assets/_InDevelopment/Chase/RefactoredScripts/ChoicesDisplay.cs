@@ -5,7 +5,7 @@ using NeoForge.UI.Buttons;
 using TMPro;
 using UnityEngine;
 
-namespace NeoForge.Dialogue
+namespace NeoForge.Dialogue.UI
 {
     public class ChoicesDisplay : MonoBehaviour
     {

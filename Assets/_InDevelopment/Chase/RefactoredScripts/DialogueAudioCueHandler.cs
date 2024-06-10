@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace NeoForge.Dialogue
+namespace NeoForge.Dialogue.Audio
 {
     [RequireComponent(typeof(AudioSource))]
     public class DialogueAudioCueHandler : MonoBehaviour

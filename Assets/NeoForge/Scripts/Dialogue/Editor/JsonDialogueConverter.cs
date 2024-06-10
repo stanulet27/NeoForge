@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using NeoForge.Dialogue;
+using NeoForge.Dialogue.Helper;
 using UnityEditor;
 using UnityEngine;
-using static NeoForge.Dialogue.DialogueHelperClass;
+using static NeoForge.Dialogue.Helper.DialogueVariables;
 
 namespace NeoForge.Dialogue.Editor
 {

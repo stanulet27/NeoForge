@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CustomInspectors;
+using NeoForge.Dialogue.Helper;
 using NeoForge.Input;
 using NeoForge.UI.Scenes;
 using NeoForge.Utilities;
@@ -13,9 +14,9 @@ namespace NeoForge.Dialogue
 {
     public class DialogueManager : SingletonMonoBehaviour<DialogueManager>
     {
-        public static Action<DialogueHelperClass.ConversationData> OnDialogueStarted;
+        public static Action<ConversationData> OnDialogueStarted;
         public static Action OnDialogueEnded;
-        public static Action<DialogueHelperClass.DialogueData> OnTextSet;
+        public static Action<DialogueData> OnTextSet;
         public static Action<string> OnTextUpdated;
         public static Action<List<string>> OnChoiceMenuOpen;
         public static Action OnChoiceMenuClose;
@@ -42,14 +43,14 @@ namespace NeoForge.Dialogue
         private bool _continueInputReceived;
         private bool _abortDialogue;
         private int _choiceSelected;
-        private DialogueHelperClass.DialogueData _currentDialogue;
+        private DialogueData _currentDialogue;
         public bool InDialogue => _inDialogue;
         public bool InInternalDialogue { get; private set; }
 
         public bool ValidateID(string id) => _conversationGroup.Find(data => data.Data.ID.ToLower().Equals(id.ToLower()));
         private int _playersReady;
 
-        public DialogueHelperClass.DialogueData CurrentDialogue => _currentDialogue;
+        public DialogueData CurrentDialogue => _currentDialogue;
         
         [ContextMenu("Display World State")]
         private void DisplayWorldState() => Debug.Log(WorldState.GetCurrentWorldState());
@@ -163,7 +164,7 @@ namespace NeoForge.Dialogue
             OnContinueInput();
         }
 
-        private IEnumerator HandleConversation(DialogueHelperClass.ConversationData data)
+        private IEnumerator HandleConversation(ConversationData data)
         {
             OnDialogueStarted?.Invoke(data);
             if (data.DialoguesSeries.Count > 0) yield return DisplayDialogue(data);
@@ -171,7 +172,7 @@ namespace NeoForge.Dialogue
             yield return ProceedToNextDialogue(data);
         }
 
-        private IEnumerator ProceedToNextDialogue(DialogueHelperClass.ConversationData data)
+        private IEnumerator ProceedToNextDialogue(ConversationData data)
         {
             yield return AwaitChoice(data);
             var nextDialogue = _choiceSelected == -1 ? "end" : 
@@ -192,7 +193,7 @@ namespace NeoForge.Dialogue
                 StartDialogue(nextDialogue);
         }
 
-        private static void UpdateWorldState(DialogueHelperClass.ConversationData data)
+        private static void UpdateWorldState(ConversationData data)
         {
             foreach (var change in data.StateChanges)
             {
@@ -211,12 +212,12 @@ namespace NeoForge.Dialogue
                 .Any(y => y.All(requirement => requirement.IsMet(WorldState.GetState(requirement.State))));
         }
 
-        private bool CheckStateRequirements(DialogueHelperClass.ConversationData data)
+        private bool CheckStateRequirements(ConversationData data)
         {
             return data.StateRequirements.All(requirement => requirement.IsMet(WorldState.GetState(requirement.State)));
         }
         
-        private IEnumerator AwaitChoice(DialogueHelperClass.ConversationData data)
+        private IEnumerator AwaitChoice(ConversationData data)
         {
             _choiceSelected = -1;
             if (!data.HasChoice)
@@ -232,7 +233,7 @@ namespace NeoForge.Dialogue
             }
         }
 
-        private IEnumerator DisplayDialogue(DialogueHelperClass.ConversationData data)
+        private IEnumerator DisplayDialogue(ConversationData data)
         {
             _abortDialogue = false;
             ControllerManager.OnSkipDialogue += OnAbort;
@@ -256,7 +257,7 @@ namespace NeoForge.Dialogue
 
         private void OnContinueInput() => _continueInputReceived = true;
 
-        private IEnumerator ProcessDialogue(DialogueHelperClass.DialogueData dialogue)
+        private IEnumerator ProcessDialogue(DialogueData dialogue)
         {
             var speakerName = dialogue.SpeakerName;
             
@@ -276,7 +277,7 @@ namespace NeoForge.Dialogue
             ControllerManager.OnNextDialogue -= OnContinueInput;
         }
 
-        private IEnumerator TypewriterDialogue(string name, DialogueHelperClass.DialogueData dialogue)
+        private IEnumerator TypewriterDialogue(string name, DialogueData dialogue)
         {
             _currentDialogueSpeed = _dialogueSpeed;
             var loadedText = "";

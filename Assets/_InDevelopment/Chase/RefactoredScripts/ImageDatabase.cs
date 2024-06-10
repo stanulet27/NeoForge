@@ -1,7 +1,7 @@
 ﻿using AYellowpaper.SerializedCollections;
 using UnityEngine;
 
-namespace NeoForge.Dialogue
+namespace NeoForge.Dialogue.UI
 {
     [CreateAssetMenu(menuName = "Dialogue/ImageDatabase")]
     public class ImageDatabase : ScriptableObject

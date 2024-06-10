@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using static NeoForge.Dialogue.DialogueHelperClass;
+﻿using NeoForge.Dialogue.Helper;
+using UnityEngine;
 
 namespace NeoForge.Dialogue
 {

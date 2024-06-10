@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace NeoForge.Dialogue
+namespace NeoForge.Dialogue.UI
 {
     public class PortraitDisplay : MonoBehaviour
     {

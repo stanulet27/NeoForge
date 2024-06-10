@@ -1,7 +1,8 @@
-﻿using TMPro;
+﻿using NeoForge.Dialogue.Helper;
+using TMPro;
 using UnityEngine;
 
-namespace NeoForge.Dialogue
+namespace NeoForge.Dialogue.UI
 {
     public class TextBoxDisplay : MonoBehaviour
     {
@@ -14,7 +15,7 @@ namespace NeoForge.Dialogue
         [Tooltip("The object that indicates that the player can continue the dialogue")]
         [SerializeField] private GameObject _continueIndicator;
 
-        private DialogueHelperClass.ConversantType _conversant;
+        private ConversantType _conversant;
 
         public void Display()
         {

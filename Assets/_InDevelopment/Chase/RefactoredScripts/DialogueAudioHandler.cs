@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
+using NeoForge.Dialogue.Helper;
 using UnityEngine;
 
-namespace NeoForge.Dialogue
+namespace NeoForge.Dialogue.Audio
 {
     public class DialogueAudioHandler : MonoBehaviour
     {
@@ -47,7 +48,7 @@ namespace NeoForge.Dialogue
                 .ToList().ForEach(x => _characterPitches.Add(x, _defaultPitch));
         }
         
-        private void SetBlip(DialogueHelperClass.DialogueData dialogue)
+        private void SetBlip(DialogueData dialogue)
         {
             if (dialogue == null) return;
             var characterName = dialogue.SpeakerName;

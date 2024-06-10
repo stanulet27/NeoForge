@@ -1,6 +1,7 @@
+using NeoForge.Dialogue.Helper;
 using UnityEngine;
 
-namespace NeoForge.Dialogue
+namespace NeoForge.Dialogue.UI
 {
     public class HideOnDialogue : MonoBehaviour
     {
@@ -21,7 +22,7 @@ namespace NeoForge.Dialogue
             foreach (Transform child in transform) child.gameObject.SetActive(true);
         }
         
-        private void Hide(DialogueHelperClass.ConversationData _)
+        private void Hide(ConversationData _)
         {
             foreach (Transform child in transform) child.gameObject.SetActive(false);
         }

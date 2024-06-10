@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
+using NeoForge.Dialogue.Helper;
 using TMPro;
 using UnityEngine;
-using static NeoForge.Dialogue.DialogueHelperClass;
 
-namespace NeoForge.Dialogue
+namespace NeoForge.Dialogue.UI
 {
     public class DialogueUIController : MonoBehaviour
     {
