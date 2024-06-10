@@ -4,6 +4,7 @@ using System.Linq;
 using NeoForge.UI.Buttons;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace NeoForge.Dialogue.UI
 {
@@ -13,7 +14,7 @@ namespace NeoForge.Dialogue.UI
         [SerializeField] private GameObject _choiceTemplate;
 
         private readonly List<RectTransform> _choices = new();
-        private readonly List<SimpleButton> _choiceButtons = new();
+        private readonly List<UIButton> _choiceButtons = new();
 
         private Action<int> _onClick;
 
@@ -29,7 +30,7 @@ namespace NeoForge.Dialogue.UI
             {
                 var instance = Instantiate(_choiceTemplate, transform);
                 var textBox = instance.transform.GetComponentInChildren<TextMeshProUGUI>();
-                var uiButton = instance.transform.GetComponent<SimpleButton>();
+                var uiButton = instance.transform.GetComponent<UIButton>();
                 
                 textBox.text = choiceOption;
                 uiButton.OnClick += UiButton_OnClick;

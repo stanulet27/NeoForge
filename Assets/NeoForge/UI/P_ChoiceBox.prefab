@@ -86,7 +86,9 @@ GameObject:
   - component: {fileID: 5300429042279029462}
   - component: {fileID: 5387641841283387666}
   - component: {fileID: 2801721019431383132}
-  - component: {fileID: 3775483287013892617}
+  - component: {fileID: 2426681665885617006}
+  - component: {fileID: 7818224958088760408}
+  - component: {fileID: 7668030283831788396}
   m_Layer: 5
   m_Name: P_ChoiceBox
   m_TagString: Untagged
@@ -169,7 +171,7 @@ Animator:
   m_GameObject: {fileID: 6122366296256213794}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a524e1e83109d704db40f0cdbfac6e43, type: 2}
+  m_Controller: {fileID: 9100000, guid: a89591b4a11e42f4c93fbcfcd2c3888f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -180,7 +182,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &3775483287013892617
+--- !u!114 &2426681665885617006
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -189,7 +191,43 @@ MonoBehaviour:
   m_GameObject: {fileID: 6122366296256213794}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8ff7eb0c6abab747b5488bad4770aed, type: 3}
+  m_Script: {fileID: 11500000, guid: 123ef54ae7fb4aec9c45ac7728c7ff8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _graphics:
+    _serializedList:
+    - Key: {fileID: 543732491632530895}
+      Value: {fileID: 11400000, guid: f7e5ae8e482186e498ad42407975beac, type: 2}
+    - Key: {fileID: 587938320321152045}
+      Value: {fileID: 11400000, guid: 9592ffa9cb2f111409560575a4518d3b, type: 2}
+--- !u!114 &7818224958088760408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6122366296256213794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e1d431715c34a29b9cf920344812fe9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _onStateEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  _onStateExit:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &7668030283831788396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6122366296256213794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8d6c312b4774e57ae94daecf0d3beb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7860214460783956952
