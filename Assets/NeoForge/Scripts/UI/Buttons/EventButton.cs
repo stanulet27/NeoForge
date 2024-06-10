@@ -5,8 +5,8 @@ namespace NeoForge.UI.Buttons
 {
     public class EventButton : UIButton
     {
-        [Tooltip("The event to trigger when the button is clicked.")] [SerializeField]
-        UnityEvent _eventToTrigger;
+        [Tooltip("The event to trigger when the button is clicked.")] 
+        [SerializeField] UnityEvent _eventToTrigger;
 
         /// <summary>
         /// Trigger the action that this button is link to.

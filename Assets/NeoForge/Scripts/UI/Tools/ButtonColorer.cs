@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using AYellowpaper.SerializedCollections;
-using TMPro;
+﻿using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using UnityEngine.UI;
 

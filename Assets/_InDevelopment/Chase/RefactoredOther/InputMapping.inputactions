@@ -346,7 +346,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Click",
+                    "name": "NextDialogueInput",
                     "type": "PassThrough",
                     "id": "7108551f-c8fe-44fb-924b-e150343ea556",
                     "expectedControlType": "Button",
@@ -667,6 +667,17 @@
                 },
                 {
                     "name": "",
+                    "id": "f1ecaa84-b395-41d0-bc84-6424fd16d9a9",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SubmitInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "9e92bb26-7e3b-4ec4-b06b-3c8f8e498ddc",
                     "path": "*/{Submit}",
                     "interactions": "",
@@ -727,7 +738,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Click",
+                    "action": "NextDialogueInput",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -738,7 +749,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Click",
+                    "action": "NextDialogueInput",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -749,7 +760,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Touch",
-                    "action": "Click",
+                    "action": "NextDialogueInput",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -760,7 +771,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "XR",
-                    "action": "Click",
+                    "action": "NextDialogueInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7d78c8f8-06c9-47a4-8bfa-e944bc9ae40e",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NextDialogueInput",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

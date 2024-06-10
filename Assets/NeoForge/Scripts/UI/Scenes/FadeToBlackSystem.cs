@@ -14,14 +14,13 @@ namespace NeoForge.UI.Scenes
         public static bool FadeOutComplete => Instance == null || Instance._image.color.a == 0;
 
         [Tooltip("When true, the screen will start black. When false, the screen will start transparent.")]
-        [SerializeField]
-        bool _startFullAlpha;
+        [SerializeField] bool _startFullAlpha;
 
-        [Tooltip("When true, the screen will fade out automatically when the scene is loaded.")] [SerializeField]
-        bool _autoFadeOut;
+        [Tooltip("When true, the screen will fade out automatically when the scene is loaded.")]
+        [SerializeField] bool _autoFadeOut;
 
-        [Tooltip("The image that will be faded in and out.")] [SerializeField]
-        private Image _image;
+        [Tooltip("The image that will be faded in and out.")] 
+        [SerializeField] private Image _image;
 
         private void Start()
         {
