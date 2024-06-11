@@ -1,13 +1,10 @@
-﻿using System;
-using UnityEditor;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace NeoForge.Input
 {
     public class OverlayManager : MonoBehaviour
     {
-        //private static const int = b10000000;
-        
         [SerializeField] private GameObject _part;
         [SerializeField] private Material _opaqueMaterial;
         [SerializeField] private Material _transparentMaterial;
@@ -17,7 +14,7 @@ namespace NeoForge.Input
         
         private void Start()
         {
-            _scoreCamera = Camera.main;
+            _scoreCamera = GetComponent<Camera>();
             ControllerManager.OnOverlay += ToggleOverlay;
         }
 
@@ -28,13 +25,10 @@ namespace NeoForge.Input
 
         private void ToggleOverlay()
         {
-            //toggle part material (transparent/opaque)
             _part.GetComponent<Renderer>().material = _isOverlayActive ? _opaqueMaterial : _transparentMaterial;
-            //toggle score culling mask
-            var newMask = _scoreCamera.cullingMask ^ (1 << 9);
+            var newMask = _scoreCamera.cullingMask ^ (1 << LayerMask.NameToLayer("Desired"));
             _scoreCamera.cullingMask = newMask;
             _isOverlayActive = !_isOverlayActive;
-            
         }
     }
 }

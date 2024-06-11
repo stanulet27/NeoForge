@@ -5,6 +5,7 @@ using UnityEngine;
 using NeoForge.Deformation.JSON;
 using NeoForge.Deformation.UI;
 using NeoForge.Input;
+using UnityEngine.Video;
 
 namespace NeoForge.Deformation
 {
@@ -95,11 +96,27 @@ namespace NeoForge.Deformation
         {
             _hud.UpdateDisplay(force: _force, size: _selector.GetSize());
         }
-
+        
+        public void UndoLastDeformation()
+        {
+            StartCoroutine(UndoDeformation());
+        }
+        
         private void HitIntersectedMeshes()
         {
             var meshesHit = _selector.GetContainedObjects<Deformable>().ToList();
             meshesHit.ForEach(x => StartCoroutine(HitIntersectedMesh(x)));
+        }
+        
+        private IEnumerator UndoDeformation()
+        {
+            Debug.Log("starting undo");
+            yield return WebServerConnectionHandler.SendGetRequest("/undo-strike");
+            MeshData meshData = JsonUtility.FromJson<MeshData>(WebServerConnectionHandler.ReturnData);
+            _part.GetComponent<MeshFilter>().mesh = CreateMesh(meshData);
+            _part.GetComponent<MeshCollider>().sharedMesh = _part.GetComponent<MeshFilter>().mesh;
+            OnDeformationPerformed?.Invoke();
+            Debug.Log("ending undo");
         }
         
         private IEnumerator HitIntersectedMesh(Deformable deformable)
