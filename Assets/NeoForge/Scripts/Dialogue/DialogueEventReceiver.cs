@@ -8,12 +8,12 @@ namespace NeoForge.Dialogue
 {
     public class DialogueEventReceiver : MonoBehaviour
     {
-        [Tooltip("The criteria for match")]
-        [SerializeField] private string _eventToReceive;
-        [Tooltip("The event to trigger when the criteria is met")]
-        [SerializeField] private UnityEvent<string> _onEventReceived;
         [Tooltip("Determines how to determine if an event matches the criteria")]
         [SerializeField] private EventFormat _eventFormat = EventFormat.Full;
+        [Tooltip("The criteria for match")]
+        [SerializeField, HideIf("_eventFormat", EventFormat.All)] private string _eventToReceive;
+        [Tooltip("The event to trigger when the criteria is met")]
+        [SerializeField] private UnityEvent<string> _onEventReceived;
         
         private enum EventFormat {Prefix, Suffix, Full, All}
         
