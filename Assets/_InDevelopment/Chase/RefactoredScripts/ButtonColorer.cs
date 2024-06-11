@@ -1,4 +1,5 @@
-﻿using AYellowpaper.SerializedCollections;
+﻿using System;
+using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,12 +21,13 @@ namespace NeoForge.UI.Tools
             _broadcaster = GetComponent<AnimatorEventListener>();
         }
 
-        private void Start()
+        private void OnEnable()
         {
             _broadcaster.OnStateEnter += OnAnimatorStateEnter;
+            OnAnimatorStateEnter(_broadcaster.CurrentState);
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             _broadcaster.OnStateEnter -= OnAnimatorStateEnter;
         }

@@ -25,16 +25,25 @@ namespace NeoForge.UI.Sound
             _audioSource = GetComponent<AudioSource>();
         }
         
+        /// <summary>
+        /// Will trigger the normal click sound.
+        /// </summary>
         public void Play()
         {
             _audioSource.PlayOneShot(_sfx, _volume);
         }
         
+        /// <summary>
+        /// Will trigger the success sound.
+        /// </summary>
         public void PlaySuccess()
         {
             _audioSource.PlayOneShot(_success, _volume);
         }
         
+        /// <summary>
+        /// Will trigger the failure sound.
+        /// </summary>
         public void PlayFailure()
         {
             _audioSource.PlayOneShot(_failure, _volume);

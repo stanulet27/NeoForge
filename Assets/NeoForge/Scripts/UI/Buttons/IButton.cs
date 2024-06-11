@@ -2,6 +2,7 @@
 {
     public interface IButton
     {
-        void Select();
+        public bool IsInteractable();
+        public void Select();
     }
 }

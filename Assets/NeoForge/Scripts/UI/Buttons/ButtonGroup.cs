@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace NeoForge.UI.Buttons
 {
@@ -15,7 +16,7 @@ namespace NeoForge.UI.Buttons
         
         private void OnEnable()
         {
-            SetButton(0);
+            SetButton(_buttons.FindIndex(x => x.IsInteractable()));
         }
         
         /// <summary>
