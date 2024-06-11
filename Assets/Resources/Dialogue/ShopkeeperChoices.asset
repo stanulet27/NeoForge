@@ -24,10 +24,10 @@ MonoBehaviour:
       Prompt: Talk
       NextID: ShopkeeperDiscuss
       IsEvent: 0
-    - _path: 'Prompt: Leave Leads to: exit'
+    - _path: 'Prompt: Leave Triggers Event: OnShopLeft'
       Prompt: Leave
-      NextID: exit
-      IsEvent: 0
+      NextID: OnShopLeft
+      IsEvent: 1
     StateChanges: []
     StateRequirements: []
     Variation: 

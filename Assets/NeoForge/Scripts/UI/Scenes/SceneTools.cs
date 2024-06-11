@@ -24,6 +24,13 @@ namespace NeoForge.UI.Scenes
         /// </summary>
         public static int NextSceneIndex =>
             CurrentSceneIndex + 1;
+        
+        /// <summary>
+        /// Returns the index of the scene after the current scene in the build index,
+        /// wrapping around to the first scene if necessary.
+        /// </summary>
+        public static int NextSceneWrapped =>
+            NextSceneIndex % SceneManager.sceneCountInBuildSettings;
 
         /// <summary>
         /// Returns the index of the current scene in the build index.

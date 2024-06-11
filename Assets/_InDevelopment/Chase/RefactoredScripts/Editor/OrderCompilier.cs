@@ -1,57 +1,52 @@
 ﻿using System;
 using System.Linq;
 using NeoForge.Dialogue;
-using NeoForge.Dialogue.Helper;
-using NeoForge.Orders;
 using UnityEditor;
 using UnityEngine;
 
-namespace _InDevelopment.Chase.InProgressScripts
+namespace NeoForge.Orders.Editor
 {
-    public class TaskCompilier : EditorWindow
+    public class OrderCompilier : EditorWindow
     {
         [SerializeField] private TextAsset tasksFile;
         
         [MenuItem("Tools/Task Compilier")]
         public static void ShowWindow()
         {
-            GetWindow<TaskCompilier>("Task Compilier");
+            GetWindow<OrderCompilier>("Task Compilier");
         }
         
         private void OnGUI()
         {
             tasksFile = (TextAsset) EditorGUILayout.ObjectField("Tasks File", tasksFile, typeof(TextAsset), false);
             
-            if (GUILayout.Button("Compile"))
-            {
-                Compile();
-            }
-
-            if (GUILayout.Button("Verify"))
-            {
-                Verify();
-            }
+            if (GUILayout.Button("Compile")) Compile();
+            if (GUILayout.Button("Verify")) Verify();
         }
         
         private void Compile()
         {
-            var tasks = tasksFile.text.Split('\n');
+            var lines = tasksFile.text.Split('\n');
             var currentOrders = Resources.LoadAll<Order>("Orders");
-            foreach (var task in tasks[1..])
+            foreach (var line in lines[1..])
             {
-                var newTask = currentOrders.FirstOrDefault(x => int.TryParse(task.Split(",")[0], out var y) && y == x.ID);
-                var taskAlreadyExists = newTask != default;
+                var task = currentOrders.FirstOrDefault(x => ContainsMatchingID(line, x));
+                var taskAlreadyExists = task != default;
                 if (!taskAlreadyExists)
                 {
-                    newTask = CreateInstance<Order>();
+                    task = CreateInstance<Order>();
                 }
                 
-                newTask.Setup(task);
-                if (!taskAlreadyExists)
-                    AssetDatabase.CreateAsset(newTask, $"Assets/Resources/Orders/{newTask.name}.asset");
-                else
-                    EditorUtility.SetDirty(newTask);
+                task.Setup(line);
+                
+                if (!taskAlreadyExists) AssetDatabase.CreateAsset(task, $"Assets/Resources/Orders/{task.name}.asset");
+                else EditorUtility.SetDirty(task);
             }
+        }
+
+        private static bool ContainsMatchingID(string line, Order order)
+        {
+            return int.TryParse(line.Split(",")[0], out var id) && id == order.ID;
         }
 
         private void Verify()
@@ -59,7 +54,7 @@ namespace _InDevelopment.Chase.InProgressScripts
             var dialogueNodes = Resources.LoadAll<ConversationDataSO>("Dialogue");
             var orders = Resources.LoadAll<Order>("Orders");
 
-            var dialogueEvents = dialogueNodes
+            var orderDialogueEvents = dialogueNodes
                 .SelectMany(x => x.Data.LeadsTo)
                 .Where(x => x.IsEvent)
                 .Select(x => x.NextID)
@@ -68,7 +63,7 @@ namespace _InDevelopment.Chase.InProgressScripts
             
             var ordersEvents = orders.Select(x => new {giver = x.GiverName, craft = x.ObjectToCraft.ToString()}).ToList();
             
-            foreach (var dialogueEvent in dialogueEvents)
+            foreach (var dialogueEvent in orderDialogueEvents)
             {
                 var giver = dialogueEvent.Split("-")[1];
                 var craft = dialogueEvent.Split("-")[2];
@@ -81,7 +76,7 @@ namespace _InDevelopment.Chase.InProgressScripts
             
             foreach (var order in ordersEvents)
             {
-                var dialogueEvent = dialogueEvents.FirstOrDefault(x => CheckIfMatch(x, order.giver, order.craft));
+                var dialogueEvent = orderDialogueEvents.FirstOrDefault(x => CheckIfMatch(x, order.giver, order.craft));
                 if (dialogueEvent == null)
                 {
                     Debug.LogError($"No dialogue event found for SO_{order.giver}_{order.craft}_Order");
@@ -91,8 +86,7 @@ namespace _InDevelopment.Chase.InProgressScripts
         
         private bool CheckIfMatch(string eventTriggered, string giver, string part)
         {
-            return eventTriggered.StartsWith("GainOrder") 
-                   && eventTriggered.Split("-")[1].Equals(giver, StringComparison.InvariantCultureIgnoreCase) 
+            return eventTriggered.Split("-")[1].Equals(giver, StringComparison.InvariantCultureIgnoreCase) 
                    && eventTriggered.Split("-")[2].Equals(part, StringComparison.InvariantCultureIgnoreCase);
         }
     }

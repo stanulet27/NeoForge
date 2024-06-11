@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.RegularExpressions;
+using CustomInspectors;
 using UnityEngine;
 
 namespace NeoForge.Orders
@@ -11,27 +11,66 @@ namespace NeoForge.Orders
     {
         public enum CraftableObjects { BasicBar = 0, Sphere = 1 }
         
+        [Tooltip("The unique ID of the order")]
         [SerializeField] private int _id;
+        
+        [Tooltip("The object that the player needs to craft")]
         [SerializeField] private CraftableObjects _objectToCraft;
+        
+        [Tooltip("The name of the npc giver of the order")]
         [SerializeField] private string _giverName;
+        
+        [Tooltip("The amount of money the player will receive for completing the order")]
         [SerializeField] private int _paymentAmount;
+        
+        [Tooltip("The time in days the player has to complete the order")]
         [SerializeField] private int _time;
-        [SerializeField, TextArea(1, 4)] private string _requirements;
+        
+        [Tooltip("Not used yet")]
+        [SerializeField, TextArea(1, 4), ReadOnly] private string _requirements;
+
+        [Tooltip("The flavor text of the order")]
         [SerializeField, TextArea(1, 4)] private string _flavorText;
-        
-        [Tooltip("The event that triggers the order")]
-        [SerializeField] private int _triggerEvent;
-        
+
+        /// <summary>
+        /// The unique ID of the order
+        /// </summary>
         public int ID => _id;
+        
+        /// <summary>
+        /// The object that the player needs to craft
+        /// </summary>
         public CraftableObjects ObjectToCraft => _objectToCraft;
+        
+        /// <summary>
+        /// The name of the npc giver of the order
+        /// </summary>
         public string GiverName => _giverName;
+        
+        /// <summary>
+        /// The amount of money the player will receive for completing the order
+        /// </summary>
         public int PaymentAmount => _paymentAmount;
+        
+        /// <summary>
+        /// The time in days the player has to complete the order
+        /// </summary>
         public int Time => _time;
+        
+        /// <summary>
+        /// The requirements of the order
+        /// </summary>
         public string Requirements => _requirements;
+        
+        /// <summary>
+        /// The flavor text of the order
+        /// </summary>
         public string FlavorText => _flavorText;
         
-        public int TriggerEvent => _triggerEvent;
-        
+        /// <summary>
+        /// Takes in a csv line in the format of "ID, ObjectToCraft, GiverName, PaymentAmount, Time, Requirements, FlavorText"
+        /// and sets up the order scriptable object
+        /// </summary>
         public void Setup(string input)
         {
             var components = ParseCSVLine(input);
@@ -46,7 +85,7 @@ namespace NeoForge.Orders
             name = $"SO_{_giverName}_{_objectToCraft}_Order";
         }
         
-        static List<string> ParseCSVLine(string line)
+        private static List<string> ParseCSVLine(string line)
         {
             var matches = Regex.Matches(line, @"(?<=^|,)\s*""([^""]*)""\s*|(?<=^|,)\s*([^,""]*)\s*");
             var result = new List<string>();
@@ -57,14 +96,6 @@ namespace NeoForge.Orders
             }
 
             return result;
-        }
-
-        /// <summary>
-        /// Converts the order to a string format to be displayed
-        /// </summary>
-        public string GetTaskDescription()
-        {
-            return "";
         }
     }
 }

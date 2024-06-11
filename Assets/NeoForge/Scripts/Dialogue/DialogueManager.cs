@@ -296,7 +296,6 @@ namespace NeoForge.Dialogue
             _playersReady++;
         }
 
-        private void SpeedUpText() => _currentDialogueSpeed = Math.Abs(_currentDialogueSpeed - _dialogueFastSpeed) < Mathf.Epsilon 
-            ? _dialogueFastSpeed * 10 : _dialogueFastSpeed;
+        private void SpeedUpText() => _currentDialogueSpeed = _dialogueFastSpeed;
     }
 }
