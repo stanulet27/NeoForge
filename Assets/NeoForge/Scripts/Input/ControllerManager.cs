@@ -103,6 +103,7 @@ namespace NeoForge.Input
             Initialize();
             _playerInput.SwitchCurrentActionMap(newMode.ToString());
             OnModeSwapped?.Invoke(newMode);
+            Debug.Log($"Swapped to {newMode}");
         }
 
         #region Gameplay
@@ -112,6 +113,8 @@ namespace NeoForge.Input
         public static Action OnSwapMode;
         public static Action<bool> OnSlowDown;
         public static Action OnHit;
+        public static Action OnInteract;
+        public static Action OnNextDay;
 
         public void OnMoveInput(InputValue context)
         {
@@ -136,6 +139,16 @@ namespace NeoForge.Input
         public void OnHitInput()
         {
             OnHit?.Invoke();
+        }
+        
+        public void OnInteractInput()
+        {
+            OnInteract?.Invoke();
+        }
+        
+        public void OnNextDayInput()
+        {
+            OnNextDay?.Invoke();
         }
         #endregion
 
