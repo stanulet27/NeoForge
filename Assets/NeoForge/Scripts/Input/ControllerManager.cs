@@ -15,10 +15,11 @@ namespace NeoForge.Input
         public static Action<bool> OnSlowDown;
         public static Action OnHit;
         public static Action OnOverlay;
+        public static Action<int> OnChangeStation;
         
         public void OnOverlayInput(InputAction.CallbackContext context)
         {
-                OnOverlay?.Invoke();
+            OnOverlay?.Invoke();
         }
         
         public void OnMoveInput(InputAction.CallbackContext context)
@@ -66,6 +67,13 @@ namespace NeoForge.Input
             {
                 OnHit?.Invoke();
             }
+        }
+        
+        public void OnChangeStationInput(InputAction.CallbackContext context)
+        {
+
+            int pressed = int.Parse(context.control.name);
+            OnChangeStation?.Invoke(pressed);
         }
     }
 }
