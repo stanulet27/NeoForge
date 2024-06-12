@@ -12,14 +12,10 @@ namespace NeoForge.UI.Scenes
 
         private void Awake()
         {
+            Debug.Assert(FadeToBlackSystem.Instance != null, "No FadeToBlackSystem found, SceneSoundFader will not work");
+            
             _audioSource = GetComponent<AudioSource>();
             _startVolume = _audioSource.volume;
-
-            if (FadeToBlackSystem.Instance == null)
-            {
-                Debug.LogWarning("No FadeToBlackSystem found, SceneSoundFader will not work");
-                enabled = false;
-            }
         }
 
         private void Update()
