@@ -15,5 +15,7 @@ MonoBehaviour:
   _orders:
   - CustomerName: Merchant
     Dialogue: BakerOrder
-  _ordersToGive: 1
+  - CustomerName: Headsman
+    Dialogue: DemoDialogue
+  _ordersToGive: 2
   _randomizeOrder: 0

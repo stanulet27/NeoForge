@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 
 namespace NeoForge.Orders
 {
-    public class OrderGenerator : MonoBehaviour
+    public class OrderGenerator : MonoBehaviour, IStation
     {
         [SerializeField] private List<DailyOrders> _dailyOrders;
         //[SerializeField] private GameObject _customerSpawnPoint;
@@ -37,8 +37,6 @@ namespace NeoForge.Orders
             
             _readyForNextDay.Value = false;
             StartCoroutine(GenerateNextOrder());
-            
-            ControllerManager.OnInteract += InteractWithCustomer;
         }
         
         private void OnDestroy()
@@ -79,6 +77,16 @@ namespace NeoForge.Orders
                 _readyForNextDay.Value = true;
                 _onLastCustomerServed?.Invoke();
             }
+        }
+
+        public void EnterStation()
+        {
+            ControllerManager.OnInteract += InteractWithCustomer;
+        }
+
+        public void ExitStation()
+        {
+            ControllerManager.OnInteract -= InteractWithCustomer;
         }
     }
 }

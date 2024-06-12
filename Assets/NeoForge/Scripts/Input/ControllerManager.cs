@@ -115,7 +115,8 @@ namespace NeoForge.Input
         public static Action OnHit;
         public static Action OnInteract;
         public static Action OnNextDay;
-
+        public static Action OnMouseClick;
+        
         public void OnMoveInput(InputValue context)
         {
             OnMove?.Invoke(context.Get<Vector2>());
@@ -149,6 +150,11 @@ namespace NeoForge.Input
         public void OnNextDayInput()
         {
             OnNextDay?.Invoke();
+        }
+
+        public void OnMouseClickInput()
+        {
+            OnMouseClick?.Invoke();
         }
         #endregion
 

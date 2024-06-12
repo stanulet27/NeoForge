@@ -18,5 +18,4 @@ MonoBehaviour:
   _paymentAmount: 10
   _time: 3
   _requirements: None
-  _flavorText: "Wants to see what skill we have\r"
-  _triggerEvent: 0
+  _title: Deadly Request

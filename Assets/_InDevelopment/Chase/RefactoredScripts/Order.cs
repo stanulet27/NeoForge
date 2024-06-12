@@ -30,7 +30,7 @@ namespace NeoForge.Orders
         [SerializeField, TextArea(1, 4), ReadOnly] private string _requirements;
 
         [Tooltip("The flavor text of the order")]
-        [SerializeField, TextArea(1, 4)] private string _flavorText;
+        [SerializeField, TextArea(1, 4)] private string _title;
 
         /// <summary>
         /// The unique ID of the order
@@ -65,7 +65,7 @@ namespace NeoForge.Orders
         /// <summary>
         /// The flavor text of the order
         /// </summary>
-        public string FlavorText => _flavorText;
+        public string Title => _title;
         
         /// <summary>
         /// Takes in a csv line in the format of "ID, ObjectToCraft, GiverName, PaymentAmount, Time, Requirements, FlavorText"
@@ -80,7 +80,7 @@ namespace NeoForge.Orders
             _paymentAmount = int.Parse(components[3]);
             _time = int.Parse(components[4]);
             _requirements = components[5];
-            _flavorText = components[6];
+            _title = components[6];
             
             name = $"SO_{_giverName}_{_objectToCraft}_Order";
         }

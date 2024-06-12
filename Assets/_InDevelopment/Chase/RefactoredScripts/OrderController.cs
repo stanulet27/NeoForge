@@ -15,6 +15,8 @@ namespace NeoForge.Orders
         [Tooltip("The active orders the player currently has")]
         [SerializeField, ReadOnly] private List<Order> _activeOrders;
 
+        public List<Order> GetActiveOrders() => _activeOrders;
+
         private void Start()
         {
             _ordersInGame = new List<Order>(Resources.LoadAll<Order>("Orders"));

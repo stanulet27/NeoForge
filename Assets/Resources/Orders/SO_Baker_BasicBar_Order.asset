@@ -18,5 +18,4 @@ MonoBehaviour:
   _paymentAmount: 20
   _time: 2
   _requirements: None
-  _flavorText: Is looking to get the base for her next knife
-  _triggerEvent: 0
+  _title: Help the Baker
