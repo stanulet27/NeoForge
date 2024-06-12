@@ -31,6 +31,32 @@ namespace NeoForge.Deformation
         
         private float _maxForce;
         
+        private void OnEnable()
+        {
+            ControllerManager.OnHit += HitIntersectedMeshes;
+        }
+                
+        private void OnDisable()
+        {
+            ControllerManager.OnHit -= HitIntersectedMeshes;
+        }
+
+        private void Start()
+        {
+            _hud.UpdateDisplay(force: _force, size: _selector.GetSize());
+            StartCoroutine(SetupEnvironment());
+        }
+
+        private void Update()
+        {
+            _hud.UpdateDisplay(force: _force, size: _selector.GetSize());
+        }
+        
+        public void UndoLastDeformation()
+        {
+            StartCoroutine(UndoDeformation());
+        }
+        
         private IEnumerator SetupEnvironment()
         {
             //send environment data (all zeros is default)
@@ -59,11 +85,6 @@ namespace NeoForge.Deformation
             OnDeformationPerformed?.Invoke(); //invoke this to get initial score/heatmap
         }
 
-        private void OnEnable()
-        {
-            ControllerManager.OnHit += HitIntersectedMeshes;
-        }
-
         private Mesh CreateMesh(MeshData meshData)
         {
             float[] vertices = meshData.Vertices;
@@ -81,27 +102,6 @@ namespace NeoForge.Deformation
             return mesh;
         }
         
-        private void OnDisable()
-        {
-            ControllerManager.OnHit -= HitIntersectedMeshes;
-        }
-
-        private void Start()
-        {
-            _hud.UpdateDisplay(force: _force, size: _selector.GetSize());
-            StartCoroutine(SetupEnvironment());
-        }
-
-        private void Update()
-        {
-            _hud.UpdateDisplay(force: _force, size: _selector.GetSize());
-        }
-        
-        public void UndoLastDeformation()
-        {
-            StartCoroutine(UndoDeformation());
-        }
-        
         private void HitIntersectedMeshes()
         {
             var meshesHit = _selector.GetContainedObjects<Deformable>().ToList();
@@ -110,13 +110,11 @@ namespace NeoForge.Deformation
         
         private IEnumerator UndoDeformation()
         {
-            Debug.Log("starting undo");
             yield return WebServerConnectionHandler.SendGetRequest("/undo-strike");
             MeshData meshData = JsonUtility.FromJson<MeshData>(WebServerConnectionHandler.ReturnData);
             _part.GetComponent<MeshFilter>().mesh = CreateMesh(meshData);
             _part.GetComponent<MeshCollider>().sharedMesh = _part.GetComponent<MeshFilter>().mesh;
             OnDeformationPerformed?.Invoke();
-            Debug.Log("ending undo");
         }
         
         private IEnumerator HitIntersectedMesh(Deformable deformable)

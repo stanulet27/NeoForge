@@ -1,17 +1,11 @@
 ﻿using UnityEngine;
-using Cinemachine;
 
 namespace _InDevelopment.Chris.Development
 {
     public class CameraSwitcher : MonoBehaviour
     {
        [SerializeField] private Animator animator;
-
-        void Start()
-        {
-           
-        }
-
+       
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
