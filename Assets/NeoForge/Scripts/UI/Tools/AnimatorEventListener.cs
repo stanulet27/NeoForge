@@ -15,6 +15,9 @@ namespace NeoForge.UI.Tools
         [Tooltip("Will invoke the following events when a state is exited and give the state name.")]
         [SerializeField] private UnityEvent<string> _onStateExit;
         
+        private string _currentState;
+        public string CurrentState => _currentState;
+        
         /// <summary>
         /// Will invoke the OnStateEnter event and the _onStateEnter UnityEvent triggering any listeners.
         /// </summary>
@@ -23,6 +26,7 @@ namespace NeoForge.UI.Tools
         {
             _onStateEnter.Invoke(state);
             OnStateEnter?.Invoke(state);
+            _currentState = state;
         }
 
         /// <summary>

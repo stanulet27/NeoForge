@@ -27,11 +27,24 @@ namespace NeoForge.UI.Buttons
         }
 
         /// <summary>
+        /// Returns whether the button is interactable in the game.
+        /// </summary>
+        public bool IsInteractable()
+        {
+            return _button.interactable;
+        }
+
+        /// <summary>
         /// Will cause the button to be selected.
         /// </summary>
         public virtual void Select()
         {
             _button.Select();
+        }
+        
+        protected void ToggleInteractable(bool value)
+        {
+            _button.interactable = value;
         }
 
         public abstract void Use();

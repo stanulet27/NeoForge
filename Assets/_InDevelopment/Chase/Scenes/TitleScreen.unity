@@ -829,6 +829,10 @@ PrefabInstance:
       propertyPath: VelocityModule.speedModifier.scalar
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 8541321138452035368, guid: e29ae17e77179de4185bdcbfe667b501, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

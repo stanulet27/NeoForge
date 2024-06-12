@@ -1,20 +1,35 @@
-﻿using AYellowpaper.SerializedCollections;
+﻿using System;
+using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace NeoForge.UI.Tools
 {
     [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(AnimatorEventListener))]
     public class ButtonColorer : MonoBehaviour
     {
         [Tooltip("The graphics to change the color of. The key is the graphic and the value is the color theme.")]
         [SerializeField] private SerializedDictionary<MaskableGraphic, ColorTheme> _graphics;
 
         private bool _isTransitioning;
+        private AnimatorEventListener _broadcaster;
         
         public void Awake()
         {
             SetColor("Normal");
+            _broadcaster = GetComponent<AnimatorEventListener>();
+        }
+
+        private void OnEnable()
+        {
+            _broadcaster.OnStateEnter += OnAnimatorStateEnter;
+            OnAnimatorStateEnter(_broadcaster.CurrentState);
+        }
+
+        private void OnDisable()
+        {
+            _broadcaster.OnStateEnter -= OnAnimatorStateEnter;
         }
 
         /// <summary>
@@ -31,7 +46,7 @@ namespace NeoForge.UI.Tools
         {
             foreach (var graphic in _graphics.Keys)
             {
-                graphic.color = _graphics[graphic].GetColorFromState(state);
+                graphic.color = _graphics[graphic].GetValueFromState(state);
             }
         }
     }

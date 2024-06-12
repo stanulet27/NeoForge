@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using NeoForge.Input;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace NeoForge.UI.Menus
@@ -14,9 +15,10 @@ namespace NeoForge.UI.Menus
         [SerializeField] private List<Page> _pages;
         
         protected virtual bool StartOpen => false;
+        protected bool OnFirstPage => _currentPage == 0;
         private int _currentPage;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             if (_display == null) _display = transform.GetChild(0).gameObject;
             if (_pages.Count == 0) _pages.Add(new Page(_display));
@@ -36,6 +38,7 @@ namespace NeoForge.UI.Menus
         /// <summary>
         /// Will open the menu and swap to UI mode. Will jump to the first page if there are multiple pages.
         /// </summary>
+        [Button]
         public virtual void OpenMenu()
         {
             _display.SetActive(true);
@@ -79,6 +82,7 @@ namespace NeoForge.UI.Menus
         /// <summary>
         /// Will close the menu and return to gameplay mode.
         /// </summary>
+        [Button]
         public virtual void CloseMenu()
         {
             _display.SetActive(false);
