@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 
 namespace NeoForge.Orders
 {
-    public class OrderGenerator : MonoBehaviour, IStation
+    public class CustomerManager : MonoBehaviour, IStation
     {
         [Tooltip("The customers that will arrive each day. The order of the list is the order of the days.")]
         [SerializeField] private List<DailyOrders> _dailyOrders;
