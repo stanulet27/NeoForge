@@ -5538,6 +5538,7 @@ GameObject:
   - component: {fileID: 432368564}
   - component: {fileID: 432368563}
   - component: {fileID: 432368565}
+  - component: {fileID: 432368566}
   m_Layer: 5
   m_Name: Audio SFX
   m_TagString: Untagged
@@ -5693,6 +5694,20 @@ MonoBehaviour:
   _sfx: {fileID: 8300000, guid: f7558c70da3bfd543ba649b79baf0d8d, type: 3}
   _success: {fileID: 8300000, guid: 3e589f458beb5c24d88a7c3be15d32a9, type: 3}
   _failure: {fileID: 8300000, guid: f7558c70da3bfd543ba649b79baf0d8d, type: 3}
+--- !u!114 &432368566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 432368561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3da1b83becb642228dcaeed2a440048b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _masterVolume: {fileID: 11400000, guid: b0b320f130276444a83367fa9eaf0d27, type: 2}
+  _specificVolume: {fileID: 11400000, guid: 07066ea993396fa4a8d078edd372c16b, type: 2}
 --- !u!1001 &444335229
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6096,6 +6111,7 @@ GameObject:
   - component: {fileID: 459132482}
   - component: {fileID: 459132481}
   - component: {fileID: 459132480}
+  - component: {fileID: 459132483}
   m_Layer: 0
   m_Name: Shop Music
   m_TagString: Untagged
@@ -6226,6 +6242,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &459132483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 459132479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3da1b83becb642228dcaeed2a440048b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _masterVolume: {fileID: 11400000, guid: b0b320f130276444a83367fa9eaf0d27, type: 2}
+  _specificVolume: {fileID: 11400000, guid: 7295694107857e5438c9d10a4bb7a30e, type: 2}
 --- !u!1001 &482377135
 PrefabInstance:
   m_ObjectHideFlags: 0

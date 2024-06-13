@@ -2252,6 +2252,7 @@ GameObject:
   - component: {fileID: 173877897}
   - component: {fileID: 173877896}
   - component: {fileID: 173877898}
+  - component: {fileID: 173877899}
   m_Layer: 0
   m_Name: Furnace Sound
   m_TagString: Untagged
@@ -2382,6 +2383,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75dc8d28daa5420fb2230e36a1ad7592, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &173877899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 173877895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3da1b83becb642228dcaeed2a440048b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _masterVolume: {fileID: 11400000, guid: b0b320f130276444a83367fa9eaf0d27, type: 2}
+  _specificVolume: {fileID: 11400000, guid: 07066ea993396fa4a8d078edd372c16b, type: 2}
+  _volume: 0
 --- !u!1001 &174511829
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3265,6 +3281,7 @@ GameObject:
   - component: {fileID: 245438131}
   - component: {fileID: 245438130}
   - component: {fileID: 245438129}
+  - component: {fileID: 245438132}
   m_Layer: 0
   m_Name: Title screen music
   m_TagString: Untagged
@@ -3395,6 +3412,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &245438132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 245438128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3da1b83becb642228dcaeed2a440048b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _masterVolume: {fileID: 11400000, guid: b0b320f130276444a83367fa9eaf0d27, type: 2}
+  _specificVolume: {fileID: 11400000, guid: 7295694107857e5438c9d10a4bb7a30e, type: 2}
+  _volume: 0
 --- !u!1001 &247952447
 PrefabInstance:
   m_ObjectHideFlags: 0

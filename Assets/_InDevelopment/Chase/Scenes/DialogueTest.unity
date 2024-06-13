@@ -7782,8 +7782,10 @@ GameObject:
   - component: {fileID: 653429560}
   - component: {fileID: 653429559}
   - component: {fileID: 653429558}
+  - component: {fileID: 653429562}
+  - component: {fileID: 653429561}
   m_Layer: 0
-  m_Name: Shop Music
+  m_Name: Background Music
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7813,7 +7815,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: ca4c218175e038643a61d49b953bfceb, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -7912,6 +7914,39 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &653429561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 653429557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ddeeeccd8e14c6db4b185c858926b75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _musicTracks:
+  - {fileID: 8300000, guid: 34394f556e8b02e4185d357ff6ab6f26, type: 3}
+  - {fileID: 8300000, guid: 33f6c71960b53e0449a5cc5c7643195f, type: 3}
+  - {fileID: 8300000, guid: ca4c218175e038643a61d49b953bfceb, type: 3}
+  _shuffle: 1
+  _delayBetweenTracks: 1
+--- !u!114 &653429562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 653429557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3da1b83becb642228dcaeed2a440048b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _masterVolume: {fileID: 11400000, guid: b0b320f130276444a83367fa9eaf0d27, type: 2}
+  _specificVolume: {fileID: 11400000, guid: 7295694107857e5438c9d10a4bb7a30e, type: 2}
+  _volume: 0
 --- !u!1001 &659449784
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16591,6 +16626,7 @@ GameObject:
   - component: {fileID: 1377589795}
   - component: {fileID: 1377589794}
   - component: {fileID: 1377589793}
+  - component: {fileID: 1377589797}
   m_Layer: 5
   m_Name: Audio SFX
   m_TagString: Untagged
@@ -16746,6 +16782,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1377589797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1377589792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3da1b83becb642228dcaeed2a440048b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _masterVolume: {fileID: 11400000, guid: b0b320f130276444a83367fa9eaf0d27, type: 2}
+  _specificVolume: {fileID: 11400000, guid: 07066ea993396fa4a8d078edd372c16b, type: 2}
+  _volume: 0
 --- !u!1 &1382991750
 GameObject:
   m_ObjectHideFlags: 0
