@@ -8,8 +8,11 @@ namespace NeoForge.UI.Sound
     [RequireComponent(typeof(VolumeMatcher))]
     public class BackgroundMusicHandler : MonoBehaviour
     {
+        [Tooltip("The music tracks to play in order.")]
         [SerializeField] private List<AudioClip> _musicTracks;
+        [Tooltip("Determines whether to have a random song follow after the current one.")]
         [SerializeField] private bool _shuffle;
+        [Tooltip("The delay between tracks.")]
         [SerializeField] private float _delayBetweenTracks = 1f;
 
         private AudioSource _audioSource;
@@ -26,7 +29,6 @@ namespace NeoForge.UI.Sound
             _audioSource.loop = false;
             _currentTrackIndex = GetRandomEntry(_musicTracks);
             _audioSource.clip = CurrentTrack;
-            _audioSource.Play();
 
             StartCoroutine(HandleQueue());
         }
@@ -35,17 +37,22 @@ namespace NeoForge.UI.Sound
         {
             while (true)
             {
+                _audioSource.Play();
                 yield return new WaitForSeconds(CurrentTrack.length);
                 _audioSource.Stop();
 
-                _currentTrackIndex = _shuffle 
-                    ? GetRandomEntry(_musicTracks, _currentTrackIndex) 
-                    : (_currentTrackIndex + 1) % _musicTracks.Count;
+                SwapTrack();
 
-                _audioSource.clip = CurrentTrack;
                 yield return new WaitForSeconds(_delayBetweenTracks);
-                _audioSource.Play();
             }
+        }
+
+        private void SwapTrack()
+        {
+            _currentTrackIndex = _shuffle
+                ? GetRandomEntry(_musicTracks, _currentTrackIndex)
+                : (_currentTrackIndex + 1) % _musicTracks.Count;
+            _audioSource.clip = CurrentTrack;
         }
 
         private static int GetRandomEntry<T>(List<T> entries, int indexToExclude = -1)
