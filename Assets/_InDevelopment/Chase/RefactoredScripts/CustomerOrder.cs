@@ -12,7 +12,10 @@ namespace NeoForge.Orders
     [Serializable]
     public class CustomerOrder
     {
+        [Tooltip("The name of the customer that is ordering the item. Used to determine the skin.")]
         [ValueDropdown("_names")] public string CustomerName;
+        
+        [Tooltip("The dialogue that is triggered when speaking with the customer.")]
         [ValueDropdown("GetDialogues")] public string Dialogue;
 
         private readonly string[] _names =

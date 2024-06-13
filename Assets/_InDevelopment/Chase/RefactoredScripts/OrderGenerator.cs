@@ -12,16 +12,20 @@ namespace NeoForge.Orders
 {
     public class OrderGenerator : MonoBehaviour, IStation
     {
+        [Tooltip("The customers that will arrive each day. The order of the list is the order of the days.")]
         [SerializeField] private List<DailyOrders> _dailyOrders;
-        //[SerializeField] private GameObject _customerSpawnPoint;
+        [Tooltip("The current day that the player is on. This is used to get the orders for the day.")]
         [SerializeField] private SharedInt _currentDay;
+        [Tooltip("If all customers have been served and the day is ready to end early.")]
         [SerializeField] private SharedBool _readyForNextDay;
+        [Tooltip("The game object used to display the customer. The skins are the children of this object.")]
         [SerializeField] private GameObject _customerShell;
+        [Tooltip("The event to trigger when the last customer has been served.")]
         [SerializeField] private UnityEvent _onLastCustomerServed;
         
+        private readonly List<GameObject> _skins = new();
         private DailyOrders _todaysOrders;
         private string _dialogueToTrigger;
-        private readonly List<GameObject> _skins = new();
         
         private void Start()
         {
@@ -31,12 +35,12 @@ namespace NeoForge.Orders
             {
                 _skins.Add(child.gameObject);
             }
-            
+
             _todaysOrders = _dailyOrders[_currentDay - 1];
             _todaysOrders.PrepareDay();
-            
             _readyForNextDay.Value = false;
-            StartCoroutine(GenerateNextOrder());
+            
+            StartCoroutine(SummonNextCustomer());
         }
         
         private void OnDestroy()
@@ -44,31 +48,39 @@ namespace NeoForge.Orders
             ControllerManager.OnInteract -= InteractWithCustomer;
             DialogueManager.OnDialogueEnded -= OnCustomerServed;
         }
+        
+        public void EnterStation()
+        {
+            ControllerManager.OnInteract += InteractWithCustomer;
+        }
+
+        public void ExitStation()
+        {
+            ControllerManager.OnInteract -= InteractWithCustomer;
+        }
 
         private void OnCustomerServed()
         {
             DialogueManager.OnDialogueEnded -= OnCustomerServed;
-            Debug.Log("Customer served");
             _customerShell.SetActive(false);
-            StartCoroutine(GenerateNextOrder());
+            StartCoroutine(SummonNextCustomer());
         }
         
         private void InteractWithCustomer()
         {
             if (string.IsNullOrWhiteSpace(_dialogueToTrigger)) return;
-            Debug.Log("interacting with customer");
             
             DialogueManager.Instance.StartDialogueName(_dialogueToTrigger);
             DialogueManager.OnDialogueEnded += OnCustomerServed;
             _dialogueToTrigger = "";
         }
         
-        private IEnumerator GenerateNextOrder()
+        private IEnumerator SummonNextCustomer()
         {
             if (_todaysOrders.TryGetOrder(out var order))
             {
                 yield return new WaitForSeconds(Random.Range(3, 8));
-                _skins.ForEach(x => x.SetActive(x.name.StartsWith(order.CustomerName, StringComparison.InvariantCultureIgnoreCase)));
+                _skins.ForEach(x => x.SetActive(IsMatchingSkin(x, order.CustomerName)));
                 _customerShell.SetActive(true);
                 _dialogueToTrigger = order.Dialogue;
             }
@@ -78,15 +90,10 @@ namespace NeoForge.Orders
                 _onLastCustomerServed?.Invoke();
             }
         }
-
-        public void EnterStation()
+        
+        private static bool IsMatchingSkin(GameObject skin, string customerName)
         {
-            ControllerManager.OnInteract += InteractWithCustomer;
-        }
-
-        public void ExitStation()
-        {
-            ControllerManager.OnInteract -= InteractWithCustomer;
+            return skin.name.StartsWith(customerName, StringComparison.InvariantCultureIgnoreCase);
         }
     }
 }
