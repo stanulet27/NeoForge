@@ -60,7 +60,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Overlay",
+                    "name": "OverlayInput",
                     "type": "Button",
                     "id": "a3e9e192-9a22-4233-a52c-907466d01635",
                     "expectedControlType": "Button",
@@ -69,10 +69,46 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "ChangeStation",
+                    "name": "ChangeToOverviewInput",
                     "type": "Value",
                     "id": "fdcf681e-78d6-4fa0-a3ea-077cf336f342",
                     "expectedControlType": "Integer",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ChangeToHeatingInput",
+                    "type": "Button",
+                    "id": "e43eca4d-9146-47ab-8f13-76d320e443fd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ChangeToCoolingInput",
+                    "type": "Button",
+                    "id": "bbe548f8-dd8a-48a3-bfab-1335259159b4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ChangeToForgingInput",
+                    "type": "Button",
+                    "id": "cc62e4a5-dab7-4a24-82c6-8222c14bacaa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ChangeToPlanningInput",
+                    "type": "Button",
+                    "id": "1ea0ca1c-902d-415f-b358-e4e3bf1b9c70",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -328,7 +364,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Overlay",
+                    "action": "OverlayInput",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -338,52 +374,52 @@
                     "path": "<Keyboard>/1",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "ChangeStation",
+                    "groups": "",
+                    "action": "ChangeToOverviewInput",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "16055cb6-84fa-4c2a-9340-e01df9e06f19",
+                    "id": "0e0c7ba3-7ee9-4145-a2ae-285f6673d27d",
                     "path": "<Keyboard>/2",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "ChangeStation",
+                    "groups": "",
+                    "action": "ChangeToHeatingInput",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "74b49ba6-64a6-465e-a488-f0071882fa5b",
-                    "path": "<Keyboard>/3",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "ChangeStation",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d8d56071-8ee8-4e10-baec-d0da516f3709",
+                    "id": "25fcfaf1-b3aa-4c08-9942-1d23ad5c2fd0",
                     "path": "<Keyboard>/4",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "ChangeStation",
+                    "groups": "",
+                    "action": "ChangeToCoolingInput",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "3f1febbd-a119-4206-8e6b-9f37a92fb14e",
+                    "id": "51f2f1a8-1057-4576-90ce-1f7aaf7b0917",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeToForgingInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bde8dfd1-f99d-45b7-ab3d-76ddfb3f6200",
                     "path": "<Keyboard>/5",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "ChangeStation",
+                    "groups": "",
+                    "action": "ChangeToPlanningInput",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

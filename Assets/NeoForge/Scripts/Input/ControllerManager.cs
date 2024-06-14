@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using NeoForge.UI.Scenes;
 using NeoForge.Utilities;
+using SharedData;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -113,14 +114,14 @@ namespace NeoForge.Input
         public static Action<bool> OnSlowDown;
         public static Action OnHit;
         public static Action OnOverlay;
-        public static Action<int> OnChangeStation;
+        public static Action<Station> OnChangeStation;
         
-        public void OnOverlayInput(InputAction.CallbackContext context)
+        public void OnOverlayInput(InputValue context)
         {
             OnOverlay?.Invoke();
         }
         
-        public void OnMoveInput(InputAction.CallbackContext context)
+        public void OnMoveInput(InputValue context)
         {
             OnMove?.Invoke(context.Get<Vector2>());
         }
@@ -130,8 +131,28 @@ namespace NeoForge.Input
             OnRotate?.Invoke(context.Get<Vector3>());
         }
         
+        public void OnChangeToOverviewInput(InputValue context)
+        {
+            OnChangeStation?.Invoke(Station.Overview);
+        }
+        public void OnChangeToHeatingInput(InputValue context)
+        {
+            OnChangeStation?.Invoke(Station.Heating);
+        }
+        public void OnChangeToCoolingInput(InputValue context)
+        {
+            OnChangeStation?.Invoke(Station.Cooling);
+        }
+        public void OnChangeToForgingInput(InputValue context)
+        {
+            OnChangeStation?.Invoke(Station.Forging);
+        }
+        public void OnChangeToPlanningInput(InputValue context)
+        {
+            OnChangeStation?.Invoke(Station.Planning);
+        }
         
-        public void OnSwapCameraInput(InputAction.CallbackContext context)
+        public void OnSwapCameraInput(InputValue context)
         {
             OnSwapCamera?.Invoke();
         }
@@ -165,11 +186,6 @@ namespace NeoForge.Input
         {
             OnConfirm?.Invoke();
         }
-        
-        public void OnChangeStationInput(InputAction.CallbackContext context)
-        {
-            int pressed = int.Parse(context.control.name);
-            OnChangeStation?.Invoke(pressed);
-        }
+        #endregion
     }
 }

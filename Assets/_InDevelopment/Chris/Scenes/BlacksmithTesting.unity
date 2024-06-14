@@ -22283,7 +22283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: c12e2a1245b905942835348d58ab3a93, type: 3}
-  m_NotificationBehavior: 2
+  m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -22386,9 +22386,9 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1626916250}
-        m_TargetAssemblyTypeName: DeformationSystem.ControllerManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: NeoForge.Input.ControllerManager, Assembly-CSharp
         m_MethodName: OnSwapModeInput
-        m_Mode: 0
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -22418,9 +22418,9 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1626916250}
-        m_TargetAssemblyTypeName: DeformationSystem.ControllerManager, Assembly-CSharp
+        m_TargetAssemblyTypeName: NeoForge.Input.ControllerManager, Assembly-CSharp
         m_MethodName: OnHitInput
-        m_Mode: 0
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -22463,9 +22463,13 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: fdcf681e-78d6-4fa0-a3ea-077cf336f342
     m_ActionName: Player/ChangeStation[/Keyboard/1,/Keyboard/2,/Keyboard/3,/Keyboard/4,/Keyboard/5]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0114f168-0a39-41a9-b45a-e7dec9c2b555
+    m_ActionName: UI/GoBackInput[/Keyboard/backspace,/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard&Mouse
-  m_DefaultActionMap: Player
+  m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!1 &1628609626

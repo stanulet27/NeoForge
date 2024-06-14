@@ -150,10 +150,8 @@ public class StationController : MonoBehaviour
         _returnUI.SetActive(true);
     }
     
-    private void ChangeCamera(int keyPressed)
+    private void ChangeCamera(Station station)
     {
-        //convert the key pressed to a station (station is zero indexed)
-        Station station = (Station)(keyPressed - 1);
         if (_currentStation.Value == Station.Overview) _currentStation.Value = station;
         ChangeUI();
         ChangeCameraView(station);
