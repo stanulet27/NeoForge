@@ -612,7 +612,20 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 892855344}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1325846993}
+        m_TargetAssemblyTypeName: NeoForge.Deformation.Scoring.MeshSimilarityCalculator,
+          Assembly-CSharp
+        m_MethodName: PostScore
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &250043404
 GameObject:
   m_ObjectHideFlags: 0
@@ -1644,9 +1657,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81a976d68587464a93a8121340b41be7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shrinkKey: 91
   _shrinkRate: {x: 1, y: 0, z: 1}
-  _growKey: 93
   _growthRate: {x: 1, y: 0, z: 1}
   _minScale: {x: 0.25, y: 0.25, z: 0.25}
   _maxScale: {x: 1.5, y: 1.5, z: 1.5}
