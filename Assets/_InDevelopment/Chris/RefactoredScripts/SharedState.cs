@@ -7,7 +7,6 @@ namespace SharedData
     /// <summary>
     /// The different stations that the player can be in when in the forging area
     /// </summary>
-    [Serializable]
     public enum Station
     {
         Overview,
@@ -23,7 +22,6 @@ namespace SharedData
     [CreateAssetMenu(menuName = "Shared Data/Station", fileName = "New Shared State")]
     public class SharedState : SharedDataBase<Station>
     {
-        
         [SerializeField] private Station _currentState;
 
         public override Station Value

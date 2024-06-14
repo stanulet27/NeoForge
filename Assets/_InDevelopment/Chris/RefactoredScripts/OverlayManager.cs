@@ -6,7 +6,7 @@ namespace NeoForge.Input
     public class OverlayManager : MonoBehaviour
     {
         [Tooltip("The part that will be toggled between opaque and transparent")]
-        [SerializeField] private GameObject _part;
+        [SerializeField] private Renderer _part;
         [Tooltip("The opaque material that will be applied to the part")]
         [SerializeField] private Material _opaqueMaterial;
         [Tooltip("The transparent material that will be applied to the part")]
@@ -28,9 +28,9 @@ namespace NeoForge.Input
 
         private void ToggleOverlay()
         {
-            _part.GetComponent<Renderer>().material = _isOverlayActive ? _opaqueMaterial : _transparentMaterial;
-            var newMask = _scoreCamera.cullingMask ^ (1 << LayerMask.NameToLayer("Desired"));
-            _scoreCamera.cullingMask = newMask;
+            _part.material = _isOverlayActive ? _opaqueMaterial : _transparentMaterial;
+             
+            _scoreCamera.cullingMask = _scoreCamera.cullingMask ^ (1 << LayerMask.NameToLayer("Desired"));
             _isOverlayActive = !_isOverlayActive;
         }
     }

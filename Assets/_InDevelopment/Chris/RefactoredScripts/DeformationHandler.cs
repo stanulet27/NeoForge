@@ -28,6 +28,13 @@ namespace NeoForge.Deformation
         [Tooltip("The HUD that is used to display the force and size of the selector.")]
         [SerializeField] private ForgeHUD _hud;
         
+        
+        private MeshFilter _partMesh => _part.GetComponent<MeshFilter>();
+        private MeshCollider _partMeshCollider => _target.GetComponent<MeshCollider>();
+        
+        private MeshFilter _targetMesh => _target.GetComponent<MeshFilter>();
+        private MeshCollider _targetMeshCollider => _target.GetComponent<MeshCollider>();
+        
         private float _maxForce;
         
         private void OnEnable()
@@ -65,13 +72,13 @@ namespace NeoForge.Deformation
 
             yield return WebServerConnectionHandler.SendGetRequest("/starting-mesh");
             MeshData startingMeshData = JsonUtility.FromJson<MeshData>(WebServerConnectionHandler.ReturnData);
-            _part.GetComponent<MeshFilter>().mesh = CreateMesh(startingMeshData);
-            _part.GetComponent<MeshCollider>().sharedMesh = _part.GetComponent<MeshFilter>().mesh;
+            _partMesh.mesh = CreateMesh(startingMeshData);
+            _partMeshCollider.sharedMesh = _partMesh.mesh;
 
             yield return WebServerConnectionHandler.SendGetRequest("/target-mesh");
             MeshData targetMeshData = JsonUtility.FromJson<MeshData>(WebServerConnectionHandler.ReturnData);
-            _target.GetComponent<MeshFilter>().mesh = CreateMesh(targetMeshData);
-            _target.GetComponent<MeshCollider>().sharedMesh = _target.GetComponent<MeshFilter>().mesh; 
+            _targetMesh.mesh = CreateMesh(targetMeshData);
+            _targetMeshCollider.sharedMesh = _targetMesh.mesh; 
             
             yield return WebServerConnectionHandler.SendGetRequest("/hammer");
             HammerData hammerData = JsonUtility.FromJson<HammerData>(WebServerConnectionHandler.ReturnData);
@@ -111,8 +118,8 @@ namespace NeoForge.Deformation
         {
             yield return WebServerConnectionHandler.SendGetRequest("/undo-strike");
             MeshData meshData = JsonUtility.FromJson<MeshData>(WebServerConnectionHandler.ReturnData);
-            _part.GetComponent<MeshFilter>().mesh = CreateMesh(meshData);
-            _part.GetComponent<MeshCollider>().sharedMesh = _part.GetComponent<MeshFilter>().mesh;
+            _partMesh.mesh = CreateMesh(meshData);
+            _partMeshCollider.sharedMesh = _partMesh.mesh;
             OnDeformationPerformed?.Invoke();
         }
         

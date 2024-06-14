@@ -156,6 +156,30 @@ namespace NeoForge.Input
         {
             OnSwapCamera?.Invoke();
         }
+        public void OnCancelInput()
+        {
+            OnCancel?.Invoke();
+        }
+
+        public void OnCloseInput()
+        {
+            OnClose?.Invoke();
+        }
+
+        public void OnPauseInput()
+        {
+            OnPause?.Invoke();
+        }
+
+        public void OnSkipDialogueInput()
+        {
+            OnSkipDialogue?.Invoke();
+        }
+
+        public void OnNextDialogueInput()
+        {
+            OnNextDialogue?.Invoke();
+        }
         
         public void OnSwapModeInput()
         {

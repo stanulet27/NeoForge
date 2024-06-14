@@ -34,12 +34,14 @@ public static class FurnaceSpotLocator
             position = new Vector3();
             return false;
         }
+        
         position = _initialLocation.position;
         if (_storedParts.Count == 0)
         {
             _storedParts.Add(part);
             return true;
         }
+        
         var lastPart = _storedParts[_storedParts.Count - 1];
         var lastBoundingBox = lastPart.GetBounds();
         var lastPosition = lastPart.transform.position;

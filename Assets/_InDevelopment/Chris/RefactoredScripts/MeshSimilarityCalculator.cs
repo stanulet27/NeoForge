@@ -50,20 +50,17 @@ namespace NeoForge.Deformation.Scoring
 
             foreach (Transform child in part.transform)
             {
-                if (child.parent == part.transform)
+                if (child.gameObject.TryGetComponent(out Deformable deformable))
                 {
-                    if (child.gameObject.TryGetComponent(out Deformable deformable))
-                    {
-                        Debug.Log("found user mesh");
-                        _userMeshFilter = deformable.GetComponent<MeshFilter>();
-                    }
-                    else
-                    {
-                        Debug.Log("found desired mesh");
-                        _desiredMeshFilter = child.GetComponent<MeshFilter>();
-                        _heatMapRenderer = child.GetComponent<Renderer>();
-                    
-                    }
+                    Debug.Log("found user mesh");
+                    _userMeshFilter = deformable.GetComponent<MeshFilter>();
+                }
+                else
+                {
+                    Debug.Log("found desired mesh");
+                    _desiredMeshFilter = child.GetComponent<MeshFilter>();
+                    _heatMapRenderer = child.GetComponent<Renderer>();
+
                 }
             }
             CalculateScore();

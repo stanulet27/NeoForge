@@ -8,27 +8,38 @@ namespace NeoForge.Deformation
 {
     public class ForgedPart : MonoBehaviour
     {
+        private const float ROOM_TEMPERATURE_KELVIN = 290f;
+        private const float TEMPERATURE_CHANGE_RATE = 1f;
+        
         public enum PartState
         {
             Heating,
             Cooling,
             Ambient
         }
-
-        //The temperature of the part in kelvin
-        public float Temperature => _temperature;
         
-        //The current state of the part
-        public PartState CurrentState => _currentState;
-        
-        //The position of the pary when it is in the furnace
-        public Transform InFurnacePosition => _inFurnacePosition;
-        
-        //The position of the part when it is out of the furnace
-        public Transform OutFurnacePosition => _outFurnacePosition;
-
         [Tooltip("The material on the part containing the blackbody radiation shader")]
         [SerializeField] private MeshRenderer _material;
+
+        /// <summary>
+        /// The temperature of the part in kelvin
+        /// </summary>
+        public float Temperature => _temperature;
+        
+        /// <summary>
+        /// The current state of the part
+        /// </summary>
+        public PartState CurrentState => _currentState;
+
+        /// <summary>
+        /// The position of the pary when it is in the furnace
+        /// </summary>
+        public Transform InFurnacePosition => _inFurnacePosition;
+        
+        ///<summary>
+        /// The position of the part when it is out of the furnace
+        /// </summary>
+        public Transform OutFurnacePosition => _outFurnacePosition;
         
         private List<PartBoundsLocker> _boundsLocker;
         private PartState _currentState;
@@ -43,7 +54,7 @@ namespace NeoForge.Deformation
         private void Start()
         {
             _currentState = PartState.Ambient;
-            _temperature = 290f; //room temperature in kelvin
+            _temperature = ROOM_TEMPERATURE_KELVIN;
             _boundsLocker = GetComponentsInChildren<PartBoundsLocker>().ToList();
             _material.material.SetFloat("_Temperature", _temperature);
 
@@ -95,8 +106,7 @@ namespace NeoForge.Deformation
         /// <param name="coolPosition"></param>
         public void SetToAmbient(Transform coolPosition)
         {
-            if (_currentState == PartState.Heating) ChangePosition(_inFurnacePosition);
-            else ChangePosition(coolPosition);
+            ChangePosition(_currentState == PartState.Heating ? _inFurnacePosition : coolPosition);
             StopAllCoroutines();
             _currentState = PartState.Ambient;
         }
@@ -118,9 +128,9 @@ namespace NeoForge.Deformation
             float startTime = Time.realtimeSinceStartup;
             while (_currentState == PartState.Heating)
             {
-                _temperature += 1f;
+                _temperature += TEMPERATURE_CHANGE_RATE;
                 _material.material.SetFloat("_Temperature", _temperature);
-                yield return new WaitForSeconds(0.05f);
+                yield return new WaitForSeconds(Time.fixedDeltaTime);
             }
         }
 
@@ -128,9 +138,10 @@ namespace NeoForge.Deformation
         {
             while (_currentState == PartState.Cooling)
             {
-                _temperature -= 1f;
+                _temperature -= TEMPERATURE_CHANGE_RATE;
                 _material.material.SetFloat("_Temperature", _temperature);
-                yield return new WaitForSeconds(0.05f);
+                yield return new WaitForSeconds(Time.fixedDeltaTime);
+                
             }
         }
     }
