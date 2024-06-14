@@ -6,7 +6,6 @@ using NeoForge.Dialogue;
 using NeoForge.Input;
 using NeoForge.UI.Buttons;
 using NeoForge.UI.Inventory;
-using Sirenix.Utilities;
 using TMPro;
 using UnityEngine;
 
@@ -45,6 +44,7 @@ namespace NeoForge.UI.Menus
 
         private readonly List<ShopButton> _buttons = new();
         private string _currentShopPage;
+        private bool _hasBeenOpened;
 
         protected override void Awake()
         {
@@ -62,6 +62,7 @@ namespace NeoForge.UI.Menus
             base.OpenMenu();
             _shopCamera.rect = new Rect(0, 0, 0.65f, 1);
             GotoPage(MAIN_PAGE);
+            _hasBeenOpened = true;
             ControllerManager.OnGoBack += TryGoBack;
         }
         
@@ -70,7 +71,8 @@ namespace NeoForge.UI.Menus
             base.CloseMenu();
             _shopCamera.rect = new Rect(0, 0, 1, 1);
             ControllerManager.OnGoBack -= TryGoBack;
-            if (!string.IsNullOrWhiteSpace(_exitDialogue)) DialogueManager.Instance.StartDialogueName(_exitDialogue);
+            if (_hasBeenOpened && !string.IsNullOrWhiteSpace(_exitDialogue))
+                DialogueManager.Instance.StartDialogueName(_exitDialogue);
         }
         
         private void TryGoBack()
