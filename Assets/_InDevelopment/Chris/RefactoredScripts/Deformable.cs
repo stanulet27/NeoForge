@@ -12,6 +12,9 @@ namespace NeoForge.Deformation
     [RequireComponent(typeof(MeshCollider))]
     public class Deformable : MonoBehaviour
     {
+
+        public Action<ForgedPart> Clicked;
+        
         private MeshFilter _meshFilter;
         private MeshCollider _meshCollider;
         
@@ -19,6 +22,11 @@ namespace NeoForge.Deformation
         {
             _meshFilter = GetComponent<MeshFilter>();
             _meshCollider = GetComponent<MeshCollider>();
+        }
+        
+        private void OnMouseDown()
+        {
+            Clicked?.Invoke(transform.parent.gameObject.GetComponent<ForgedPart>());
         }
 
         [ContextMenu("Export Mesh as JSON")]

@@ -6,10 +6,10 @@ namespace NeoForge.Utilities.Movement
     {
         [Tooltip("The reference to the boundary setup for the bounds locker to use.")]
         [SerializeField] private BoundsConfig _bounds;
-        
+
         private Vector3 _startingPosition;
         
-        private void Awake()
+        private void OnEnable()
         {
             _startingPosition = transform.position;
         }

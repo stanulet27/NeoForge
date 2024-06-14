@@ -4,6 +4,7 @@ using System.Linq;
 using NeoForge.Deformation.JSON;
 using SharedData;
 using UnityEngine;
+using UnityEngine.InputSystem.Switch;
 using Color = UnityEngine.Color;
 
 namespace NeoForge.Deformation.Scoring
@@ -42,6 +43,30 @@ namespace NeoForge.Deformation.Scoring
         public void PostScore()
         {
             StartCoroutine(SendScorePutRequest());
+        }
+
+        public void SetPart(ForgedPart part)
+        {
+
+            foreach (Transform child in part.transform)
+            {
+                if (child.parent == part.transform)
+                {
+                    if (child.gameObject.TryGetComponent(out Deformable deformable))
+                    {
+                        Debug.Log("found user mesh");
+                        _userMeshFilter = deformable.GetComponent<MeshFilter>();
+                    }
+                    else
+                    {
+                        Debug.Log("found desired mesh");
+                        _desiredMeshFilter = child.GetComponent<MeshFilter>();
+                        _heatMapRenderer = child.GetComponent<Renderer>();
+                    
+                    }
+                }
+            }
+            CalculateScore();
         }
 
         private IEnumerator SendScorePutRequest()

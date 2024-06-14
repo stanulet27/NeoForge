@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10062ef6e711c9c4e809a09099ebd10f, type: 3}
   m_Name: SharedStationState
   m_EditorClassIdentifier: 
-  _currentState: 0
+  _currentState: 4

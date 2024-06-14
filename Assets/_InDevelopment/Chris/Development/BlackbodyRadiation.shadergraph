@@ -1527,7 +1527,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "B",
     "m_StageCapability": 3,
-    "m_Value": 450.0,
+    "m_Value": 800.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
 }
@@ -1646,7 +1646,7 @@
     "m_ShaderOutputName": "B",
     "m_StageCapability": 3,
     "m_Value": {
-        "x": 450.0,
+        "x": 800.0,
         "y": 1.0,
         "z": 1.0,
         "w": 1.0
@@ -2606,7 +2606,7 @@
     "m_ShaderOutputName": "B",
     "m_StageCapability": 3,
     "m_Value": {
-        "x": 500.0,
+        "x": 860.0,
         "y": 1.0,
         "z": 1.0,
         "w": 1.0
@@ -2653,7 +2653,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "B",
     "m_StageCapability": 3,
-    "m_Value": 500.0,
+    "m_Value": 850.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
 }
@@ -3176,7 +3176,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "B",
     "m_StageCapability": 3,
-    "m_Value": 550.0,
+    "m_Value": 900.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
 }
@@ -3472,7 +3472,7 @@
     "m_ShaderOutputName": "B",
     "m_StageCapability": 3,
     "m_Value": {
-        "x": 450.0,
+        "x": 800.0,
         "y": 1.0,
         "z": 1.0,
         "w": 1.0
@@ -3633,7 +3633,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "B",
     "m_StageCapability": 3,
-    "m_Value": 500.0,
+    "m_Value": 850.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
 }
@@ -4189,7 +4189,7 @@
     "m_Hidden": false,
     "m_ShaderOutputName": "Temperature",
     "m_StageCapability": 3,
-    "m_Value": 550.0,
+    "m_Value": 900.0,
     "m_DefaultValue": 512.0,
     "m_Labels": []
 }
