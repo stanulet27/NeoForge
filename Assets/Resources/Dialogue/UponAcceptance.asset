@@ -19,7 +19,11 @@ MonoBehaviour:
       - Speaker: 1
         SpeakerName: Huntsman
         Dialogue: Awesome, I'll be back in two days to get it.
-    LeadsTo: []
+    LeadsTo:
+    - _path: 'Prompt:  Triggers Event: GainOrder-Huntsman-BasicBar'
+      Prompt: 
+      NextID: GainOrder-Huntsman-BasicBar
+      IsEvent: 1
     StateChanges:
     - _components:
       - accepted

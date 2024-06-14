@@ -1,95 +1,50 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using NeoForge.Input;
+using NeoForge.Utilities;
 using UnityEngine;
-using NeoForge.Dialogue;
+using Sirenix.OdinInspector;
 
 namespace NeoForge.Orders
 {
-    public class OrderController : MonoBehaviour
+    public class OrderController : SingletonMonoBehaviour<OrderController>
     {
-        [Tooltip("Quests that are available in the game")]
-        [SerializeField] private List<Order> _orders = new();
-        [Tooltip("The display to open / close to display quest info")]
-        [SerializeField] OrderUIDisplay _orderUIDisplay;
+        [Tooltip("The orders in the game")]
+        [SerializeField, ReadOnly] private List<Order> _ordersInGame;
         
-        private Order _currentOrder;
-        private int _currentOrderID;
+        [Tooltip("The active orders the player currently has")]
+        [SerializeField, ReadOnly] private List<Order> _activeOrders;
 
-        private void Awake()
+        public List<Order> GetActiveOrders() => _activeOrders;
+
+        private void Start()
         {
-            _orderUIDisplay.Hide();
+            _ordersInGame = new List<Order>(Resources.LoadAll<Order>("Orders"));
         }
 
-        private void OnEnable()
-        {
-            WorldState.OnWorldStateChanged += HandleWorldStateChanged;
-        }
-        
-        private void OnDisable()
-        {
-            WorldState.OnWorldStateChanged -= HandleWorldStateChanged;
-            ControllerManager.OnClose -= CloseUI;
-        }
-        
         /// <summary>
-        /// Will display the current quest status
+        /// Parses the incoming event and the matching order in the game. Then, it adds the order
+        /// to the active orders list. Requires that the event is in the format "GainOrder-GiverName-PartName" and
+        /// that the order exists in the game.
         /// </summary>
-        public void OpenUI()
+        /// <param name="eventTriggered"></param>
+        public void OnDialogueEvent(string eventTriggered)
         {
-            if (_currentOrder == null)
-            {
-                _orderUIDisplay.Display();
-            }
-            else
-            {
-                _orderUIDisplay.Display(_currentOrder.GetTaskDescription());
-            }
+            Debug.Assert(eventTriggered.StartsWith("GainOrder"));
             
-            ControllerManager.Instance.SwapMode(ControllerManager.Mode.UI);
-            ControllerManager.OnClose += CloseUI;
+            var giver = eventTriggered.Split("-")[1];
+            var part = eventTriggered.Split("-")[2];
+            var order = _ordersInGame.FirstOrDefault(x => Matches(x, giver, part));
+            
+            Debug.Assert(order != null, $"No order found for {giver} and {part}");
+            
+            _activeOrders.Add(order);
         }
         
-        /// <summary>
-        /// Will hide the current quest status
-        /// </summary>
-        public void CloseUI()
+        private bool Matches(Order order, string giver, string part)
         {
-            ControllerManager.Instance.SwapMode(ControllerManager.Mode.Gameplay);
-            _orderUIDisplay.Hide();
-            ControllerManager.OnClose -= CloseUI;
-        }
-        
-        private void HandleWorldStateChanged()
-        {
-            if (TryHandleNewOrder()) return;
-            if (NeedResetOrder()) return;
-
-            while (_currentOrder != null
-                   && _currentOrder.CheckNextCompletionStatus(WorldState.GetState))
-            {
-                _currentOrder.CompleteCurrentTask();
-            }
-        }
-
-        private bool NeedResetOrder()
-        {
-            if (!WorldState.InState("orderNeedsReset")) return false;
-            WorldState.SetState("orderNeedsReset", 0);
-            _currentOrder.Reset();
-            return true;
-        }
-        
-        private bool TryHandleNewOrder()
-        {
-            if (_currentOrderID == WorldState.GetState("orderType")) return false;
-            if (_orders.All(x => x.TriggerEvent != WorldState.GetState("orderType"))) return false;
-            _currentOrderID = WorldState.GetState("orderType");
-            _currentOrder = _orders.Find(x => x.TriggerEvent == _currentOrderID);
-            Debug.Log("Swapping to order " + _currentOrderID);
-            _currentOrder.Reset();
-
-            return true;
+            return order.GiverName.Equals(giver, StringComparison.InvariantCultureIgnoreCase) 
+                   && order.ObjectToCraft.ToString().Equals(part, StringComparison.InvariantCultureIgnoreCase);
         }
     }
 }

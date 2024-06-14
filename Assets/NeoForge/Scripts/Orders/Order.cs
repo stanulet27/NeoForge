@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Text.RegularExpressions;
+using CustomInspectors;
 using UnityEngine;
 
 namespace NeoForge.Orders
@@ -8,79 +9,93 @@ namespace NeoForge.Orders
     [CreateAssetMenu(fileName = "New Order", menuName = "Orders/Order")]
     public class Order : ScriptableObject
     {
-        [Tooltip("The name of the order")]
-        [SerializeField] private string _orderName;
-        [Tooltip("The event that triggers the order")]
-        [SerializeField] private int _triggerEvent;
-        [Tooltip("The tasks that need to be completed")]
-        [SerializeField] private List<Task> _tasks = new();
+        public enum CraftableObjects { BasicBar = 0, Sphere = 1 }
         
-        private int _currentTaskIndex;
-        public int TriggerEvent => _triggerEvent;
+        [Tooltip("The unique ID of the order")]
+        [SerializeField] private int _id;
+        
+        [Tooltip("The object that the player needs to craft")]
+        [SerializeField] private CraftableObjects _objectToCraft;
+        
+        [Tooltip("The name of the npc giver of the order")]
+        [SerializeField] private string _giverName;
+        
+        [Tooltip("The amount of money the player will receive for completing the order")]
+        [SerializeField] private int _paymentAmount;
+        
+        [Tooltip("The time in days the player has to complete the order")]
+        [SerializeField] private int _time;
+        
+        [Tooltip("Not used yet")]
+        [SerializeField, TextArea(1, 4), ReadOnly] private string _requirements;
+
+        [Tooltip("The flavor text of the order")]
+        [SerializeField, TextArea(1, 4)] private string _title;
 
         /// <summary>
-        /// Will parse the section and set up the order with the following format:
-        /// TriggerEvent
-        /// Name
-        /// Task 1
-        /// Task 2
-        /// ...
+        /// The unique ID of the order
         /// </summary>
-        /// <param name="sectionToParse"></param>
-        public void SetupOrder(string sectionToParse)
-        {
-            var lines = sectionToParse.Split('\n').Where(x => !string.IsNullOrEmpty(x)).ToArray();
-            _triggerEvent = int.Parse(lines[0].Trim());
-            _orderName = lines[1].Trim();
-            name = "Order" + _triggerEvent;
-            _tasks.Clear();
-            for (int i = 2; i < lines.Length; i++)
-            {
-                _tasks.Add(new Task(lines[i]));
-            }
-        }
-
-        /// <summary>
-        /// Resets the order to the first task
-        /// </summary>
-        public void Reset()
-        {
-            _currentTaskIndex = 0;
-        }
-
-        /// <summary>
-        /// Converts the order to a string format to be displayed
-        /// </summary>
-        public string GetTaskDescription()
-        {
-            var description = _orderName;
-            for (int i = 0; i < _currentTaskIndex; i++)
-            {
-                description += $"\n    -<s>{_tasks[i].Label}</s>";
-            }
-            if (_currentTaskIndex < _tasks.Count)
-            {
-                description += $"\n    -{_tasks[_currentTaskIndex].Label}";
-            }
-
-            return description;
-        }
+        public int ID => _id;
         
         /// <summary>
-        /// Will check if the next task is completed based on the world state
+        /// The object that the player needs to craft
         /// </summary>
-        /// <param name="getWorldState">The method to determine the current world state</param>
-        public bool CheckNextCompletionStatus(Func<string, int> getWorldState)
-        {
-            return _currentTaskIndex < _tasks.Count && _tasks[_currentTaskIndex].IsCompleted(getWorldState);
-        }
-
+        public CraftableObjects ObjectToCraft => _objectToCraft;
+        
         /// <summary>
-        /// Will complete the current task and move to the next one
+        /// The name of the npc giver of the order
         /// </summary>
-        public void CompleteCurrentTask()
+        public string GiverName => _giverName;
+        
+        /// <summary>
+        /// The amount of money the player will receive for completing the order
+        /// </summary>
+        public int PaymentAmount => _paymentAmount;
+        
+        /// <summary>
+        /// The time in days the player has to complete the order
+        /// </summary>
+        public int Time => _time;
+        
+        /// <summary>
+        /// The requirements of the order
+        /// </summary>
+        public string Requirements => _requirements;
+        
+        /// <summary>
+        /// The flavor text of the order
+        /// </summary>
+        public string Title => _title;
+        
+        /// <summary>
+        /// Takes in a csv line in the format of "ID, ObjectToCraft, GiverName, PaymentAmount, Time, Requirements, FlavorText"
+        /// and sets up the order scriptable object
+        /// </summary>
+        public void Setup(string input)
         {
-            _currentTaskIndex++;
+            var components = ParseCSVLine(input);
+            _id = int.Parse(components[0]);
+            _objectToCraft = (CraftableObjects) Enum.Parse(typeof(CraftableObjects), components[1].Replace(" ", ""));
+            _giverName = components[2];
+            _paymentAmount = int.Parse(components[3]);
+            _time = int.Parse(components[4]);
+            _requirements = components[5];
+            _title = components[6];
+            
+            name = $"SO_{_giverName}_{_objectToCraft}_Order";
+        }
+        
+        private static List<string> ParseCSVLine(string line)
+        {
+            var matches = Regex.Matches(line, @"(?<=^|,)\s*""([^""]*)""\s*|(?<=^|,)\s*([^,""]*)\s*");
+            var result = new List<string>();
+        
+            foreach (Match match in matches)
+            {
+                result.Add(match.Groups[1].Success ? match.Groups[1].Value : match.Groups[2].Value);
+            }
+
+            return result;
         }
     }
 }
