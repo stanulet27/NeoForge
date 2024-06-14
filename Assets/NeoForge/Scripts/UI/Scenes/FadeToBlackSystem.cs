@@ -21,6 +21,11 @@ namespace NeoForge.UI.Scenes
 
         [Tooltip("The image that will be faded in and out.")] 
         [SerializeField] private Image _image;
+        
+        /// <summary>
+        /// Returns the current fade amount.
+        /// </summary>
+        public float CurrentFadeAmount => _image.color.a;
 
         private void Start()
         {
