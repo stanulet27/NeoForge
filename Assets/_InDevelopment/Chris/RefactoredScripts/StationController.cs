@@ -103,8 +103,11 @@ public class StationController : MonoBehaviour
     /// </summary>
     public void ReturnPartToHeating()
     {
-        ChangeStation(Station.Heating);
+        _activePart.ChangePosition(_partPositions[Station.Heating]);
         _activePart = null;
+        _currentStation.Value = Station.Heating;
+        ChangeCameraView(Station.Heating);
+        ChangeUI();
         CloseReturnUI();
     }
     
