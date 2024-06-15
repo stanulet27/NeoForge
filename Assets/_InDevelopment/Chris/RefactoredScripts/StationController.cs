@@ -162,12 +162,17 @@ public class StationController : MonoBehaviour
             OpenReturnUI();
             return;
         }
+        
+        if (_currentStation.Value != Station.Heating) return;
         //new part has been selected, can only happen in heating screen
-        _activePart = part;
-        _partPositions[Station.Heating] = _activePart.OutFurnacePosition;
-        _meshSimilarityCalculator.SetPart(part);
-        ChangeUI();
-        UpdateTemperatureDisplays();
+        if (part != _activePart && _currentStation.Value == Station.Heating)
+        {
+            _activePart = part;
+            _partPositions[Station.Heating] = _activePart.OutFurnacePosition;
+            _meshSimilarityCalculator.SetPart(part);
+            ChangeUI();
+            UpdateTemperatureDisplays();
+        }
     }
 
     private void OpenReturnUI()
