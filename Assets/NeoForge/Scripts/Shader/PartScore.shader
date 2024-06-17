@@ -1,4 +1,4 @@
-Shader "Custom/VertexColorLitShader"
+Shader "Universal Render Pipeline/Custom/VertexColorLitShader"
 {
     Properties
     {
@@ -6,23 +6,47 @@ Shader "Custom/VertexColorLitShader"
     }
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
+        Tags { "RenderType"="Opaque" "RenderPipeline"="UniversalPipeline" "Queue"="Geometry" }
         LOD 200
-
-        CGPROGRAM
-        #pragma surface surf Standard fullforwardshadows
-
-        struct Input
+        Pass
         {
-            float4 color : COLOR;
-        };
+            Tags { "LightMode"="UniversalForward" "RenderPipeline" = "UniversalPipeline" }
+            
+            HLSLPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
 
-        void surf (Input IN, inout SurfaceOutputStandard o)
-        {
-            o.Albedo = IN.color.rgb;
-            o.Alpha = 1.0;
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+
+            struct appdata
+            {
+                float4 vertex : POSITION;
+                float4 color : COLOR;
+            };
+
+            struct Varyings
+            {
+                float4 vertex : SV_POSITION;
+                float4 color : COLOR;
+            };
+            
+            TEXTURE2D(_MainTex);
+            SAMPLER(sampler_MainTex);
+
+            Varyings vert(appdata v)
+            {
+                Varyings o;
+                o.vertex = TransformObjectToHClip(v.vertex.xyz);
+                o.color = v.color;
+                return o;
+            }
+
+            half4 frag(Varyings i) : SV_Target
+            {
+                half4 col = i.color;
+                return col * SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.vertex.xy);
+            }
+            ENDHLSL
         }
-        ENDCG
     }
-    FallBack "Diffuse"
 }

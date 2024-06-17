@@ -69,6 +69,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "OverlayInput",
+                    "type": "Button",
+                    "id": "a3e9e192-9a22-4233-a52c-907466d01635",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "NextDayInput",
                     "type": "Button",
                     "id": "e23c51e3-0e84-40e1-af2a-81f0c9a3419c",
@@ -85,6 +94,51 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ChangeToOverviewInput",
+                    "type": "Value",
+                    "id": "fdcf681e-78d6-4fa0-a3ea-077cf336f342",
+                    "expectedControlType": "Integer",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ChangeToHeatingInput",
+                    "type": "Button",
+                    "id": "e43eca4d-9146-47ab-8f13-76d320e443fd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ChangeToCoolingInput",
+                    "type": "Button",
+                    "id": "bbe548f8-dd8a-48a3-bfab-1335259159b4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ChangeToForgingInput",
+                    "type": "Button",
+                    "id": "cc62e4a5-dab7-4a24-82c6-8222c14bacaa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "ChangeToPlanningInput",
+                    "type": "Button",
+                    "id": "1ea0ca1c-902d-415f-b358-e4e3bf1b9c70",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -343,6 +397,17 @@
                 },
                 {
                     "name": "",
+                    "id": "ef60f69c-a879-41ac-b9fe-e24ec1e2af1c",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OverlayInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "cd120848-376e-4771-8a7b-4a32362370d5",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
@@ -354,12 +419,45 @@
                 },
                 {
                     "name": "",
+                    "id": "4b8a2d52-0f6a-4765-8e84-272d08dd8f9c",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeToOverviewInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "19840fd5-5800-460c-bf4c-e15ff84a0371",
                     "path": "<Keyboard>/m",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "NextDayInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0e0c7ba3-7ee9-4145-a2ae-285f6673d27d",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeToHeatingInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "25fcfaf1-b3aa-4c08-9942-1d23ad5c2fd0",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeToCoolingInput",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -382,6 +480,28 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "MouseClickInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "51f2f1a8-1057-4576-90ce-1f7aaf7b0917",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeToForgingInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bde8dfd1-f99d-45b7-ab3d-76ddfb3f6200",
+                    "path": "<Keyboard>/5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeToPlanningInput",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
