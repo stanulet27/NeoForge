@@ -1,5 +1,4 @@
-﻿using NeoForge.UI.Scenes;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace NeoForge.UI.Scenes
 {

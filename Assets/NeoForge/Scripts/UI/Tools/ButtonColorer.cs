@@ -1,5 +1,4 @@
-﻿using System;
-using AYellowpaper.SerializedCollections;
+﻿using AYellowpaper.SerializedCollections;
 using UnityEngine;
 using UnityEngine.UI;
 

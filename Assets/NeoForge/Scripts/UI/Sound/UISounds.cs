@@ -1,5 +1,4 @@
-﻿using System;
-using NeoForge.Utilities;
+﻿using NeoForge.Utilities;
 using SharedData;
 using UnityEngine;
 

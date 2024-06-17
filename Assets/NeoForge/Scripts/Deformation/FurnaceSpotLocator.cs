@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using NeoForge.Deformation;
 using UnityEngine;
 
 namespace NeoForge.Deformation

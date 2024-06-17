@@ -9,8 +9,8 @@ EditorBuildSettings:
     path: Assets/_InDevelopment/Chase/Scenes/TitleScreen.unity
     guid: 208d15d651b35ed4c9c49d7779e964b3
   - enabled: 1
-    path: Assets/_InDevelopment/Chase/Scenes/DialogueTest.unity
-    guid: 7a958a45c64f4eb458282abffebf2014
+    path: Assets/_InDevelopment/Chase/Scenes/NewMain.unity
+    guid: 3f475d204670b7948b2b8c70ab2b4054
   - enabled: 1
     path: Assets/_InDevelopment/Chase/Scenes/NightMarket.unity
     guid: df7c0752095a3594d868c61f865b6a97

@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace NeoForge.Utilities
 {
@@ -26,7 +25,11 @@ namespace NeoForge.Utilities
         protected virtual void Awake()
         {
             if (Instance != this) Destroy(gameObject);
-            else DontDestroyOnLoad(gameObject);
+            else
+            {
+                transform.SetParent(null);
+                DontDestroyOnLoad(gameObject);
+            }
         }
     }
 }

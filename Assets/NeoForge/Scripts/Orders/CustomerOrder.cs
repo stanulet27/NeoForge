@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NeoForge.Dialogue;
-using NeoForge.Dialogue.Helper;
 using Sirenix.OdinInspector;
 using UnityEngine;
 

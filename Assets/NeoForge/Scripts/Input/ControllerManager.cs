@@ -14,8 +14,16 @@ namespace NeoForge.Input
     {
         public static Action<Mode> OnModeSwapped;
         public enum Mode {Gameplay, UI}
-        public Mode CurrentMode => Enum.Parse<Mode>(_playerInput.currentActionMap.name);
-        
+
+        public Mode CurrentMode
+        {
+            get
+            {
+                Initialize();
+                return Enum.Parse<Mode>(_playerInput.currentActionMap.name);
+            }
+        }
+
         private PlayerInput _playerInput;
         private bool _isInitialized;
         private bool _isSlowDown;

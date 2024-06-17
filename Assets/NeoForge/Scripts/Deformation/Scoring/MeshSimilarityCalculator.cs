@@ -4,7 +4,6 @@ using System.Linq;
 using NeoForge.Deformation.JSON;
 using SharedData;
 using UnityEngine;
-using UnityEngine.InputSystem.Switch;
 using Color = UnityEngine.Color;
 
 namespace NeoForge.Deformation.Scoring

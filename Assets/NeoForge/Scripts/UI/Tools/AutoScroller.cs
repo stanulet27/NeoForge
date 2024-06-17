@@ -1,6 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using NeoForge.UI.Buttons;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
