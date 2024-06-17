@@ -45,18 +45,7 @@ namespace NeoForge.Deformation
                 return true;
             }
 
-            var lastPart = _storedParts[_storedParts.Count - 1];
-            var lastBoundingBox = lastPart.GetBounds();
-            var lastPosition = lastPart.transform.position;
-            var offsetDirection = lastPart.transform.right;
-            var lastSize = lastBoundingBox.size;
-
-            var currentPart = part.GetBounds();
-            var currentSize = currentPart.size;
-
-            var offsetAmount = lastSize.x / 2 + currentSize.x / 2 + BUFFER;
-
-            var newPosition = lastPosition + offsetDirection * offsetAmount;
+            var newPosition = DeterminePosition(_storedParts[^1], part);
             if (Vector3.Distance(newPosition, _initialLocation.position) >= MAX_DISTANCE)
             {
                 position = new Vector3();
@@ -68,12 +57,36 @@ namespace NeoForge.Deformation
             return true;
         }
 
-        //TODO: reorganize the parts when a part is removed (completed)
-        public static void VacatePosition()
+        private static Vector3 DeterminePosition(ForgedPart previousPart, ForgedPart newPart)
         {
-            if (_storedParts.Count == 0) return;
+            var lastPosition = previousPart.transform.position;
+            var offsetDirection = previousPart.transform.right;
+            var lastSize = previousPart.GetBounds().size;
+            var currentSize = newPart.GetBounds().size;
+
+            var offsetAmount = lastSize.x / 2 + currentSize.x / 2 + BUFFER;
+
+            return lastPosition + offsetDirection * offsetAmount;
         }
 
-
+        //TODO: reorganize the parts when a part is removed (completed)
+        public static void VacatePosition(ForgedPart part)
+        {
+            _storedParts.Remove(part);
+            
+            for (var i = 0; i < _storedParts.Count; i++)
+            {
+                var currentPart = _storedParts[i];
+                var rotation = _initialLocation.rotation;
+                Debug.Log($"Reorganizing parts {currentPart}");
+                if (i == 0)
+                {
+                    currentPart.ResetPosition(_initialLocation.position, rotation);
+                    continue;
+                }
+                
+                currentPart.ResetPosition(DeterminePosition(_storedParts[i - 1], currentPart), _initialLocation.rotation);
+            }
+        }
     }
 }

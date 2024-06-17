@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,24 +50,50 @@ namespace NeoForge.Deformation
         //since this is where multiple parts can be stores
         private Transform _outFurnacePosition;
         private Transform _inFurnacePosition;
+        
+        private void Awake()
+        {
+            _outFurnacePosition = new GameObject("@OutFurnacePosition").transform;
+            _inFurnacePosition = new GameObject("@InFurnacePosition").transform;
+            _outFurnacePosition.SetParent(transform.parent);
+            _inFurnacePosition.SetParent(transform.parent);
+            _boundsLocker = GetComponentsInChildren<PartBoundsLocker>().ToList();
+        }
 
-
-        private void Start()
+        private void OnEnable()
         {
             _currentState = PartState.Ambient;
             _temperature = ROOM_TEMPERATURE_KELVIN;
-            _boundsLocker = GetComponentsInChildren<PartBoundsLocker>().ToList();
             _material.material.SetFloat("_Temperature", _temperature);
+            
+            _outFurnacePosition.gameObject.SetActive(true);
+            _inFurnacePosition.gameObject.SetActive(true);
 
-            _outFurnacePosition = new GameObject("@OutFurnacePosition").transform;
-            _inFurnacePosition = new GameObject("@InFurnacePosition").transform;
             //generate positions for in and out of furnace
             if (FurnaceSpotLocator.ReserveNewPosition(this, out var position, out var rotation))
             {
-                _outFurnacePosition.SetPositionAndRotation(position, rotation);
-                _inFurnacePosition.SetPositionAndRotation(position, rotation);
+                ResetPosition(position, rotation);
+                Debug.Log("Jumping to " + position + " with rotation " + rotation);
+                Debug.Log("Landed at " + transform.position + " with rotation " + transform.rotation);
             }
+            else
+            {
+                Debug.Log("Unable to reserve position for part");
+                gameObject.SetActive(false);
+            }
+        }
 
+        private void OnDisable()
+        {
+            FurnaceSpotLocator.VacatePosition(this);
+            _outFurnacePosition.gameObject.SetActive(false);
+            _inFurnacePosition.gameObject.SetActive(false);
+        }
+
+        public void ResetPosition(Vector3 position, Quaternion rotation)
+        {
+            _outFurnacePosition.SetPositionAndRotation(position, rotation);
+            _inFurnacePosition.SetPositionAndRotation(position, rotation);
             ChangePosition(_outFurnacePosition);
         }
 
@@ -125,7 +152,6 @@ namespace NeoForge.Deformation
 
         private IEnumerator Heat()
         {
-            float startTime = Time.realtimeSinceStartup;
             while (_currentState == PartState.Heating)
             {
                 _temperature += TEMPERATURE_CHANGE_RATE;

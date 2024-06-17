@@ -27,8 +27,13 @@ namespace NeoForge.Utilities
             if (Instance != this) Destroy(gameObject);
             else
             {
-                transform.SetParent(null);
-                DontDestroyOnLoad(gameObject);
+                var singletons = GameObject.Find("@Singletons");
+                if (singletons == null)
+                {
+                    singletons = new GameObject("@Singletons");
+                    DontDestroyOnLoad(singletons);
+                }
+                transform.SetParent(singletons.transform);
             }
         }
     }

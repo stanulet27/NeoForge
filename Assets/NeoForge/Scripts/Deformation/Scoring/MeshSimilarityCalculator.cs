@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NeoForge.Deformation.JSON;
@@ -46,7 +47,6 @@ namespace NeoForge.Deformation.Scoring
 
         public void SetPart(ForgedPart part)
         {
-
             foreach (Transform child in part.transform)
             {
                 if (child.gameObject.TryGetComponent(out Deformable deformable))
@@ -83,7 +83,12 @@ namespace NeoForge.Deformation.Scoring
             _score.Value = DetermineScore();
             DeformationHandler.OnDeformationPerformed += CalculateScore;
         }
-        
+
+        private void OnDestroy()
+        {
+            DeformationHandler.OnDeformationPerformed -= CalculateScore;
+        }
+
         private void OnDrawGizmosSelected()
         {
             foreach (var point in RaycastPoint.Points[_displayMode])

@@ -152,9 +152,9 @@ namespace NeoForge.Deformation
         {
             if (!_aPartIsActive) return;
             var stationAction = _currentStation.Value == Station.Heating ? "Place in Furnace" : "Place in Water";
-            var stationActionBeingPerformed = _activePart.CurrentState != ForgedPart.PartState.Ambient;
+            var stationActionBeingPerformed = _activePart.CurrentState == ForgedPart.PartState.Ambient;
             
-            _heatingCoolingButton.text = stationActionBeingPerformed ? stationAction : "Remove";
+            _heatingCoolingButton.text = !stationActionBeingPerformed ? stationAction : "Remove";
         }
 
         private void UpdateTemperatureDisplays()
