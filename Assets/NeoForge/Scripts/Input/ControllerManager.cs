@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using NeoForge.UI.Scenes;
 using NeoForge.Utilities;
+using SharedData;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -113,9 +114,16 @@ namespace NeoForge.Input
         public static Action OnSwapMode;
         public static Action<bool> OnSlowDown;
         public static Action OnHit;
+        public static Action OnOverlay;
+        public static Action<Station> OnChangeStation;
         public static Action OnInteract;
         public static Action OnNextDay;
         public static Action OnMouseClick;
+
+        public void OnOverlayInput(InputValue context)
+        {
+            OnOverlay?.Invoke();
+        }
         
         public void OnMoveInput(InputValue context)
         {
@@ -127,7 +135,28 @@ namespace NeoForge.Input
             OnRotate?.Invoke(context.Get<Vector3>());
         }
         
-        public void OnSwapCameraInput()
+        public void OnChangeToOverviewInput(InputValue context)
+        {
+            OnChangeStation?.Invoke(Station.Overview);
+        }
+        public void OnChangeToHeatingInput(InputValue context)
+        {
+            OnChangeStation?.Invoke(Station.Heating);
+        }
+        public void OnChangeToCoolingInput(InputValue context)
+        {
+            OnChangeStation?.Invoke(Station.Cooling);
+        }
+        public void OnChangeToForgingInput(InputValue context)
+        {
+            OnChangeStation?.Invoke(Station.Forging);
+        }
+        public void OnChangeToPlanningInput(InputValue context)
+        {
+            OnChangeStation?.Invoke(Station.Planning);
+        }
+        
+        public void OnSwapCameraInput(InputValue context)
         {
             OnSwapCamera?.Invoke();
         }
@@ -176,27 +205,26 @@ namespace NeoForge.Input
         {
             OnConfirm?.Invoke();
         }
-        
         public void OnCancelInput()
         {
             OnCancel?.Invoke();
         }
-        
+
         public void OnCloseInput()
         {
             OnClose?.Invoke();
         }
-        
+
         public void OnPauseInput()
         {
             OnPause?.Invoke();
         }
-        
+
         public void OnSkipDialogueInput()
         {
             OnSkipDialogue?.Invoke();
         }
-        
+
         public void OnNextDialogueInput()
         {
             OnNextDialogue?.Invoke();
