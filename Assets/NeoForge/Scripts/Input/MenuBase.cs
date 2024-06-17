@@ -52,7 +52,7 @@ namespace NeoForge.UI.Menus
         /// Will swap the current page to the given index.
         /// </summary>
         /// <param name="pageIndex">Index of the new page</param>
-        public void JumpToPage(int pageIndex)
+        public virtual void JumpToPage(int pageIndex)
         {
             if (pageIndex < 0 || pageIndex >= _pages.Count)
             {

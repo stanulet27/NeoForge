@@ -17,6 +17,8 @@ namespace NeoForge.UI.Inventory
             MachineCost = 1 << 4
         }
         
+        [Tooltip("The cost of the item in the shop.")]
+        [SerializeField] private int _cost;
         [Tooltip("How the bonus will be applied, either by multiplying or adding to the original value.")]
         [SerializeField, EnumToggleButtons] private BonusType _bonusType;
         [Tooltip("What value will be modified by the bonus.")]
@@ -40,6 +42,8 @@ namespace NeoForge.UI.Inventory
                 return $"Will {increaseOrDecrease} the {Modifies.ToString().SplitPascalCase()} by {modifier} when used.";
             }
         }
+        
+        public override int Cost => _cost;
         
         /// <summary>
         /// Using the value provided, apply the bonus to it then return the new value.
