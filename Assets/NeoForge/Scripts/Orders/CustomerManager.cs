@@ -22,6 +22,8 @@ namespace NeoForge.Orders
         [SerializeField] private GameObject _customerShell;
         [Tooltip("The event to trigger when the last customer has been served.")]
         [SerializeField] private UnityEvent _onLastCustomerServed;
+        [Tooltip("Will trigger when a new customer appears.")]
+        [SerializeField] private UnityEvent _onNewCustomer;
         
         private readonly List<GameObject> _skins = new();
         private DailyOrders _todaysOrders;
@@ -81,6 +83,7 @@ namespace NeoForge.Orders
             {
                 yield return new WaitForSeconds(Random.Range(3, 8));
                 _skins.ForEach(x => x.SetActive(IsMatchingSkin(x, order.CustomerName)));
+                _onNewCustomer?.Invoke();
                 _customerShell.SetActive(true);
                 _dialogueToTrigger = order.Dialogue;
             }

@@ -30,15 +30,15 @@ namespace NeoForge.Orders
         private static void EnterStation(StationSetup station)
         {
             var stationComponent = station.Station.GetComponent<IStation>();
-            stationComponent.EnterStation();
             station.Camera.enabled = true;
+            stationComponent?.EnterStation();
         }
         
         private static void ExitStation(StationSetup station)
         {
             var stationComponent = station.Station.GetComponent<IStation>();
-            stationComponent.ExitStation();
             station.Camera.enabled = false;
+            stationComponent?.ExitStation();
         }
     }
 }

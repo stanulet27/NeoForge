@@ -61,10 +61,10 @@ namespace NeoForge.Deformation
             _outFurnacePosition = new GameObject("@OutFurnacePosition").transform;
             _inFurnacePosition = new GameObject("@InFurnacePosition").transform;
             //generate positions for in and out of furnace
-            if (FurnaceSpotLocator.ReserveNewPosition(this, out Vector3 position))
+            if (FurnaceSpotLocator.ReserveNewPosition(this, out var position, out var rotation))
             {
-                _outFurnacePosition.position = position;
-                _inFurnacePosition.position = position;
+                _outFurnacePosition.SetPositionAndRotation(position, rotation);
+                _inFurnacePosition.SetPositionAndRotation(position, rotation);
             }
 
             ChangePosition(_outFurnacePosition);

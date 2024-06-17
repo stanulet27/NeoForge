@@ -6,7 +6,7 @@ public static class FurnaceSpotLocator
 {
     private const int MAX_SPOTS = 4;
     private const float MAX_DISTANCE = 15f;
-    private const float BUFFER= 0.5f;
+    private const float BUFFER= 0.50f;
     
     private static Transform _initialLocation;
     private static List<ForgedPart> _storedParts = new();
@@ -26,9 +26,11 @@ public static class FurnaceSpotLocator
     /// <param name="part">The part that needs the spot (should be this)</param>
     /// <param name="position">Vector that will be zero if spot was unable
     /// to be reserved, or the new position</param>
+    /// <param name="rotation">Quaternion that will be the initial rotation</param>
     /// <returns>True if position was reserved, false otherwise</returns>
-    public static bool ReserveNewPosition(ForgedPart part, out Vector3 position)
+    public static bool ReserveNewPosition(ForgedPart part, out Vector3 position, out Quaternion rotation)
     {
+        rotation = _initialLocation.rotation;
         if (_storedParts.Count == MAX_SPOTS)
         {
             position = new Vector3();
@@ -45,13 +47,16 @@ public static class FurnaceSpotLocator
         var lastPart = _storedParts[_storedParts.Count - 1];
         var lastBoundingBox = lastPart.GetBounds();
         var lastPosition = lastPart.transform.position;
+        var offsetDirection = lastPart.transform.right;
         var lastSize = lastBoundingBox.size;
         
         var currentPart = part.GetBounds();
         var currentSize = currentPart.size;
         
-        var newPosition = lastPosition + new Vector3(lastSize.x/2 + currentSize.x/2 + BUFFER, 0, 0);
-        if(newPosition.x - _initialLocation.position.x >= MAX_DISTANCE)
+        var offsetAmount = lastSize.x/2 + currentSize.x/2 + BUFFER;
+        
+        var newPosition = lastPosition + offsetDirection * offsetAmount;
+        if(Vector3.Distance(newPosition, _initialLocation.position) >= MAX_DISTANCE)
         {
             position = new Vector3();
             return false;

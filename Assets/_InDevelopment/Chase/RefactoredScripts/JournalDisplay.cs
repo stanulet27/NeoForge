@@ -5,6 +5,7 @@ using NeoForge.UI.Inventory;
 using NeoForge.UI.Menus;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace NeoForge.UI.Journal
 {
@@ -18,6 +19,10 @@ namespace NeoForge.UI.Journal
         [SerializeField] private List<MaterialData> _materials;
         [Tooltip("The display object that will be toggled on and off for hiding and showing the journal menu")]
         [SerializeField] private GameObject _display;
+        [Tooltip("Will trigger when the journal is opened")]
+        [SerializeField] private UnityEvent _onOpen;
+        [Tooltip("Will trigger when the journal is closed")]
+        [SerializeField] private UnityEvent _onClose;
 
         private bool _onCover;
         
@@ -39,6 +44,7 @@ namespace NeoForge.UI.Journal
         {
             _display.SetActive(true);
             ReturnToTitle();
+            _onOpen.Invoke();
             ControllerManager.Instance.SwapMode(ControllerManager.Mode.UI);
             ControllerManager.OnClose += CloseMenu;
             ControllerManager.OnGoBack += GoBackAPage;
@@ -51,6 +57,7 @@ namespace NeoForge.UI.Journal
         public void CloseMenu()
         {
             HideMenu();
+            _onClose.Invoke();
             UnsubscribeToEvents();
             ControllerManager.Instance.SwapMode(ControllerManager.Mode.Gameplay);
         }

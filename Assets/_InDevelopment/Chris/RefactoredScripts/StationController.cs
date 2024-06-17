@@ -3,12 +3,13 @@ using AYellowpaper.SerializedCollections;
 using NeoForge.Deformation;
 using NeoForge.Deformation.Scoring;
 using NeoForge.Input;
+using NeoForge.Orders;
 using SharedData;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 
-public class StationController : MonoBehaviour
+public class StationController : MonoBehaviour, IStation
 {
     [Tooltip(("Event that is called when the station is changed"))]
     [SerializeField] private UnityEvent<Station> _stationChanged;
@@ -51,16 +52,6 @@ public class StationController : MonoBehaviour
     private void Awake()
     {
         FurnaceSpotLocator.SetInitialLocation(_initialFurnacePosition);
-    }
-
-    private void Start()
-    {
-        FindObjectsOfType<Deformable>().ToList().ForEach(deformable => deformable.Clicked += OnPartSelected);
-        ControllerManager.OnChangeStation += ChangeCamera;
-        _uiElements.Values.ToList().ForEach(ui => ui.SetActive(false));
-        _activeUI = _uiElements[Station.Overview];
-        _activeUI.SetActive(true);
-        _currentStation.Value = Station.Overview;
     }
 
     private void OnDestroy()
@@ -134,6 +125,7 @@ public class StationController : MonoBehaviour
 
     private void UpdateHeatButtonText()
     {
+        if (_activePart == null) return;
         if(_activePart.CurrentState == ForgedPart.PartState.Ambient)
         {  
             _heatingCoolingButton.text = (_currentStation.Value == Station.Heating) 
@@ -183,27 +175,38 @@ public class StationController : MonoBehaviour
     private void ChangeCamera(Station station)
     {
         if (_currentStation.Value == Station.Overview) _currentStation.Value = station;
+        if (_activePart == null) _currentStation.Value = station;
         ChangeUI();
         ChangeCameraView(station);
     }
     
     private void ChangeUI()
     {
+        var hasActivePart = _activePart != null;
         _activeUI.SetActive(false);
         _heatingUI.SetActive(false);
         _temperatureUI.SetActive(false);
-        _activeUI = _uiElements[_currentStation.Value];
-        if (_currentStation.Value == Station.Heating && _activePart != null)
+
+        _activeUI = _currentStation != Station.Heating && !hasActivePart
+            ? _uiElements[Station.Overview]
+            : _uiElements[_currentStation.Value];
+
+        if (hasActivePart)
         {
-            _activeUI = _heatingUI;
-            _temperatureUI.SetActive(true);
-            UpdateHeatButtonText();
+            switch (_currentStation.Value)
+            {
+                case Station.Heating:
+                    _activeUI = _heatingUI;
+                    _temperatureUI.SetActive(true);
+                    UpdateHeatButtonText();
+                    break;
+                case Station.Cooling:
+                    _temperatureUI.SetActive(true);
+                    UpdateHeatButtonText();
+                    break;
+            }
         }
-        else if (_currentStation.Value == Station.Cooling)
-        {
-            _temperatureUI.SetActive(true);
-            UpdateHeatButtonText();
-        }
+
         _activeUI.SetActive(true);
     }
 
@@ -230,5 +233,29 @@ public class StationController : MonoBehaviour
                 Debug.LogError("Station not found!");
                 break;
         }
+    }
+
+    public void EnterStation()
+    {
+        FindObjectsOfType<Deformable>().ToList().ForEach(deformable => deformable.Clicked += OnPartSelected);
+        ControllerManager.OnChangeStation += ChangeCamera;
+        _uiElements.Values.ToList().ForEach(ui => ui.SetActive(false));
+        _activeUI = _uiElements[Station.Overview];
+        _activeUI.SetActive(true);
+        _currentStation.Value = Station.Overview;
+        ChangeCamera(_currentStation);
+    }
+
+    public void ExitStation()
+    {
+        FindObjectsOfType<Deformable>().ToList().ForEach(deformable => deformable.Clicked -= OnPartSelected);
+        ControllerManager.OnChangeStation -= ChangeCamera;
+        _uiElements.Values.ToList().ForEach(ui => ui.SetActive(false));
+        if (_activePart != null)
+        {
+            ReturnPartToHeating();
+        }
+        ChangeCamera(Station.Overview);
+        _activeUI.SetActive(false);
     }
 }
