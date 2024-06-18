@@ -5,9 +5,23 @@ using System.Linq;
 using NeoForge.Utilities.Movement;
 using SharedData;
 using UnityEngine;
+using NeoForge.UI.Inventory;
 
 namespace NeoForge.Deformation
 {
+    public enum PartOption
+    {
+        BasicBar,
+    }
+
+    public class PartDetails
+    {
+        public PartOption PartOption;
+        public float Hits;
+        public ItemWithBonus Coal;
+        public float InitialScore = -1;
+    }
+    
     public class ForgedPart : MonoBehaviour
     {
         private const float ROOM_TEMPERATURE_KELVIN = 290f;
@@ -23,7 +37,9 @@ namespace NeoForge.Deformation
         [Tooltip("The material on the part containing the blackbody radiation shader")]
         [SerializeField] private MeshRenderer _material;
         [Tooltip("Vertical offset when selected")]
-        [SerializeField] private float _selectedOffset = 0.5f; 
+        [SerializeField] private float _selectedOffset = 0.5f;
+
+        public PartDetails Details { get; set; }
 
         /// <summary>
         /// The temperature of the part in kelvin
@@ -45,6 +61,8 @@ namespace NeoForge.Deformation
         /// </summary>
         public Transform OutFurnacePosition => _outFurnacePosition;
         
+        public Mesh Mesh => _material.GetComponent<MeshFilter>().sharedMesh;
+        
         private List<PartBoundsLocker> _boundsLocker;
         private List<Moveable> _moveables;
         private PartState _currentState;
@@ -54,7 +72,7 @@ namespace NeoForge.Deformation
         private Station _currentStation;
         private bool _isSelected;
         private static readonly int _temperature1 = Shader.PropertyToID("_Temperature");
-
+        
         private void Awake()
         {
             _outFurnacePosition = new GameObject("@OutFurnacePosition").transform;
@@ -73,6 +91,8 @@ namespace NeoForge.Deformation
             ToggleMovement(false);
             ToggleSelection(false);
             SetStation(Station.Heating);
+            Details = new PartDetails() 
+                { PartOption = PartOption.BasicBar, Hits = 0, Coal = null };
             
             _outFurnacePosition.gameObject.SetActive(true);
             _inFurnacePosition.gameObject.SetActive(true);

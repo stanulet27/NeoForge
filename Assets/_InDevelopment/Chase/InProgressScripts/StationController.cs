@@ -23,6 +23,8 @@ namespace NeoForge.Deformation
         [SerializeField] private SharedState _currentStation;
         [Tooltip("The mesh similarity calculator that is used to compare the current mesh to the target mesh")]
         [SerializeField] private MeshSimilarityCalculator _meshSimilarityCalculator;
+        [Tooltip("Will handle displaying the results for a part")]
+        [SerializeField] private PartCompletionScreen _partCompletionScreen;
 
         [Header("UI Screens")]
         [Tooltip("The main UI elements that are displayed when the player is in a specific station")]
@@ -144,6 +146,22 @@ namespace NeoForge.Deformation
             if (_aPartIsActive) ReturnPartToHeating();
             ChangeCamera(Station.Overview);
             _activeUI.SetActive(false);
+        }
+        
+        public void SubmitPart()
+        {
+            var part = _activePart;
+            var results = new PartCompletionScreen.ForgingResults(_meshSimilarityCalculator, part.Details, part.Mesh);
+            
+            _partCompletionScreen.Display(results, OnPartReviewed);
+        }
+
+        private void OnPartReviewed()
+        {
+            _activePart.gameObject.SetActive(false);
+            SetActivePart(null);
+            ChangeCamera(Station.Overview);
+            _meshSimilarityCalculator.PostScore();
         }
         
         private void SetActivePart(ForgedPart part)

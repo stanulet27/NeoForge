@@ -17,7 +17,7 @@ namespace NeoForge.Deformation.Scoring
         private const float MAX_SCORE = 100.0f;
         private static readonly Color _successColor = Color.green;
         private static readonly Color _failureColor = Color.red;
-        
+
         [Header("References")]
         [Tooltip("The mesh filter of the current mesh.")]
         [SerializeField] private MeshFilter _userMeshFilter;
@@ -39,6 +39,10 @@ namespace NeoForge.Deformation.Scoring
         [SerializeField] private RaycastPoint.Mode _displayMode = RaycastPoint.Mode.Undershot;
 
         private float _initialScore;
+        private ForgedPart _part;
+        
+        public float Score => _score;
+        public float OvershotScore => RaycastPoint.GetScore(RaycastPoint.Mode.Overshot);
 
         public void PostScore()
         {
@@ -47,6 +51,7 @@ namespace NeoForge.Deformation.Scoring
 
         public void SetPart(ForgedPart part)
         {
+            _part = part;
             foreach (Transform child in part.transform)
             {
                 if (child.gameObject.TryGetComponent(out Deformable deformable))
@@ -59,10 +64,13 @@ namespace NeoForge.Deformation.Scoring
                     Debug.Log("found desired mesh");
                     _desiredMeshFilter = child.GetComponent<MeshFilter>();
                     _heatMapRenderer = child.GetComponent<Renderer>();
-
                 }
             }
+            _initialScore = 0;
             CalculateScore();
+            if (part.Details.InitialScore < 0) _part.Details.InitialScore = _score.Value;
+            _initialScore = _part.Details.InitialScore;
+            _score.Value = DetermineScore();
         }
 
         private IEnumerator SendScorePutRequest()
@@ -81,12 +89,12 @@ namespace NeoForge.Deformation.Scoring
         {
             CalculateScore();
             _score.Value = DetermineScore();
-            DeformationHandler.OnDeformationPerformed += CalculateScore;
+            DeformationHandler.OnDeformationPerformed += OnDeformationPerformed;
         }
 
         private void OnDestroy()
         {
-            DeformationHandler.OnDeformationPerformed -= CalculateScore;
+            DeformationHandler.OnDeformationPerformed -= OnDeformationPerformed;
         }
 
         private void OnDrawGizmosSelected()
@@ -96,6 +104,12 @@ namespace NeoForge.Deformation.Scoring
                 Gizmos.color = point.DoesItScore() ? Color.green : Color.red;
                 Gizmos.DrawSphere(point.Origin, 0.01f);
             }
+        }
+        
+        private void OnDeformationPerformed()
+        {
+            if (_part != null) _part.Details.Hits++;
+            CalculateScore();
         }
 
         private void GeneratePoints(RaycastPoint.Mode mode)
