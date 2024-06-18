@@ -13,7 +13,7 @@ using System.Linq;
 using UnityEngine;
 using TMPro;
 
-namespace Utilities
+namespace NeoForge.Utilities
 {
     /// <summary>
     /// Handles displaying a console to the user that shows all of the debug logs.
