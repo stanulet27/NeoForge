@@ -7656,6 +7656,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _material: {fileID: 2126005832}
+  _selectedOffset: 0.5
 --- !u!114 &400262879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8934,6 +8935,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _material: {fileID: 1356909879}
+  _selectedOffset: 0.5
 --- !u!114 &457592303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31974,6 +31976,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _material: {fileID: 1167986433}
+  _selectedOffset: 0.5
 --- !u!1 &1679603209
 GameObject:
   m_ObjectHideFlags: 0
@@ -38483,6 +38486,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _material: {fileID: 884065704}
+  _selectedOffset: 0.5
 --- !u!114 &2112084079
 MonoBehaviour:
   m_ObjectHideFlags: 0

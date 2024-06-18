@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NeoForge.Utilities.Movement;
+using SharedData;
 using UnityEngine;
 
 namespace NeoForge.Deformation
@@ -21,6 +22,8 @@ namespace NeoForge.Deformation
         
         [Tooltip("The material on the part containing the blackbody radiation shader")]
         [SerializeField] private MeshRenderer _material;
+        [Tooltip("Vertical offset when selected")]
+        [SerializeField] private float _selectedOffset = 0.5f; 
 
         /// <summary>
         /// The temperature of the part in kelvin
@@ -43,14 +46,15 @@ namespace NeoForge.Deformation
         public Transform OutFurnacePosition => _outFurnacePosition;
         
         private List<PartBoundsLocker> _boundsLocker;
+        private List<Moveable> _moveables;
         private PartState _currentState;
         private float _temperature;
-
-        //Heating positions must be generated for each part
-        //since this is where multiple parts can be stores
         private Transform _outFurnacePosition;
         private Transform _inFurnacePosition;
-        
+        private Station _currentStation;
+        private bool _isSelected;
+        private static readonly int _temperature1 = Shader.PropertyToID("_Temperature");
+
         private void Awake()
         {
             _outFurnacePosition = new GameObject("@OutFurnacePosition").transform;
@@ -58,6 +62,7 @@ namespace NeoForge.Deformation
             _outFurnacePosition.SetParent(transform.parent);
             _inFurnacePosition.SetParent(transform.parent);
             _boundsLocker = GetComponentsInChildren<PartBoundsLocker>().ToList();
+            _moveables = GetComponentsInChildren<Moveable>().ToList();
         }
 
         private void OnEnable()
@@ -65,6 +70,9 @@ namespace NeoForge.Deformation
             _currentState = PartState.Ambient;
             _temperature = ROOM_TEMPERATURE_KELVIN;
             _material.material.SetFloat("_Temperature", _temperature);
+            ToggleMovement(false);
+            ToggleSelection(false);
+            SetStation(Station.Heating);
             
             _outFurnacePosition.gameObject.SetActive(true);
             _inFurnacePosition.gameObject.SetActive(true);
@@ -92,8 +100,10 @@ namespace NeoForge.Deformation
 
         public void ResetPosition(Vector3 position, Quaternion rotation)
         {
+            var shiftTowardsFurnace = Vector3.forward * 2f;
+            
             _outFurnacePosition.SetPositionAndRotation(position, rotation);
-            _inFurnacePosition.SetPositionAndRotation(position, rotation);
+            _inFurnacePosition.SetPositionAndRotation(position + shiftTowardsFurnace, rotation);
             ChangePosition(_outFurnacePosition);
         }
 
@@ -103,6 +113,7 @@ namespace NeoForge.Deformation
         public void StartHeating()
         {
             _currentState = PartState.Heating;
+            UpdateSelectionIndication();
             ChangePosition(_inFurnacePosition);
             StartCoroutine(Heat());
         }
@@ -133,9 +144,10 @@ namespace NeoForge.Deformation
         /// <param name="coolPosition"></param>
         public void SetToAmbient(Transform coolPosition)
         {
-            ChangePosition(_currentState == PartState.Heating ? _inFurnacePosition : coolPosition);
+            ChangePosition(_currentState == PartState.Heating ? _outFurnacePosition : coolPosition);
             StopAllCoroutines();
             _currentState = PartState.Ambient;
+            UpdateSelectionIndication();
         }
 
         /// <summary>
@@ -149,13 +161,61 @@ namespace NeoForge.Deformation
             transform.rotation = target.rotation;
             _boundsLocker.ForEach(x => x.enabled = true);
         }
+        
+        /// <summary>
+        /// Will toggle the movement of the part, when movement is disabled the part will be reset to its original
+        /// position.
+        /// </summary>
+        public void ToggleMovement(bool canMove)
+        {
+            _moveables.ForEach(x => x.enabled = canMove);
+            if (!canMove) _moveables.ForEach(x => x.ResetPosition());
+        }
+
+        public void ToggleSelection(bool selected)
+        {
+            _isSelected = selected;
+            UpdateSelectionIndication();
+        }
+
+        public void SetStation(Station station)
+        {
+            _currentStation = station;
+            UpdateTemperatureDisplay();
+            var canKeepHeating = _currentState == PartState.Heating && station is Station.Heating or Station.Planning;
+            var canKeepCooling = _currentState == PartState.Cooling && station is Station.Cooling or Station.Planning;
+            if (!canKeepHeating && !canKeepCooling)
+            {
+                StopAllCoroutines();
+                _currentState = PartState.Ambient;
+            }
+            
+            UpdateSelectionIndication();
+        }
+        
+        private void UpdateSelectionIndication()
+        {
+            var needsToDisplaySelection = _isSelected && _currentStation == Station.Heating;
+            _moveables.ForEach(x =>
+            {
+                if (needsToDisplaySelection) AdjustPosition(x, _selectedOffset);
+                else x.ResetPosition();
+            });
+        }
+        
+        private void AdjustPosition(Moveable moveable, float offset)
+        {
+            var position = moveable.transform.localPosition;
+            position.y = offset;
+            moveable.transform.localPosition = position;
+        }
 
         private IEnumerator Heat()
         {
             while (_currentState == PartState.Heating)
             {
                 _temperature += TEMPERATURE_CHANGE_RATE;
-                _material.material.SetFloat("_Temperature", _temperature);
+                UpdateTemperatureDisplay();
                 yield return new WaitForSeconds(Time.fixedDeltaTime);
             }
         }
@@ -165,10 +225,15 @@ namespace NeoForge.Deformation
             while (_currentState == PartState.Cooling)
             {
                 _temperature -= TEMPERATURE_CHANGE_RATE;
-                _material.material.SetFloat("_Temperature", _temperature);
+                _temperature = Mathf.Max(ROOM_TEMPERATURE_KELVIN, _temperature);
+                UpdateTemperatureDisplay();
                 yield return new WaitForSeconds(Time.fixedDeltaTime);
-                
             }
+        }
+
+        private void UpdateTemperatureDisplay()
+        {
+            _material.material.SetFloat(_temperature1, _currentStation != Station.Planning ? _temperature : 0);
         }
     }
 }

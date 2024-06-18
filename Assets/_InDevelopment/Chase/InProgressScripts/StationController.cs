@@ -81,9 +81,12 @@ namespace NeoForge.Deformation
         public void ChangeStation(Station newStation)
         {
             _activePart.ChangePosition(_partPositions[newStation]);
+            _activePart.ToggleMovement(newStation is Station.Forging or Station.Planning);
+            _activePart.SetStation(newStation);
             _currentStation.Value = newStation;
             ChangeCameraView(newStation);
             ChangeUI();
+            UpdateHeatButtonText();
         }
 
 
@@ -101,6 +104,7 @@ namespace NeoForge.Deformation
         public void ReturnPartToHeating()
         {
             _activePart.ChangePosition(_partPositions[Station.Heating]);
+            _activePart.SetStation(Station.Heating);
             SetActivePart(null);
             ChangeCamera(Station.Heating);
             CloseReturnUI();
@@ -144,17 +148,20 @@ namespace NeoForge.Deformation
         
         private void SetActivePart(ForgedPart part)
         {
+            if (_activePart != null) _activePart.ToggleSelection(false);
             _activePart = part;
             _aPartIsActive = part != null;
+            if (_aPartIsActive) _activePart.ToggleSelection(true);
+            UpdateHeatButtonText();
         }
 
         private void UpdateHeatButtonText()
         {
             if (!_aPartIsActive) return;
-            var stationAction = _currentStation.Value == Station.Heating ? "Place in Furnace" : "Place in Water";
-            var stationActionBeingPerformed = _activePart.CurrentState == ForgedPart.PartState.Ambient;
+            var stationActionAvailable = _currentStation.Value == Station.Heating ? "Place in Furnace" : "Place in Water";
+            var awaitingStationAction = _activePart.CurrentState == ForgedPart.PartState.Ambient;
             
-            _heatingCoolingButton.text = !stationActionBeingPerformed ? stationAction : "Remove";
+            _heatingCoolingButton.text = awaitingStationAction ? stationActionAvailable : "Remove";
         }
 
         private void UpdateTemperatureDisplays()
@@ -168,7 +175,7 @@ namespace NeoForge.Deformation
         {
             var newPartSelected = part != _activePart && _currentStation.Value == Station.Heating;
             if (newPartSelected) SwapToPart(part);
-            else OpenReturnUI();
+            else if (_currentStation != Station.Heating) OpenReturnUI();
         }
 
         private void SwapToPart(ForgedPart part)

@@ -35,6 +35,23 @@ namespace NeoForge.Utilities.Movement
             ControllerManager.OnSwapMode -= SwapMode;
             ControllerManager.OnSlowDown -= SlowDown;
         }
+
+        private void Update()
+        {
+            var moveModifer = _beingSlowed ? _config.MovementSpeedUp : 1f;
+            var rotationModifer = _beingSlowed ? _config.RotationalSpeedUp : 1f;
+            transform.localPosition += _moveDirection * (_config.MoveSpeed * Time.deltaTime * moveModifer);
+            transform.Rotate(_rotationDirection * (_config.RotationSpeed * Time.deltaTime * rotationModifer), Space.Self);
+        }
+        
+        /// <summary>
+        /// Local position and rotation will be reset to zero.
+        /// </summary>
+        public void ResetPosition()
+        {
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.identity;
+        }
         
         private void SwapMode()
         {
@@ -46,14 +63,6 @@ namespace NeoForge.Utilities.Movement
         private void SlowDown(bool spedUp)
         {
             _beingSlowed = spedUp;
-        }
-
-        private void Update()
-        {
-            var moveModifer = _beingSlowed ? _config.MovementSpeedUp : 1f;
-            var rotationModifer = _beingSlowed ? _config.RotationalSpeedUp : 1f;
-            transform.localPosition += _moveDirection * (_config.MoveSpeed * Time.deltaTime * moveModifer);
-            transform.Rotate(_rotationDirection * (_config.RotationSpeed * Time.deltaTime * rotationModifer), Space.Self);
         }
 
         private void ApplyMovement(Vector2 moveDirection)
