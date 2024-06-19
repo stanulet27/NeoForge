@@ -3,13 +3,19 @@
 namespace NeoForge.UI.Inventory
 {
     [CreateAssetMenu(fileName = "New Item", menuName = "Items/Material")]
-    public class Material : ItemBase
+    public class MaterialItem : ItemBase
     {
+        public enum StartingOption
+        {
+            BasicCube = 0,
+            BasicBar = 1,
+        }
+        
         [Tooltip("The data for this material that represents its characteristics.")]
         public MaterialData Data;
         
-        [Tooltip("The model that will be used in the forging game")]
-        public GameObject Model;
+        [Tooltip("The mesh that will be obtained from the database")]
+        public StartingOption StartingMesh;
         
         [Tooltip("The weight of the material in pounds.")]
         public float Weight;

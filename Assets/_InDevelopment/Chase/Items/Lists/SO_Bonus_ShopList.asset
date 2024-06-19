@@ -10,14 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2445a7c3008a4996ae2d7cf66ccf714f, type: 3}
-  m_Name: SO_Materials_ShopList
+  m_Name: SO_Bonus_ShopList
   m_EditorClassIdentifier: 
   _shopItems:
-  - Item: {fileID: 11400000, guid: ceab6c45ae3b8bb4aaed0c2855da301d, type: 2}
+  - Item: {fileID: 11400000, guid: fe0c322f71551a848ae849cb17698866, type: 2}
     DayUnlocked: 0
-  - Item: {fileID: 11400000, guid: 86e9e52b9e741c84faabfafba1a0bcca, type: 2}
+  - Item: {fileID: 11400000, guid: 165e9f992776ec643a8ce903f66fb609, type: 2}
     DayUnlocked: 0
-  - Item: {fileID: 11400000, guid: 78afc5601f8484e4590f1adc58ec29bd, type: 2}
-    DayUnlocked: 0
-  - Item: {fileID: 11400000, guid: f82bdcbac1dd7eb44bf0d6ee6ebd01ab, type: 2}
+  - Item: {fileID: 11400000, guid: d3b5f91ed3e7c7549be382769685b98d, type: 2}
     DayUnlocked: 0

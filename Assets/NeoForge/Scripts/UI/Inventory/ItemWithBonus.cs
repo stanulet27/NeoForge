@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using System;
+using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEngine;
 
@@ -37,6 +38,8 @@ namespace NeoForge.UI.Inventory
         {
             get
             {
+                if (_bonusValue == 0) return "Does nothing when used.";
+                
                 var increaseOrDecrease = _bonusValue > 0 ? "increase" : "decrease";
                 var modifier = _bonusType == BonusType.Multiply ? $"{_bonusValue * 100f}%" : $"{_bonusValue}";
                 return $"Will {increaseOrDecrease} the {Modifies.ToString().SplitPascalCase()} by {modifier} when used.";
@@ -52,7 +55,7 @@ namespace NeoForge.UI.Inventory
         {
             return _bonusType switch
             {
-                BonusType.Multiply => originalValue * _bonusValue,
+                BonusType.Multiply => originalValue * (1 + _bonusValue),
                 BonusType.Add => originalValue + _bonusValue,
                 _ => originalValue
             };

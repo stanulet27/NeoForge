@@ -42,7 +42,7 @@ namespace NeoForge.UI.Buttons
             _button.Select();
         }
         
-        protected void ToggleInteractable(bool value)
+        public void ToggleInteractable(bool value)
         {
             _button.interactable = value;
         }

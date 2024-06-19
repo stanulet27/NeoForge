@@ -44,5 +44,10 @@ namespace NeoForge.UI.Inventory
             
             OnItemRemoved?.Invoke(item);
         }
+
+        public int CountItems(ItemBase item)
+        {
+            return _inventory.TryGetValue(item, out var value) ? value : 0;
+        }
     }
 }

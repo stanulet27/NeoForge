@@ -8,19 +8,14 @@ namespace NeoForge.Deformation
 {
     public class PartDetails
     {
-        public enum StartingOption
-        {
-            BasicCube = 0,
-            BasicBar = 1,
-        }
-
         public enum DesiredOption
         {
+            None = -1,
             BasicBar = 0,
             BasicSphere = 1,
         }
         
-        public readonly StartingOption StartingMesh;
+        public readonly MaterialItem.StartingOption StartingMesh;
         public readonly MaterialData Material;
         public readonly DesiredOption DesiredMesh;
         public readonly ItemWithBonus Coal;
@@ -31,14 +26,14 @@ namespace NeoForge.Deformation
         
         public PartDetails()
         {
-            StartingMesh = StartingOption.BasicBar;
+            StartingMesh = MaterialItem.StartingOption.BasicBar;
             Material = MaterialData.CreateDefault();
             DesiredMesh = DesiredOption.BasicBar;
             Coal = null;
             Hits = 0;
         }
         
-        public PartDetails(StartingOption startingMesh , MaterialData material, DesiredOption desiredMesh, ItemWithBonus coal)
+        public PartDetails(MaterialItem.StartingOption startingMesh , MaterialData material, DesiredOption desiredMesh, ItemWithBonus coal)
         {
             StartingMesh = startingMesh;
             Material = material;

@@ -12,7 +12,6 @@ namespace NeoForge.Deformation
     [RequireComponent(typeof(MeshCollider))]
     public class Deformable : MonoBehaviour
     {
-
         public Action<ForgedPart> Clicked;
         
         private ForgedPart _part;

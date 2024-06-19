@@ -169,7 +169,7 @@ namespace NeoForge.Input
             OnSwapCamera?.Invoke();
         }
         
-        public void OnSwapModeInput()
+        public void OnSwapMovementInput()
         {
             OnSwapMode?.Invoke();
         }

@@ -10,10 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef6dcb078fca44fb97ca3a1ea9b6f816, type: 3}
-  m_Name: SO_ExpensiveCoal_BonusItem
+  m_Name: SO_QualityCoal_BonusItem
   m_EditorClassIdentifier: 
-  Cost: 75
-  Icon: {fileID: 0}
+  _cost: 80
   _bonusType: 1
   _bonusTarget: 1
   _bonusValue: 20
