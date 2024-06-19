@@ -3,6 +3,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using NeoForge.Deformation.JSON;
+using NeoForge.Deformation.Scoring;
 using NeoForge.Deformation.UI;
 using NeoForge.Input;
 
@@ -50,7 +51,6 @@ namespace NeoForge.Deformation
         private void Start()
         {
             _hud.UpdateDisplay(force: _force, size: _selector.GetSize());
-            StartCoroutine(SetupEnvironment());
         }
 
         private void Update()
@@ -62,39 +62,48 @@ namespace NeoForge.Deformation
         {
             StartCoroutine(UndoDeformation());
         }
-        
-        private IEnumerator SetupEnvironment()
+
+        public static IEnumerator SetupPart(ForgedPart part)
         {
             //send environment data (all zeros is default)
-            ///TODO: Select environment data and replace defaults
-            EnvironmentChoices environmentChoices = new EnvironmentChoices(0, 0, 0, 0);
+            var environmentChoices = new EnvironmentChoices(part.Details);
             yield return WebServerConnectionHandler.SendPutRequest(JsonUtility.ToJson(environmentChoices), "/init");
 
             yield return WebServerConnectionHandler.SendGetRequest("/starting-mesh");
-            MeshData startingMeshData = JsonUtility.FromJson<MeshData>(WebServerConnectionHandler.ReturnData);
-            _partMesh.mesh = CreateMesh(startingMeshData);
-            _partMeshCollider.sharedMesh = _partMesh.mesh;
+            var startingMeshData = JsonUtility.FromJson<MeshData>(WebServerConnectionHandler.ReturnData);
+            part.PartMesh.mesh = CreateMesh(startingMeshData);
+            part.PartCollider.sharedMesh = part.PartMesh.mesh;
 
             yield return WebServerConnectionHandler.SendGetRequest("/target-mesh");
-            MeshData targetMeshData = JsonUtility.FromJson<MeshData>(WebServerConnectionHandler.ReturnData);
-            _targetMesh.mesh = CreateMesh(targetMeshData);
-            _targetMeshCollider.sharedMesh = _targetMesh.mesh; 
-            
-            yield return WebServerConnectionHandler.SendGetRequest("/hammer");
-            HammerData hammerData = JsonUtility.FromJson<HammerData>(WebServerConnectionHandler.ReturnData);
-            _selector.transform.localScale = new Vector3(hammerData.SizeY, 1, hammerData.SizeX);
+            var targetMeshData = JsonUtility.FromJson<MeshData>(WebServerConnectionHandler.ReturnData);
+            part.DesiredMesh.mesh = CreateMesh(targetMeshData);
+            part.DesiredCollider.sharedMesh = part.DesiredMesh.mesh;
 
             yield return WebServerConnectionHandler.SendGetRequest("/material");
-            MaterialData materialData = JsonUtility.FromJson<MaterialData>(WebServerConnectionHandler.ReturnData);
-            _maxForce =  materialData.MaximumDeformation;
+            var jsonMaterial = JsonUtility.FromJson<JSONMaterial>(WebServerConnectionHandler.ReturnData);
+            part.Details.SetMaterialData(jsonMaterial);
             
-            OnDeformationPerformed?.Invoke(); //invoke this to get initial score/heatmap
+            yield return part.Details.SetScoreDetails(part);
         }
 
-        private Mesh CreateMesh(MeshData meshData)
+        public IEnumerator PrepareEnvironment(ForgedPart part)
         {
-            float[] vertices = meshData.Vertices;
-            int[] triangles = meshData.Triangles;
+            var environmentChoices = new EnvironmentChoices(part.Details) { HammerID = 0 };
+            yield return WebServerConnectionHandler.SendPutRequest(JsonUtility.ToJson(environmentChoices), "/init");
+            
+            yield return WebServerConnectionHandler.SendGetRequest("/hammer");
+            var hammerData = JsonUtility.FromJson<HammerData>(WebServerConnectionHandler.ReturnData);
+            _selector.transform.localScale = new Vector3(hammerData.SizeY, 1, hammerData.SizeX);
+            
+            _maxForce = part.Details.Material.MaximumForce;
+            _target = part.DesiredMesh.gameObject;
+            _part = part.gameObject;
+        }
+
+        private static Mesh CreateMesh(MeshData meshData)
+        {
+            var vertices = meshData.Vertices;
+            var triangles = meshData.Triangles;
             var mesh = new Mesh();
             var meshVertices = new Vector3[vertices.Length / 3];
             for (var i = 0; i < vertices.Length; i += 3)
@@ -117,7 +126,7 @@ namespace NeoForge.Deformation
         private IEnumerator UndoDeformation()
         {
             yield return WebServerConnectionHandler.SendGetRequest("/undo-strike");
-            MeshData meshData = JsonUtility.FromJson<MeshData>(WebServerConnectionHandler.ReturnData);
+            var meshData = JsonUtility.FromJson<MeshData>(WebServerConnectionHandler.ReturnData);
             _partMesh.mesh = CreateMesh(meshData);
             _partMeshCollider.sharedMesh = _partMesh.mesh;
             OnDeformationPerformed?.Invoke();

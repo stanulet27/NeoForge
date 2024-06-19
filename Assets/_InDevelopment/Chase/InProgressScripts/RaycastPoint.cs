@@ -40,7 +40,12 @@ namespace NeoForge.Deformation.Scoring
         
         public static float GetScore(Mode mode)
         {
-            return (float)Points[mode].Count(point => point.DoesItScore()) / Points[mode].Count * 100f;
+            return GetScore(Points[mode]);
+        }
+        
+        public static float GetScore(List<RaycastPoint> points)
+        {
+            return (float)points.Count(point => point.DoesItScore()) / points.Count * 100f;
         }
         
         public bool DoesItScore()

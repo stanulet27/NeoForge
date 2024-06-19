@@ -8,7 +8,7 @@
         public int MaterialID;
         public int HammerID;
 
-        public EnvironmentChoices(int startMeshID, int endMeshID, int materialID, int hammerID)
+        public EnvironmentChoices(int startMeshID, int endMeshID, int materialID, int hammerID = 0)
         {
             StartMeshID = startMeshID;
             EndMeshID = endMeshID;
@@ -16,5 +16,12 @@
             HammerID = hammerID;
         }
 
+        public EnvironmentChoices(PartDetails details)
+        {
+            StartMeshID = (int) details.StartingMesh;
+            EndMeshID = (int) details.DesiredMesh;
+            MaterialID = (int) details.Material.MaterialType;
+            HammerID = 0;
+        }
     }
 }

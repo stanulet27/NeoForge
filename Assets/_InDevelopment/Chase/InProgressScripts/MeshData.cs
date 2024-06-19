@@ -9,10 +9,10 @@ namespace NeoForge.Deformation.JSON
         public float[] Vertices;
         public int[] Triangles;
   
-        public MeshData(Mesh mesh)
+        public MeshData(Mesh mesh, float scale = 1f)
         {
-            var meshVertices = mesh.vertices;
-            Vertices = Unwrap(meshVertices);
+            var meshVertices = mesh.vertices ;
+            Vertices = Unwrap(meshVertices, scale);
 
             Triangles = mesh.triangles;
 
@@ -27,14 +27,14 @@ namespace NeoForge.Deformation.JSON
             }
         }
 
-        private float[] Unwrap(Vector3[] points)
+        private float[] Unwrap(Vector3[] points, float scale)
         {
             var unwrapped = new float[points.Length * 3];
             for (int i = 0; i < points.Length; i++)
             {
-                unwrapped[i * 3] = points[i].x;
-                unwrapped[i * 3 + 1] = points[i].y;
-                unwrapped[i * 3 + 2] = points[i].z;
+                unwrapped[i * 3] = points[i].x * scale;
+                unwrapped[i * 3 + 1] = points[i].y * scale;
+                unwrapped[i * 3 + 2] = points[i].z * scale;
             }
 
             return unwrapped;

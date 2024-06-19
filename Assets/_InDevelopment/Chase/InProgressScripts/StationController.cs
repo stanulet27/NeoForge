@@ -25,6 +25,8 @@ namespace NeoForge.Deformation
         [SerializeField] private MeshSimilarityCalculator _meshSimilarityCalculator;
         [Tooltip("Will handle displaying the results for a part")]
         [SerializeField] private PartCompletionScreen _partCompletionScreen;
+        [Tooltip("The deformation handler")]
+        [SerializeField] private DeformationHandler _deformationHandler;
 
         [Header("UI Screens")]
         [Tooltip("The main UI elements that are displayed when the player is in a specific station")]
@@ -82,6 +84,7 @@ namespace NeoForge.Deformation
         /// <param name="newStation"></param>
         public void ChangeStation(Station newStation)
         {
+            if (newStation == Station.Planning) _meshSimilarityCalculator.CalculateScore();
             _activePart.ChangePosition(_partPositions[newStation]);
             _activePart.ToggleMovement(newStation is Station.Forging or Station.Planning);
             _activePart.SetStation(newStation);
@@ -133,7 +136,7 @@ namespace NeoForge.Deformation
             _parts.ForEach(deformable => deformable.Clicked += OnPartSelected);
             ControllerManager.OnChangeStation += ChangeCamera;
             _uiElements.Values.ToList().ForEach(ui => ui.SetActive(false));
-            
+
             ChangeCamera(Station.Overview);
         }
 
@@ -170,6 +173,7 @@ namespace NeoForge.Deformation
             _activePart = part;
             _aPartIsActive = part != null;
             if (_aPartIsActive) _activePart.ToggleSelection(true);
+            if (_aPartIsActive) StartCoroutine(_deformationHandler.PrepareEnvironment(part));
             UpdateHeatButtonText();
         }
 

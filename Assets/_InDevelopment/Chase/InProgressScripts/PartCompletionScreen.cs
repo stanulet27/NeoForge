@@ -49,7 +49,7 @@ namespace NeoForge.Deformation
             _partImage.transform.Rotate(_rotationSpeed * Time.deltaTime);
         }
 
-        public void Start()
+        private void Start()
         {
             _lastMode = ControllerManager.Instance.CurrentMode;
             Hide();
@@ -61,7 +61,7 @@ namespace NeoForge.Deformation
         }
 
         [Button]
-        public void Test()
+        private void Test()
         {
             Display(new ForgingResults { PartName = "Copper Bar", PartMade = _partImage.mesh, Hits = 10, 
                 MachineCost = 15, Accuracy = 0.97f, CoalBonus = 0.2f});
@@ -142,7 +142,7 @@ namespace NeoForge.Deformation
 
             public ForgingResults(MeshSimilarityCalculator similarityCalculator, PartDetails details, Mesh partMade)
             {
-                PartName = details.PartOption.ToString().SplitPascalCase();
+                PartName = details.DesiredMesh.ToString().SplitPascalCase();
                 Hits = details.Hits;
                 MachineCost = similarityCalculator.OvershotScore;
                 Accuracy = similarityCalculator.Score;

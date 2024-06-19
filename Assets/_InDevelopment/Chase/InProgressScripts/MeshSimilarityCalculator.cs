@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using NeoForge.Deformation.JSON;
@@ -40,10 +39,37 @@ namespace NeoForge.Deformation.Scoring
 
         private float _initialScore;
         private ForgedPart _part;
+        private List<RaycastPoint> _undershotPoints = new();
         
         public float Score => _score;
         public float OvershotScore => RaycastPoint.GetScore(RaycastPoint.Mode.Overshot);
 
+        private void Awake()
+        {
+            _heatMapRenderer.material = _vertexColorMaterial;
+        }
+
+        private void Start()
+        {
+            DeformationHandler.OnDeformationPerformed += OnDeformationPerformed;
+        }
+
+        private void OnDestroy()
+        {
+            DeformationHandler.OnDeformationPerformed -= OnDeformationPerformed;
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            var points = _displayMode == RaycastPoint.Mode.Undershot ? _undershotPoints : RaycastPoint.Points[_displayMode];
+            
+            foreach (var point in points)
+            {
+                Gizmos.color = point.DoesItScore() ? Color.green : Color.red;
+                Gizmos.DrawSphere(point.Origin, 0.01f);
+            }
+        }
+        
         public void PostScore()
         {
             StartCoroutine(SendScorePutRequest());
@@ -66,55 +92,18 @@ namespace NeoForge.Deformation.Scoring
                     _heatMapRenderer = child.GetComponent<Renderer>();
                 }
             }
-            _initialScore = 0;
-            CalculateScore();
-            if (part.Details.InitialScore < 0) _part.Details.InitialScore = _score.Value;
-            _initialScore = _part.Details.InitialScore;
+            _undershotPoints = _part.Details.ScoreDetails.UndershotPoints;
+        }
+        
+        public void CalculateScore()
+        {
+            GeneratePoints(_userMeshFilter, RaycastPoint.Mode.Overshot);
+            DisplayHeatMap();
             _score.Value = DetermineScore();
         }
 
-        private IEnumerator SendScorePutRequest()
+        private static List<RaycastPoint> GeneratePoints(MeshFilter meshFilter, RaycastPoint.Mode mode)
         {
-            var json = JsonUtility.ToJson(new ScoreData(_score.Value));
-            yield return WebServerConnectionHandler.SendPutRequest(json, "/post-score");
-        }
-        
-        private void Awake()
-        {
-            _heatMapRenderer.material = _vertexColorMaterial;
-            GeneratePoints(RaycastPoint.Mode.Undershot);
-        }
-
-        private void Start()
-        {
-            CalculateScore();
-            _score.Value = DetermineScore();
-            DeformationHandler.OnDeformationPerformed += OnDeformationPerformed;
-        }
-
-        private void OnDestroy()
-        {
-            DeformationHandler.OnDeformationPerformed -= OnDeformationPerformed;
-        }
-
-        private void OnDrawGizmosSelected()
-        {
-            foreach (var point in RaycastPoint.Points[_displayMode])
-            {
-                Gizmos.color = point.DoesItScore() ? Color.green : Color.red;
-                Gizmos.DrawSphere(point.Origin, 0.01f);
-            }
-        }
-        
-        private void OnDeformationPerformed()
-        {
-            if (_part != null) _part.Details.Hits++;
-            CalculateScore();
-        }
-
-        private void GeneratePoints(RaycastPoint.Mode mode)
-        {
-            var meshFilter = mode == RaycastPoint.Mode.Undershot ? _desiredMeshFilter : _userMeshFilter;
             var generator = new System.Random(SEED);
             var bounds = meshFilter.mesh.bounds;
             var min = bounds.min;
@@ -129,18 +118,25 @@ namespace NeoForge.Deformation.Scoring
                 var z = GetRandomValue(generator, min.z, max.z);
                 var _ = new RaycastPoint(new Vector3(x, y, z), meshFilter.transform, mode);
             }
+            
+            return RaycastPoint.Points[mode];
+        }
+
+        private IEnumerator SendScorePutRequest()
+        {
+            var json = JsonUtility.ToJson(new ScoreData(_score.Value));
+            yield return WebServerConnectionHandler.SendPutRequest(json, "/post-score");
+        }
+
+        private void OnDeformationPerformed()
+        {
+            if (_part != null) _part.Details.Hits++;
+            CalculateScore();
         }
         
         private static float GetRandomValue(System.Random generator, float min, float max)
         {
             return (float) generator.NextDouble() * (max - min) + min;
-        }
-
-        private void CalculateScore()
-        {
-            GeneratePoints(RaycastPoint.Mode.Overshot);
-            DisplayHeatMap();
-            _score.Value = DetermineScore();
         }
 
         private void DisplayHeatMap()
@@ -156,12 +152,12 @@ namespace NeoForge.Deformation.Scoring
                 .ToArray();
         }
 
-        private float DetermineScore()
+        private float DetermineScore(bool raw = false)
         {
-            var currentPercent = RaycastPoint.GetScore(RaycastPoint.Mode.Undershot) * 0.8f +
+            var currentPercent = RaycastPoint.GetScore(_undershotPoints) * 0.8f +
                                  RaycastPoint.GetScore(RaycastPoint.Mode.Overshot) * 0.2f;
             
-            return (currentPercent - _initialScore) / (MAX_SCORE - _initialScore) * 100.0f;
+            return (currentPercent) / (MAX_SCORE) * 100.0f;
         }
 
         private static List<Triangle> ConvertMeshToTriangles(Mesh mesh)
@@ -196,6 +192,18 @@ namespace NeoForge.Deformation.Scoring
                 var minCorner = Vector3.Min(Vector3.Min(_vertices[0], _vertices[1]), _vertices[2]) - bufferVector;
                 var maxCorner = Vector3.Max(Vector3.Max(_vertices[0], _vertices[1]), _vertices[2]) + bufferVector;
                 return new Bounds((minCorner + maxCorner) / 2, maxCorner - minCorner);
+            }
+        }
+
+        public class ScoringDetails
+        {
+            public List<RaycastPoint> UndershotPoints { get; private set; }
+
+            public IEnumerator Setup(ForgedPart part)
+            {
+                yield return null;
+                
+                UndershotPoints = new List<RaycastPoint>(GeneratePoints(part.DesiredMesh, RaycastPoint.Mode.Undershot));
             }
         }
     }

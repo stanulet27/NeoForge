@@ -3,11 +3,11 @@
 namespace NeoForge.Deformation.JSON
 {
     [Serializable]
-    public class MaterialData
+    public class JSONMaterial
     {
         public string Name;
         public float MaximumDeformation;
-        public MaterialData(string name, float maximumDeformation)
+        public JSONMaterial(string name, float maximumDeformation)
         {
             Name = name;
             MaximumDeformation = maximumDeformation;

@@ -7764,6 +7764,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _material: {fileID: 2126005832}
   _selectedOffset: 0.5
+  _partMesh: {fileID: 2126005837}
+  _desiredMesh: {fileID: 2076173024}
 --- !u!114 &400262879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9043,6 +9045,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _material: {fileID: 1356909879}
   _selectedOffset: 0.5
+  _partMesh: {fileID: 1356909884}
+  _desiredMesh: {fileID: 1825977113}
 --- !u!114 &457592303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16307,7 +16311,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2432090755550338912, guid: 78ae49a89004c4c448ed5e16e7bac8ad, type: 3}
 --- !u!114 &884065708
@@ -21718,7 +21722,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2432090755550338912, guid: 78ae49a89004c4c448ed5e16e7bac8ad, type: 3}
 --- !u!114 &1167986432
@@ -23973,6 +23977,7 @@ MonoBehaviour:
   _currentStation: {fileID: 11400000, guid: ccdcf6ede53a5be42b817d880c8c1f93, type: 2}
   _meshSimilarityCalculator: {fileID: 1391299700}
   _partCompletionScreen: {fileID: 1955059238}
+  _deformationHandler: {fileID: 1391299701}
   _uiElements:
     _serializedList:
     - Key: 0
@@ -25493,7 +25498,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2432090755550338912, guid: 78ae49a89004c4c448ed5e16e7bac8ad, type: 3}
 --- !u!114 &1356909883
@@ -33464,6 +33469,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _material: {fileID: 1167986433}
   _selectedOffset: 0.5
+  _partMesh: {fileID: 1167986434}
+  _desiredMesh: {fileID: 1427607750}
 --- !u!1 &1679603209
 GameObject:
   m_ObjectHideFlags: 0
@@ -40415,6 +40422,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _material: {fileID: 884065704}
   _selectedOffset: 0.5
+  _partMesh: {fileID: 884065709}
+  _desiredMesh: {fileID: 1997730175}
 --- !u!114 &2112084079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -41137,7 +41146,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -2432090755550338912, guid: 78ae49a89004c4c448ed5e16e7bac8ad, type: 3}
 --- !u!114 &2126005836

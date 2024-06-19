@@ -6,6 +6,12 @@ namespace NeoForge.UI.Inventory
     [CreateAssetMenu(fileName = "New Material", menuName = "Items/Material")]
     public class MaterialData : ScriptableObject 
     {
+        public enum JSONType
+        {
+            Copper = 0,
+            Iron = 1,
+        }
+
         [Tooltip("The name of the material.")]
         public string Name;
         
@@ -32,6 +38,12 @@ namespace NeoForge.UI.Inventory
         [TextArea(2, 5)]
         public string FlavorText;
         
+        [Tooltip("The corresponding type in the database.")]
+        public JSONType MaterialType;
+        
+        [Tooltip("The max amount of force that can be applied to the material.")]
+        public float MaximumForce;
+        
         [Serializable]
         public class TemperatureInfo
         {
@@ -41,6 +53,22 @@ namespace NeoForge.UI.Inventory
             public int MinimumTime;
             [Tooltip("The maximum time to reach the desired temperature.")]
             public int MaximumTime;
+        }
+
+        public static MaterialData CreateDefault()
+        {
+            var material = CreateInstance<MaterialData>();
+            material.Name = "Material";
+            material.Description = "Description";
+            material.Icon = null;
+            material.TemperatureInfos = Array.Empty<TemperatureInfo>();
+            material.NormalStrength = 10;
+            material.HeatedStrength = 5;
+            material.Cost = 50;
+            material.FlavorText = "Flavor Text";
+            material.MaterialType = JSONType.Copper;
+            material.MaximumForce = 10;
+            return material;
         }
     }
 }
