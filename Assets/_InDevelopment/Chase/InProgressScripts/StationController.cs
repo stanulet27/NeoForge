@@ -4,6 +4,7 @@ using AYellowpaper.SerializedCollections;
 using NeoForge.Deformation.Scoring;
 using NeoForge.Input;
 using NeoForge.Orders;
+using NeoForge.UI.Inventory;
 using SharedData;
 using UnityEngine;
 using UnityEngine.Events;
@@ -155,6 +156,7 @@ namespace NeoForge.Deformation
         {
             var part = _activePart;
             var results = new PartCompletionScreen.ForgingResults(_meshSimilarityCalculator, part.Details, part.Mesh);
+            CompletedItem.CreateItem(results);
             
             _partCompletionScreen.Display(results, OnPartReviewed);
         }

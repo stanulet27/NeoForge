@@ -1,19 +1,22 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using NeoForge.Deformation;
 using NeoForge.Deformation.Scoring;
 using NeoForge.Input;
-using NeoForge.UI.Inventory;
+using NeoForge.UI.Warehouse;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using TMPro;
 using UnityEngine;
 
-namespace NeoForge.Deformation
+namespace NeoForge.UI.Inventory
 {
     public class PartCompletionScreen : MonoBehaviour
     {
         [Header("References")]
+        [Tooltip("The game object for the part completion screen")]
+        [SerializeField] private GameObject _display;
         [Tooltip("The text displaying the part name")]
         [SerializeField] private TMP_Text _partName;
         [Tooltip("The text displaying the part details: hits, machine cost, accuracy, coal bonus")]
@@ -21,17 +24,15 @@ namespace NeoForge.Deformation
         [Tooltip("The text displaying the score")]
         [SerializeField] private TMP_Text _score;
         [Tooltip("The mesh filter displaying the part image")]
-        [SerializeField] private MeshFilter _partImage;
+        [SerializeField] private PartViewer _partViewer;
         [Tooltip("The text displaying the click to continue message")]
         [SerializeField] private TMP_Text _clickToContinue;
-        
+
         [Header("Options")]
         [Tooltip("Time in seconds between displaying each detail")]
         [SerializeField, LabelWidth(180)] private float _delayBetweenDetails = 1f;
         [Tooltip("Time in seconds between displaying the details and the score")]
         [SerializeField, LabelWidth(180)] private float _delayBetweenScore = 1f;
-        [Tooltip("The speed at which the part image rotates")]
-        [SerializeField] private Vector3 _rotationSpeed = new(3, 2, 1);
         
         [Header("Audio")]
         [Tooltip("The audio source for the sound effects")]
@@ -43,11 +44,6 @@ namespace NeoForge.Deformation
 
         private ControllerManager.Mode _lastMode;
         private Action _onClose;
-        
-        private void Update()
-        {
-            _partImage.transform.Rotate(_rotationSpeed * Time.deltaTime);
-        }
 
         private void Start()
         {
@@ -63,7 +59,7 @@ namespace NeoForge.Deformation
         [Button]
         private void Test()
         {
-            Display(new ForgingResults { PartName = "Copper Bar", PartMade = _partImage.mesh, Hits = 10, 
+            Display(new ForgingResults { PartName = "Copper Bar", PartMade = null, Hits = 10, 
                 MachineCost = 15, Accuracy = 0.97f, CoalBonus = 0.2f});
         }
         
@@ -76,8 +72,8 @@ namespace NeoForge.Deformation
             ControllerManager.Instance.SwapMode(ControllerManager.Mode.UI);
             _onClose = onClose;
             _partName.text = results.PartName;
-            _partImage.mesh = results.PartMade;
-            gameObject.SetActive(true);
+            _display.SetActive(true);
+            _partViewer.DisplayPart(results.PartMade);
             StartCoroutine(DisplayDetails(results));
         }
         
@@ -86,7 +82,7 @@ namespace NeoForge.Deformation
         /// </summary>
         public void Hide()
         {
-            gameObject.SetActive(false);
+            _display.SetActive(false);
             _details.text = "";
             _score.text = "";
             _clickToContinue.gameObject.SetActive(false);

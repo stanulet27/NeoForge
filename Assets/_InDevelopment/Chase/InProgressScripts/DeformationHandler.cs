@@ -65,7 +65,6 @@ namespace NeoForge.Deformation
 
         public static IEnumerator SetupPart(ForgedPart part)
         {
-            //send environment data (all zeros is default)
             var environmentChoices = new EnvironmentChoices(part.Details);
             yield return WebServerConnectionHandler.SendPutRequest(JsonUtility.ToJson(environmentChoices), "/init");
 

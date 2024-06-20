@@ -15,8 +15,8 @@ namespace NeoForge.UI.Warehouse
         [SerializeField] private WarehouseUIDisplay _uiDisplay;
 
         private List<ItemCrate> _crates;
-        private ItemCrate _selectedMaterialCrate;
-        private ItemCrate _selectedBonusCrate;
+        private ItemCrate _materialCrate;
+        private ItemCrate _bonusCrate;
         private PartDetails.DesiredOption _selectedRecipe = PartDetails.DesiredOption.None;
         
         private void Start()
@@ -31,16 +31,16 @@ namespace NeoForge.UI.Warehouse
             var crateItem = crate.Item;
             switch (crateItem)
             {
-                case MaterialItem item:
+                case MaterialItem:
                 {
-                    if (_selectedMaterialCrate != null) _selectedMaterialCrate.Deselect();
-                    _selectedMaterialCrate = crate;
+                    if (_materialCrate != null && _materialCrate != crate) _materialCrate.Deselect();
+                    _materialCrate = crate;
                     break;
                 }
-                case ItemWithBonus item:
+                case ItemWithBonus:
                 {
-                    if (_selectedBonusCrate != null) _selectedBonusCrate.Deselect();
-                    _selectedBonusCrate = crate;
+                    if (_bonusCrate != null && _bonusCrate != crate) _bonusCrate.Deselect();
+                    _bonusCrate = crate;
                     break;
                 }
             }
@@ -59,8 +59,8 @@ namespace NeoForge.UI.Warehouse
         {
             _crates.ForEach(crate => crate.OnSelected -= OnCrateSelected);
             _uiDisplay.CloseUI();
-            _selectedMaterialCrate = null;
-            _selectedBonusCrate = null;
+            _materialCrate = null;
+            _bonusCrate = null;
             _selectedRecipe = PartDetails.DesiredOption.None;
         }
 
@@ -68,11 +68,10 @@ namespace NeoForge.UI.Warehouse
         public void SendItemToForge()
         {
             var forgedPart = _forgedPartsPool.FirstOrDefault(x => !x.gameObject.activeInHierarchy);
-            if (_selectedMaterialCrate.Item is not MaterialItem m || _selectedBonusCrate.Item is not ItemWithBonus b 
+            if (_materialCrate.Item is not MaterialItem m || _bonusCrate.Item is not ItemWithBonus b 
                                                                   || forgedPart == default) return;
             
-            var partDetails = new PartDetails(MaterialItem.StartingOption.BasicBar, m.Data, 
-                _selectedRecipe, b);
+            var partDetails = new PartDetails(m.StartingMesh, m.Data, _selectedRecipe, b);
             
             forgedPart.Details = partDetails;
             forgedPart.gameObject.SetActive(true);
@@ -85,12 +84,12 @@ namespace NeoForge.UI.Warehouse
 
         private void ClearCrateSelection()
         {
-            _selectedBonusCrate.Deselect();
-            _selectedMaterialCrate.Deselect();
-            _selectedBonusCrate.RefreshDisplay();
-            _selectedMaterialCrate.RefreshDisplay();
-            _selectedBonusCrate = null;
-            _selectedMaterialCrate = null;
+            _bonusCrate.Deselect();
+            _materialCrate.Deselect();
+            _bonusCrate.RefreshDisplay();
+            _materialCrate.RefreshDisplay();
+            _bonusCrate = null;
+            _materialCrate = null;
         }
         
         private void SelectedRecipe(PartDetails.DesiredOption recipe)
@@ -101,7 +100,7 @@ namespace NeoForge.UI.Warehouse
 
         private bool CanCraft()
         {
-            return _selectedMaterialCrate != null && _selectedBonusCrate != null && _selectedRecipe != PartDetails.DesiredOption.None;
+            return _materialCrate != null && _bonusCrate != null && _selectedRecipe != PartDetails.DesiredOption.None;
         }
         
         private void RefreshCraftability()

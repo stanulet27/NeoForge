@@ -1,4 +1,6 @@
-﻿namespace NeoForge.Deformation.JSON
+﻿using UnityEngine;
+
+namespace NeoForge.Deformation.JSON
 {
     [System.Serializable]
     public class EnvironmentChoices
@@ -18,6 +20,7 @@
 
         public EnvironmentChoices(PartDetails details)
         {
+            Debug.Log("Settings: " + details.StartingMesh + " " + details.DesiredMesh + " " + details.Material.MaterialType);
             StartMeshID = (int) details.StartingMesh;
             EndMeshID = (int) details.DesiredMesh;
             MaterialID = (int) details.Material.MaterialType;

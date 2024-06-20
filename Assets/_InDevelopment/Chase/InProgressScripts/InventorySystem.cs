@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using AYellowpaper.SerializedCollections;
 using NeoForge.Utilities;
 using UnityEngine;
@@ -48,6 +50,11 @@ namespace NeoForge.UI.Inventory
         public int CountItems(ItemBase item)
         {
             return _inventory.TryGetValue(item, out var value) ? value : 0;
+        }
+        
+        public Dictionary<T, int> GetItems<T>() where T : ItemBase
+        {
+            return _inventory.Where(x => x.Key is T).ToDictionary(x => (T)x.Key, x => x.Value);
         }
     }
 }

@@ -33,7 +33,8 @@ namespace NeoForge.Deformation
             Hits = 0;
         }
         
-        public PartDetails(MaterialItem.StartingOption startingMesh , MaterialData material, DesiredOption desiredMesh, ItemWithBonus coal)
+        public PartDetails(MaterialItem.StartingOption startingMesh, MaterialData material, 
+            DesiredOption desiredMesh, ItemWithBonus coal)
         {
             StartingMesh = startingMesh;
             Material = material;

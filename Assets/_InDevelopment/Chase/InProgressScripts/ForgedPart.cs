@@ -87,13 +87,13 @@ namespace NeoForge.Deformation
 
         private void OnEnable()
         {
+            if (Details == null) return;
             _currentState = PartState.Ambient;
             _temperature = ROOM_TEMPERATURE_KELVIN;
             _material.material.SetFloat("_Temperature", _temperature);
             ToggleMovement(false);
             ToggleSelection(false);
             SetStation(Station.Heating);
-            Details = new PartDetails();
             StartCoroutine(SetupPart(Details));
         }
 
