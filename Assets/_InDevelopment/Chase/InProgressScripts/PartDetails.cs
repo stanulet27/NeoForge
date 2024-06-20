@@ -8,16 +8,9 @@ namespace NeoForge.Deformation
 {
     public class PartDetails
     {
-        public enum DesiredOption
-        {
-            None = -1,
-            BasicBar = 0,
-            BasicSphere = 1,
-        }
-        
         public readonly MaterialItem.StartingOption StartingMesh;
         public readonly MaterialData Material;
-        public readonly DesiredOption DesiredMesh;
+        public readonly CraftableParts DesiredMesh;
         public readonly ItemWithBonus Coal;
 
         public float Hits;
@@ -28,13 +21,13 @@ namespace NeoForge.Deformation
         {
             StartingMesh = MaterialItem.StartingOption.BasicBar;
             Material = MaterialData.CreateDefault();
-            DesiredMesh = DesiredOption.BasicBar;
+            DesiredMesh = CraftableParts.BasicBar;
             Coal = null;
             Hits = 0;
         }
         
         public PartDetails(MaterialItem.StartingOption startingMesh, MaterialData material, 
-            DesiredOption desiredMesh, ItemWithBonus coal)
+            CraftableParts desiredMesh, ItemWithBonus coal)
         {
             StartingMesh = startingMesh;
             Material = material;
@@ -53,5 +46,12 @@ namespace NeoForge.Deformation
             ScoreDetails = new MeshSimilarityCalculator.ScoringDetails();
             yield return ScoreDetails.Setup(part);
         }
+    }
+
+    public enum CraftableParts
+    {
+        None = -1,
+        BasicBar = 0,
+        Sphere = 1,
     }
 }

@@ -10,30 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff4c86d78dfd55d47a03b069c598849c, type: 3}
-  m_Name: BakerOrder0
+  m_Name: Huntsman-Start0
   m_EditorClassIdentifier: 
   _conversationData:
-    ID: BakerOrder
+    ID: Huntsman-Start
     DialoguesSeries:
     - dialogues:
       - Speaker: 1
-        SpeakerName: Baker
-        Dialogue: Good day, Blacksmith! I need a basic iron bar for my bakery. Can
-          you make one for me?
+        SpeakerName: Teft the Huntsman
+        Dialogue: Need a new handle for my axe. Can you help?
     LeadsTo:
-    - _path: 'Prompt: Of course Leads to: AcceptBakerOrder'
-      Prompt: Of course
-      NextID: AcceptBakerOrder
+    - _path: 'Prompt: Sure Leads to: Huntsman-Acceptance'
+      Prompt: Sure
+      NextID: Huntsman-Acceptance
       IsEvent: 0
-    - _path: 'Prompt: Sorry, not right now Leads to: exit'
-      Prompt: Sorry, not right now
+    - _path: 'Prompt: No Leads to: exit'
+      Prompt: No
       NextID: exit
       IsEvent: 0
     StateChanges: []
-    StateRequirements:
-    - _components:
-      - '!baker_order_accepted'
-      _requirement: '!baker_order_accepted'
-      State: baker_order_accepted
+    StateRequirements: []
     Variation: 0
     AudioCue: 

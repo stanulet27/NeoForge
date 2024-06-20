@@ -38,9 +38,10 @@ namespace NeoForge.Orders
 
         public void EnterStation()
         {
+            UpdateOrders();
             _selectedDisplayIndex = 0;
             SelectedDisplay.SetHighlight(true);
-            
+
             SubscribeToController();
         }
 

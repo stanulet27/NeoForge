@@ -10,29 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff4c86d78dfd55d47a03b069c598849c, type: 3}
-  m_Name: DemoDialogue0
+  m_Name: Huntsman-Acceptance
   m_EditorClassIdentifier: 
   _conversationData:
-    ID: DemoDialogue
+    ID: Huntsman-Acceptance
     DialoguesSeries:
     - dialogues:
       - Speaker: 1
-        SpeakerName: Huntsman
-        Dialogue: Hey there, I'm looking to get a new axe can you help me?
+        SpeakerName: Teft the Huntsman
+        Dialogue: Good. Back in two days.
     LeadsTo:
-    - _path: 'Prompt: Sure Leads to: UponAcceptance'
-      Prompt: Sure
-      NextID: UponAcceptance
-      IsEvent: 0
-    - _path: 'Prompt: No Leads to: exit'
-      Prompt: No
-      NextID: exit
-      IsEvent: 0
-    StateChanges: []
-    StateRequirements:
+    - _path: 'Prompt:  Triggers Event: GainOrder-Huntsman-BasicBar'
+      Prompt: 
+      NextID: GainOrder-Huntsman-BasicBar
+      IsEvent: 1
+    StateChanges:
     - _components:
-      - '!accepted'
-      _requirement: '!accepted'
-      State: accepted
-    Variation: 0
+      - huntsman-accepted
+      _change: huntsman-accepted
+      State: huntsman-accepted
+    StateRequirements: []
+    Variation: 
     AudioCue: 

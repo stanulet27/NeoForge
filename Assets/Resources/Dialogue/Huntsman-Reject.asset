@@ -10,25 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff4c86d78dfd55d47a03b069c598849c, type: 3}
-  m_Name: UponAcceptance
+  m_Name: Huntsman-Reject
   m_EditorClassIdentifier: 
   _conversationData:
-    ID: UponAcceptance
+    ID: Huntsman-Reject
     DialoguesSeries:
     - dialogues:
       - Speaker: 1
-        SpeakerName: Huntsman
-        Dialogue: Awesome, I'll be back in two days to get it.
-    LeadsTo:
-    - _path: 'Prompt:  Triggers Event: GainOrder-Huntsman-BasicBar'
-      Prompt: 
-      NextID: GainOrder-Huntsman-BasicBar
-      IsEvent: 1
-    StateChanges:
-    - _components:
-      - accepted
-      _change: accepted
-      State: accepted
+        SpeakerName: Teft the Huntsman
+        Dialogue: Unfortunate.
+    LeadsTo: []
+    StateChanges: []
     StateRequirements: []
     Variation: 
     AudioCue: 

@@ -34,11 +34,21 @@ namespace NeoForge.Orders
             
             var giver = eventTriggered.Split("-")[1];
             var part = eventTriggered.Split("-")[2];
+
+            _activeOrders.Add(GetOrder(giver, part));
+        }
+        
+        public void CompleteOrder(Order order)
+        {
+            _activeOrders.Remove(order);
+        }
+
+        public Order GetOrder(string giver, string part)
+        {
             var order = _ordersInGame.FirstOrDefault(x => Matches(x, giver, part));
             
             Debug.Assert(order != null, $"No order found for {giver} and {part}");
-            
-            _activeOrders.Add(order);
+            return order;
         }
         
         private bool Matches(Order order, string giver, string part)

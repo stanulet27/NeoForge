@@ -17,7 +17,7 @@ namespace NeoForge.UI.Warehouse
         private List<ItemCrate> _crates;
         private ItemCrate _materialCrate;
         private ItemCrate _bonusCrate;
-        private PartDetails.DesiredOption _selectedRecipe = PartDetails.DesiredOption.None;
+        private CraftableParts _selectedRecipe = CraftableParts.None;
         
         private void Start()
         {
@@ -61,7 +61,7 @@ namespace NeoForge.UI.Warehouse
             _uiDisplay.CloseUI();
             _materialCrate = null;
             _bonusCrate = null;
-            _selectedRecipe = PartDetails.DesiredOption.None;
+            _selectedRecipe = CraftableParts.None;
         }
 
         [Button]
@@ -92,7 +92,7 @@ namespace NeoForge.UI.Warehouse
             _materialCrate = null;
         }
         
-        private void SelectedRecipe(PartDetails.DesiredOption recipe)
+        private void SelectedRecipe(CraftableParts recipe)
         {
             _selectedRecipe = recipe;
             RefreshCraftability();
@@ -100,7 +100,7 @@ namespace NeoForge.UI.Warehouse
 
         private bool CanCraft()
         {
-            return _materialCrate != null && _bonusCrate != null && _selectedRecipe != PartDetails.DesiredOption.None;
+            return _materialCrate != null && _bonusCrate != null && _selectedRecipe != CraftableParts.None;
         }
         
         private void RefreshCraftability()

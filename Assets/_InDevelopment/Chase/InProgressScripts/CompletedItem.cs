@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using NeoForge.Deformation;
+using NeoForge.Deformation.JSON;
+using UnityEngine;
 
 namespace NeoForge.UI.Inventory
 {
@@ -8,6 +10,8 @@ namespace NeoForge.UI.Inventory
         private string _description;
         private PartCompletionScreen.ForgingResults _results;
 
+        public CraftableParts Goal => _results.PartGoal;
+        public PartScore Score => _results.ScoreType;
         public Mesh Mesh => _results.PartMade;
         public override string Name => _name;
         public override string Description => "";

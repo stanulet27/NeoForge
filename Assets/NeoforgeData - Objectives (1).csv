@@ -1,0 +1,3 @@
+QuestID,Objective,Giver,Price,Time,Special Requirements,Title,Score Needed,Payment,Bonus Score,Bonus Value
+0,Basic Bar,Huntsman,10,3,None,Deadly Request,C,200.00,A,50.00
+1,Basic Bar,Baker,20,2,None,Help the Baker,C,125.00,B,25.00

@@ -6,8 +6,8 @@ namespace NeoForge.UI.Warehouse
 {
     public class RecipeEvent : MonoBehaviour
     {
-        [SerializeField] PartDetails.DesiredOption _recipe;
-        [SerializeField] UnityEvent<PartDetails.DesiredOption> _onRecipeSelected;
+        [SerializeField] CraftableParts _recipe;
+        [SerializeField] UnityEvent<CraftableParts> _onRecipeSelected;
         
         public void SelectRecipe()
         {

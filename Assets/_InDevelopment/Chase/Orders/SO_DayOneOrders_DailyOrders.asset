@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _orders:
   - CustomerName: Merchant
-    Dialogue: BakerOrder
+    Dialogue: Baker-Start
   - CustomerName: Headsman
-    Dialogue: DemoDialogue
+    Dialogue: Huntsman-Start
   _ordersToGive: 2
   _randomizeOrder: 0

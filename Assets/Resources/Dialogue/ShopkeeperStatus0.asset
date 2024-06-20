@@ -26,10 +26,6 @@ MonoBehaviour:
       Prompt: 
       NextID: ShopkeeperDiscuss
       IsEvent: 0
-    - _path: 'Prompt:  Leads to: Format Options:'
-      Prompt: 
-      NextID: 'Format Options:'
-      IsEvent: 0
     StateChanges:
     - _components:
       - ShopkeeperStatus

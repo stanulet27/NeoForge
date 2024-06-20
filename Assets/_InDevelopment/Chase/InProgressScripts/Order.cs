@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using CustomInspectors;
+using NeoForge.Deformation;
+using NeoForge.Deformation.JSON;
+using NeoForge.UI.Inventory;
 using UnityEngine;
 
 namespace NeoForge.Orders
@@ -9,13 +12,11 @@ namespace NeoForge.Orders
     [CreateAssetMenu(fileName = "New Order", menuName = "Orders/Order")]
     public class Order : ScriptableObject
     {
-        public enum CraftableObjects { BasicBar = 0, Sphere = 1 }
-        
         [Tooltip("The unique ID of the order")]
         [SerializeField] private int _id;
         
         [Tooltip("The object that the player needs to craft")]
-        [SerializeField] private CraftableObjects _objectToCraft;
+        [SerializeField] private CraftableParts _objectToCraft;
         
         [Tooltip("The name of the npc giver of the order")]
         [SerializeField] private string _giverName;
@@ -31,6 +32,15 @@ namespace NeoForge.Orders
 
         [Tooltip("The flavor text of the order")]
         [SerializeField, TextArea(1, 4)] private string _title;
+        
+        [Tooltip("The minimum score required to complete the order")]
+        [SerializeField] private PartScore _minimumScore;
+        
+        [Tooltip("Score to reach to get bonus money")]
+        [SerializeField] private PartScore _bonusScore;
+        
+        [Tooltip("Money bonus for reaching the bonus score")]
+        [SerializeField] private int _paymentBonus;
 
         /// <summary>
         /// The unique ID of the order
@@ -40,7 +50,7 @@ namespace NeoForge.Orders
         /// <summary>
         /// The object that the player needs to craft
         /// </summary>
-        public CraftableObjects ObjectToCraft => _objectToCraft;
+        public CraftableParts ObjectToCraft => _objectToCraft;
         
         /// <summary>
         /// The name of the npc giver of the order
@@ -68,6 +78,21 @@ namespace NeoForge.Orders
         public string Title => _title;
         
         /// <summary>
+        /// The minimum score required to complete the order
+        /// </summary>
+        public PartScore MinimumScore => _minimumScore;
+
+        /// <summary>
+        /// The score to reach to get bonus money
+        /// </summary>
+        public PartScore BonusScore => _bonusScore;
+
+        /// <summary>
+        /// The money bonus for reaching the bonus score
+        /// </summary>
+        public int PaymentWithBonus => _paymentAmount + _paymentBonus;
+
+        /// <summary>
         /// Takes in a csv line in the format of "ID, ObjectToCraft, GiverName, PaymentAmount, Time, Requirements, FlavorText"
         /// and sets up the order scriptable object
         /// </summary>
@@ -75,12 +100,15 @@ namespace NeoForge.Orders
         {
             var components = ParseCSVLine(input);
             _id = int.Parse(components[0]);
-            _objectToCraft = (CraftableObjects) Enum.Parse(typeof(CraftableObjects), components[1].Replace(" ", ""));
+            _objectToCraft = (CraftableParts) Enum.Parse(typeof(CraftableParts), components[1].Replace(" ", ""));
             _giverName = components[2];
             _paymentAmount = int.Parse(components[3]);
             _time = int.Parse(components[4]);
             _requirements = components[5];
             _title = components[6];
+            _minimumScore = (PartScore) Enum.Parse(typeof(PartScore), components[7]);
+            _bonusScore = (PartScore) Enum.Parse(typeof(PartScore), components[8]);
+            _paymentBonus = int.Parse(components[9]);
             
             name = $"SO_{_giverName}_{_objectToCraft}_Order";
         }

@@ -10,21 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff4c86d78dfd55d47a03b069c598849c, type: 3}
-  m_Name: DemoDialogue1
+  m_Name: Huntsman-Success
   m_EditorClassIdentifier: 
   _conversationData:
-    ID: DemoDialogue
+    ID: Huntsman-Success
     DialoguesSeries:
     - dialogues:
       - Speaker: 1
-        SpeakerName: Huntsman
-        Dialogue: Thanks again for agreeing to help.
+        SpeakerName: Teft the Huntsman
+        Dialogue: Thanks.
     LeadsTo: []
     StateChanges: []
-    StateRequirements:
-    - _components:
-      - accepted
-      _requirement: accepted
-      State: accepted
-    Variation: 1
+    StateRequirements: []
+    Variation: 
     AudioCue: 

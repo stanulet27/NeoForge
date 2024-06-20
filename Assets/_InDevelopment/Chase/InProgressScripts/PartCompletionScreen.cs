@@ -12,6 +12,16 @@ using UnityEngine;
 
 namespace NeoForge.UI.Inventory
 {
+    public enum PartScore
+    {
+        S = 0,
+        A = 3,
+        B = 6,
+        C = 9,
+        D = 12,
+        F = 15
+    }
+    
     public class PartCompletionScreen : MonoBehaviour
     {
         [Header("References")]
@@ -131,8 +141,11 @@ namespace NeoForge.UI.Inventory
             public float Accuracy;
             [Tooltip("The mesh of the part that was made")]
             public Mesh PartMade;
+            [Tooltip("The part attempted to be made")]
+            public CraftableParts PartGoal;
             
-            public string Score => CalculateScore();
+            public string Score => CalculateScore().ToString();
+            public PartScore ScoreType => CalculateScore();
 
             public ForgingResults() {}
 
@@ -144,6 +157,7 @@ namespace NeoForge.UI.Inventory
                 Accuracy = similarityCalculator.Score;
                 PartMade = partMade;
                 CoalBonus = DetermineCoalBonus(details.Coal);
+                PartGoal = details.DesiredMesh;
             }
 
             private float DetermineCoalBonus(ItemWithBonus item)
@@ -157,17 +171,17 @@ namespace NeoForge.UI.Inventory
                 };
             }
             
-            private string CalculateScore()
+            private PartScore CalculateScore()
             {
                 var score = Accuracy + CoalBonus - Hits / 2 - (100 - MachineCost) / 20f;
                 return score switch
                 {
-                    >= 100 => "S",
-                    >= 90 => "A",
-                    >= 80 => "B",
-                    >= 70 => "C",
-                    >= 60 => "D",
-                    _ => "F"
+                    >= 100 => PartScore.S,
+                    >= 90 => PartScore.A,
+                    >= 80 => PartScore.B,
+                    >= 70 => PartScore.C,
+                    >= 60 => PartScore.D, 
+                    _ => PartScore.F
                 };
             }
         }

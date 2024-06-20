@@ -12,6 +12,8 @@ namespace NeoForge.Input
     [RequireComponent(typeof(PlayerInput))]
     public class ControllerManager : SingletonMonoBehaviour<ControllerManager>
     {
+        private const int DELAY_BETWEEN_MODE_SWAP = 2;
+        
         public static Action<Mode> OnModeSwapped;
         public enum Mode {Gameplay, UI}
 
@@ -27,6 +29,7 @@ namespace NeoForge.Input
         private PlayerInput _playerInput;
         private bool _isInitialized;
         private bool _isSlowDown;
+        private int _frameOfLastSwap;
 
         protected override void Awake()
         {
@@ -113,6 +116,13 @@ namespace NeoForge.Input
             _playerInput.SwitchCurrentActionMap(newMode.ToString());
             OnModeSwapped?.Invoke(newMode);
             Debug.Log($"Swapped to {newMode}");
+            _frameOfLastSwap = Time.frameCount;
+        }
+        
+        private void TryInvoke(Action action)
+        {
+            if (Time.frameCount - _frameOfLastSwap < DELAY_BETWEEN_MODE_SWAP) return;
+            action?.Invoke();
         }
 
         #region Gameplay
@@ -127,71 +137,81 @@ namespace NeoForge.Input
         public static Action OnInteract;
         public static Action OnNextDay;
         public static Action OnMouseClick;
+        public static Action OnSwapArea;
 
         public void OnOverlayInput(InputValue context)
         {
-            OnOverlay?.Invoke();
+            TryInvoke(OnOverlay);
         }
         
         public void OnMoveInput(InputValue context)
         {
-            OnMove?.Invoke(context.Get<Vector2>());
+            TryInvoke(() => OnMove?.Invoke(context.Get<Vector2>()));
         }
         
         public void OnRotateInput(InputValue context)
         {
-            OnRotate?.Invoke(context.Get<Vector3>());
+            TryInvoke(() => OnRotate?.Invoke(context.Get<Vector3>()));
         }
         
         public void OnChangeToOverviewInput(InputValue context)
         {
-            OnChangeStation?.Invoke(Station.Overview);
+            TryInvoke(() => OnChangeStation?.Invoke(Station.Overview));
         }
         public void OnChangeToHeatingInput(InputValue context)
         {
-            OnChangeStation?.Invoke(Station.Heating);
-        }
-        public void OnChangeToCoolingInput(InputValue context)
-        {
-            OnChangeStation?.Invoke(Station.Cooling);
-        }
-        public void OnChangeToForgingInput(InputValue context)
-        {
-            OnChangeStation?.Invoke(Station.Forging);
-        }
-        public void OnChangeToPlanningInput(InputValue context)
-        {
-            OnChangeStation?.Invoke(Station.Planning);
+            TryInvoke(() => OnChangeStation?.Invoke(Station.Heating));
         }
         
-        public void OnSwapCameraInput(InputValue context)
+        
+        public void OnChangeToCoolingInput(InputValue context)
         {
-            OnSwapCamera?.Invoke();
+            TryInvoke(() => OnChangeStation?.Invoke(Station.Cooling));
+        }
+        
+        public void OnChangeToForgingInput(InputValue context)
+        {
+            TryInvoke(() => OnChangeStation?.Invoke(Station.Forging));
+        }
+        
+        public void OnChangeToPlanningInput(InputValue context)
+        {
+            TryInvoke(() => OnChangeStation?.Invoke(Station.Planning));
+        }
+
+        public void OnSwapAreaInput()
+        {
+            TryInvoke(OnSwapArea);
+        }
+        
+        public void OnSwapCameraInput()
+        {
+            TryInvoke(OnSwapCamera);
         }
         
         public void OnSwapMovementInput()
         {
-            OnSwapMode?.Invoke();
+            TryInvoke(OnSwapMode);
         }
         
         public void OnHitInput()
         {
-            OnHit?.Invoke();
+            TryInvoke(OnHit);
         }
         
         public void OnInteractInput()
         {
-            OnInteract?.Invoke();
+            TryInvoke(OnInteract);
         }
         
         public void OnNextDayInput()
         {
-            OnNextDay?.Invoke();
+            TryInvoke(OnNextDay);
         }
 
         public void OnMouseClickInput()
         {
-            OnMouseClick?.Invoke();
+            TryInvoke(OnMouseClick);
         }
         #endregion
 
@@ -206,36 +226,37 @@ namespace NeoForge.Input
         
         public void OnGoBackInput()
         {
-            OnGoBack?.Invoke();
+            TryInvoke(OnGoBack);
         }
         
         public void OnConfirmInput()
         {
-            OnConfirm?.Invoke();
+            TryInvoke(OnConfirm);
         }
         public void OnCancelInput()
         {
-            OnCancel?.Invoke();
+            TryInvoke(OnCancel);
         }
 
         public void OnCloseInput()
         {
-            OnClose?.Invoke();
+            TryInvoke(OnClose);
         }
 
         public void OnPauseInput()
         {
-            OnPause?.Invoke();
+            TryInvoke(OnPause);
         }
 
         public void OnSkipDialogueInput()
         {
-            OnSkipDialogue?.Invoke();
+            TryInvoke(OnSkipDialogue);
         }
 
         public void OnNextDialogueInput()
         {
             OnNextDialogue?.Invoke();
+            TryInvoke(OnNextDialogue);
         }
         #endregion
     }

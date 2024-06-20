@@ -14,9 +14,9 @@ namespace NeoForge.UI.Warehouse
         [SerializeField] private TMP_Text _recipeLabel;
         [SerializeField] private SimpleButton _craftButton;
         
-        private Action<PartDetails.DesiredOption> _onRecipeSet;
+        private Action<CraftableParts> _onRecipeSet;
 
-        public void OpenUI(Action<PartDetails.DesiredOption> onRecipeSet)
+        public void OpenUI(Action<CraftableParts> onRecipeSet)
         {
             _hud.SetActive(true);
             _onRecipeSet = onRecipeSet;
@@ -41,7 +41,7 @@ namespace NeoForge.UI.Warehouse
             _craftButton.ToggleInteractable(canCraft);
         }
 
-        public void SelectRecipe(PartDetails.DesiredOption recipe)
+        public void SelectRecipe(CraftableParts recipe)
         {
             _onRecipeSet?.Invoke(recipe);
             _recipeLabel.text = $"Recipe: {recipe}";

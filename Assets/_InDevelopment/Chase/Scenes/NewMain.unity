@@ -25119,6 +25119,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1069298008}
   - component: {fileID: 1069298009}
+  - component: {fileID: 1069298011}
+  - component: {fileID: 1069298010}
   m_Layer: 0
   m_Name: Customer Station
   m_TagString: Untagged
@@ -25183,6 +25185,64 @@ MonoBehaviour:
       - m_Target: {fileID: 1944782583}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
         m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1069298010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1069298007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3c67c293bab4693b809e9cf543ffb89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _eventFormat: 2
+  _eventToReceive: Stay
+  _onEventReceived:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1069298009}
+        m_TargetAssemblyTypeName: NeoForge.Orders.CustomerManager, Assembly-CSharp
+        m_MethodName: BlockLeaving
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1069298011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1069298007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3c67c293bab4693b809e9cf543ffb89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _eventFormat: 0
+  _eventToReceive: TurnIn-
+  _onEventReceived:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1069298009}
+        m_TargetAssemblyTypeName: NeoForge.Orders.CustomerManager, Assembly-CSharp
+        m_MethodName: BlockLeaving
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -50627,6 +50687,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2069407437}
   - component: {fileID: 2069407438}
+  - component: {fileID: 2069407439}
   m_Layer: 5
   m_Name: Completed Parts
   m_TagString: Untagged
@@ -50673,6 +50734,35 @@ MonoBehaviour:
   _selectButton: {fileID: 987045691}
   _closeButton: {fileID: 2086438484}
   _partMeshDisplay: {fileID: 1411649051}
+--- !u!114 &2069407439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069407436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3c67c293bab4693b809e9cf543ffb89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _eventFormat: 0
+  _eventToReceive: TurnIn-
+  _onEventReceived:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2069407438}
+        m_TargetAssemblyTypeName: NeoForge.UI.Warehouse.CompletedPartViewer, Assembly-CSharp
+        m_MethodName: ViewSelection
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &2070183794
 GameObject:
   m_ObjectHideFlags: 0

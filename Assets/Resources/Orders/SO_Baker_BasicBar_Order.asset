@@ -15,7 +15,10 @@ MonoBehaviour:
   _id: 1
   _objectToCraft: 0
   _giverName: Baker
-  _paymentAmount: 20
+  _paymentAmount: 200
   _time: 2
   _requirements: None
   _title: Help the Baker
+  _minimumScore: 9
+  _bonusScore: 6
+  _paymentBonus: 25

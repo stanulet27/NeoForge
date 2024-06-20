@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NeoForge.Input;
 using UnityEngine;
 
 namespace NeoForge.Orders
@@ -16,12 +17,16 @@ namespace NeoForge.Orders
         {
             _stationSetups.ForEach(x => x.Camera.enabled = false);
             EnterStation(_stationSetups[_currentStationIndex]);
+            ControllerManager.OnSwapArea += OnSwapArea;
+        }
+        
+        private void OnDestroy()
+        {
+            ControllerManager.OnSwapArea -= OnSwapArea;
         }
 
-        private void Update()
+        private void OnSwapArea()
         {
-            if (!UnityEngine.Input.GetKeyDown(KeyCode.T)) return;
-
             ExitStation(_stationSetups[_currentStationIndex]);
             _currentStationIndex = (_currentStationIndex + 1) % _stationSetups.Count;
             EnterStation(_stationSetups[_currentStationIndex]);

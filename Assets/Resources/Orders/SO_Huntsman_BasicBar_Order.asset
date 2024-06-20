@@ -15,7 +15,10 @@ MonoBehaviour:
   _id: 0
   _objectToCraft: 0
   _giverName: Huntsman
-  _paymentAmount: 10
+  _paymentAmount: 150
   _time: 3
   _requirements: None
   _title: Deadly Request
+  _minimumScore: 9
+  _bonusScore: 3
+  _paymentBonus: 50

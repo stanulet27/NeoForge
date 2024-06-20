@@ -26,7 +26,7 @@ namespace NeoForge.Orders
         private IEnumerable<string> GetDialogues()
         {
             var dialogues = Resources.LoadAll<ConversationDataSO>("Dialogue");
-            return dialogues.Select(x => x.Data.ID).Distinct();
+            return dialogues.Select(x => x.Data.ID).Where(x => x.EndsWith("Start")).Distinct();
         }
     }
 }

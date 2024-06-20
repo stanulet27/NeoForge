@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NeoForge.Dialogue;
+using NeoForge.Input;
+using NeoForge.Orders;
 using NeoForge.UI.Buttons;
 using NeoForge.UI.Inventory;
 using TMPro;
@@ -20,7 +23,9 @@ namespace NeoForge.UI.Warehouse
         private readonly List<HoverButton> _buttons = new();
         private List<CompletedItem> _completedItems = new();
         private int _currentIndex;
-        
+        private Order _order;
+        private string _dialogueToTrigger = "";
+
         private void Awake()
         {
             _buttons.Add(_nextButton);
@@ -35,11 +40,14 @@ namespace NeoForge.UI.Warehouse
         
         public void View()
         {
+            ControllerManager.Instance.SwapMode(ControllerManager.Mode.UI);
             _completedItems = InventorySystem.Instance.GetItems<CompletedItem>()
                 .Where(x => x.Value > 0).Select(x => x.Key).ToList();
             
             _buttons[0].gameObject.SetActive(_completedItems.Count > 1);
             _buttons[1].gameObject.SetActive(false);
+            _order = null;
+            _dialogueToTrigger = "";
             
             DisplayItem(0);
             _display.SetActive(true);
@@ -48,12 +56,16 @@ namespace NeoForge.UI.Warehouse
         public void ViewSelection(string dialogueEvent)
         {
             View();
-            _buttons[1].gameObject.SetActive(true);
+            _buttons[1].gameObject.SetActive(_completedItems.Count > 0);
+            _order = OrderController.Instance.GetOrder(dialogueEvent.Split("-")[1], dialogueEvent.Split("-")[2]);
+            _dialogueToTrigger = $"{_order.GiverName}-Cancel";
         }
         
         public void Hide()
         {
             _display.SetActive(false);
+            ControllerManager.Instance.SwapMode(ControllerManager.Mode.Gameplay);
+            if (_dialogueToTrigger != "") DialogueManager.Instance.StartDialogueName(_dialogueToTrigger);
         }
         
         public void Next()
@@ -64,7 +76,20 @@ namespace NeoForge.UI.Warehouse
         
         public void Select()
         {
-            InventorySystem.Instance.RemoveItem(_completedItems[_currentIndex]);
+            if (_order == null) return;
+            var item = _completedItems[_currentIndex];
+            var correctPart = item.Goal == _order.ObjectToCraft;
+            var success = correctPart && item.Score <= _order.MinimumScore;
+            var bonusReached = correctPart && item.Score <= _order.BonusScore;
+            
+            var suffix = bonusReached ? "SuccessBonus" : success ? "Success" : "Failure";
+            _dialogueToTrigger = $"{_order.GiverName}-{suffix}";
+            var payment = bonusReached ? _order.PaymentWithBonus : success ? _order.PaymentAmount : 0;
+            
+            InventorySystem.Instance.CurrentGold += payment;
+            if (success) InventorySystem.Instance.RemoveItem(item);
+            if (success) OrderController.Instance.CompleteOrder(_order);
+
             Debug.Log("Selected " + _completedItems[_currentIndex].Name);
             Hide();
         }

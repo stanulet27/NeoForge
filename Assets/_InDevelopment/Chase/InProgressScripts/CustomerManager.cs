@@ -28,7 +28,8 @@ namespace NeoForge.Orders
         private readonly List<GameObject> _skins = new();
         private DailyOrders _todaysOrders;
         private string _dialogueToTrigger;
-        
+        private Coroutine _summonNextCustomer;
+
         private void Start()
         {
             Debug.Assert(_currentDay <= _dailyOrders.Count, $"There are no orders reference for day {_currentDay.Value}");
@@ -42,7 +43,7 @@ namespace NeoForge.Orders
             _todaysOrders.PrepareDay();
             _readyForNextDay.Value = false;
             
-            StartCoroutine(SummonNextCustomer());
+            _summonNextCustomer = StartCoroutine(SummonNextCustomer());
         }
         
         private void OnDestroy()
@@ -65,22 +66,28 @@ namespace NeoForge.Orders
         {
             DialogueManager.OnDialogueEnded -= OnCustomerServed;
             _customerShell.SetActive(false);
-            StartCoroutine(SummonNextCustomer());
+            _summonNextCustomer = StartCoroutine(SummonNextCustomer());
+            Debug.Log("Customer served");
         }
         
         private void InteractWithCustomer()
         {
             if (string.IsNullOrWhiteSpace(_dialogueToTrigger)) return;
-            
-            DialogueManager.Instance.StartDialogueName(_dialogueToTrigger);
+
             DialogueManager.OnDialogueEnded += OnCustomerServed;
-            _dialogueToTrigger = "";
+            DialogueManager.Instance.StartDialogueName(_dialogueToTrigger);
+            Debug.Log("Interacting with customer");
         }
         
         private IEnumerator SummonNextCustomer()
         {
+            Debug.Log("Starting summoning next customer");
+            yield return null;
+            _dialogueToTrigger = "";
+            
             if (_todaysOrders.TryGetOrder(out var order))
             {
+                Debug.Log("Waiting for next customer");
                 yield return new WaitForSeconds(Random.Range(3, 8));
                 _skins.ForEach(x => x.SetActive(IsMatchingSkin(x, order.CustomerName)));
                 _onNewCustomer?.Invoke();
@@ -92,6 +99,15 @@ namespace NeoForge.Orders
                 _readyForNextDay.Value = true;
                 _onLastCustomerServed?.Invoke();
             }
+        }
+        
+        public void BlockLeaving()
+        {
+            DialogueManager.OnDialogueEnded -= OnCustomerServed;
+            DialogueManager.OnDialogueEnded += OnCustomerServed;
+            StopCoroutine(_summonNextCustomer);
+            _customerShell.SetActive(true);
+            Debug.Log("Blocking");
         }
         
         private static bool IsMatchingSkin(GameObject skin, string customerName)
