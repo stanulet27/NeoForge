@@ -3,7 +3,7 @@ using System.Linq;
 using AYellowpaper.SerializedCollections;
 using NeoForge.Deformation.Scoring;
 using NeoForge.Input;
-using NeoForge.Orders;
+using NeoForge.Stations;
 using NeoForge.UI.Inventory;
 using SharedData;
 using UnityEngine;
@@ -85,7 +85,7 @@ namespace NeoForge.Deformation
         /// <param name="newStation"></param>
         public void ChangeStation(Station newStation)
         {
-            if (newStation == Station.Planning) _meshSimilarityCalculator.CalculateScore();
+            if (newStation == Station.Planning) _meshSimilarityCalculator.UpdateScore();
             _activePart.ChangePosition(_partPositions[newStation]);
             _activePart.ToggleMovement(newStation is Station.Forging or Station.Planning);
             _activePart.SetStation(newStation);
@@ -155,7 +155,7 @@ namespace NeoForge.Deformation
         public void SubmitPart()
         {
             var part = _activePart;
-            var results = new PartCompletionScreen.ForgingResults(_meshSimilarityCalculator, part.Details, part.Mesh);
+            var results = new ForgingResults(_meshSimilarityCalculator, part.Details, part.Mesh);
             CompletedItem.CreateItem(results);
             
             _partCompletionScreen.Display(results, OnPartReviewed);

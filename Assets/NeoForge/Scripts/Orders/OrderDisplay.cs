@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-namespace NeoForge.Orders
+namespace NeoForge.Stations.Orders
 {
     public class OrderDisplay : MonoBehaviour
     {

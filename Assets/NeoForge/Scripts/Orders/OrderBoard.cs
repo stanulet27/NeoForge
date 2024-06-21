@@ -3,7 +3,7 @@ using System.Linq;
 using NeoForge.Input;
 using UnityEngine;
 
-namespace NeoForge.Orders
+namespace NeoForge.Stations.Orders
 {
     public class OrderBoard : MonoBehaviour, IStation
     {

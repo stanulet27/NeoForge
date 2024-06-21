@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using NeoForge.Stations.Customers;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace NeoForge.Orders
+namespace NeoForge.Stations.Orders
 {
     [CreateAssetMenu(fileName = "DailyOrders", menuName = "Orders/DailyOrders")]
     public class DailyOrders : ScriptableObject

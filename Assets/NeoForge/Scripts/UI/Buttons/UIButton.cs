@@ -31,7 +31,7 @@ namespace NeoForge.UI.Buttons
         /// </summary>
         public bool IsInteractable()
         {
-            return _button.interactable;
+            return _button.interactable && gameObject.activeInHierarchy;
         }
 
         /// <summary>

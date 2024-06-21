@@ -27,7 +27,10 @@ namespace NeoForge.Deformation
         [SerializeField] private MeshFilter _partMesh;
         [Tooltip("The desired part mesh")]
         [SerializeField] private MeshFilter _desiredMesh;
-        
+
+        /// <summary>
+        /// The details of the part
+        /// </summary>
         public PartDetails Details { get; set; }
 
         /// <summary>
@@ -40,11 +43,6 @@ namespace NeoForge.Deformation
         /// </summary>
         public PartState CurrentState => _currentState;
 
-        /// <summary>
-        /// The position of the pary when it is in the furnace
-        /// </summary>
-        public Transform InFurnacePosition => _inFurnacePosition;
-        
         ///<summary>
         /// The position of the part when it is out of the furnace
         /// </summary>
@@ -59,6 +57,11 @@ namespace NeoForge.Deformation
         /// The desired mesh of the part
         /// </summary>
         public MeshFilter DesiredMesh => _desiredMesh;
+        
+        /// <summary>
+        /// The renderer for the heatmap score of the part
+        /// </summary>
+        public MeshRenderer HeatmapRenderer => _desiredMesh.GetComponent<MeshRenderer>();
         
         public MeshCollider PartCollider => _partMesh.GetComponent<MeshCollider>();
         public MeshCollider DesiredCollider => _desiredMesh.GetComponent<MeshCollider>();
