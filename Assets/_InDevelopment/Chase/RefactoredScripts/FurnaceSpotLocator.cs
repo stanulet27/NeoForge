@@ -10,7 +10,7 @@ namespace NeoForge.Deformation
         private const float BUFFER = 0.50f;
 
         private static Transform _initialLocation;
-        private static readonly List<ForgedPart> _storedParts = new();
+        private static readonly List<PartPositionHandler> _storedParts = new();
 
         /// <summary>
         /// Sets the initial location of parts outside the furnace
@@ -29,7 +29,7 @@ namespace NeoForge.Deformation
         /// to be reserved, or the new position</param>
         /// <param name="rotation">Quaternion that will be the initial rotation</param>
         /// <returns>True if position was reserved, false otherwise</returns>
-        public static bool ReserveNewPosition(ForgedPart part, out Vector3 position, out Quaternion rotation)
+        public static bool ReserveNewPosition(PartPositionHandler part, out Vector3 position, out Quaternion rotation)
         {
             rotation = _initialLocation.rotation;
             if (_storedParts.Count == MAX_SPOTS)
@@ -60,7 +60,7 @@ namespace NeoForge.Deformation
         /// <summary>
         /// Will vacate the position of the part from the furance and reorganize the parts
         /// </summary>
-        public static void VacatePosition(ForgedPart part)
+        public static void VacatePosition(PartPositionHandler part)
         {
             _storedParts.Remove(part);
             
@@ -79,7 +79,7 @@ namespace NeoForge.Deformation
             }
         }
 
-        private static Vector3 DeterminePosition(ForgedPart previousPart, ForgedPart newPart)
+        private static Vector3 DeterminePosition(PartPositionHandler previousPart, PartPositionHandler newPart)
         {
             var lastPosition = previousPart.transform.position;
             var offsetDirection = previousPart.transform.right;

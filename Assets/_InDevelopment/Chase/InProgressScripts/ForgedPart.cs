@@ -1,33 +1,23 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using NeoForge.Utilities.Movement;
 using SharedData;
 using UnityEngine;
 
 namespace NeoForge.Deformation
 {
+    public enum TemperatureState { Heating, Cooling, Ambient }
+
+    [RequireComponent(typeof(PartPositionHandler))]
+    [RequireComponent(typeof(PartTemperatureHandler))]
+    [RequireComponent(typeof(PartMeshHandler))]
     public class ForgedPart : MonoBehaviour
     {
-        private const float ROOM_TEMPERATURE_KELVIN = 290f;
-        private const float TEMPERATURE_CHANGE_RATE = 1f;
+        private Station _currentStation;
+        private bool _isSelected;
+        private PartPositionHandler _positionHandler;
+        private PartTemperatureHandler _temperatureHandler;
+        private PartMeshHandler _partMeshHandler;
         
-        public enum PartState
-        {
-            Heating,
-            Cooling,
-            Ambient
-        }
-        
-        [Tooltip("The material on the part containing the blackbody radiation shader")]
-        [SerializeField] private MeshRenderer _material;
-        [Tooltip("Vertical offset when selected")]
-        [SerializeField] private float _selectedOffset = 0.5f;
-        [Tooltip("The users part mesh")]
-        [SerializeField] private MeshFilter _partMesh;
-        [Tooltip("The desired part mesh")]
-        [SerializeField] private MeshFilter _desiredMesh;
-
         /// <summary>
         /// The details of the part
         /// </summary>
@@ -36,135 +26,71 @@ namespace NeoForge.Deformation
         /// <summary>
         /// The temperature of the part in kelvin
         /// </summary>
-        public float Temperature => _temperature;
+        public float Temperature => _temperatureHandler.Temperature;
         
         /// <summary>
         /// The current state of the part
         /// </summary>
-        public PartState CurrentState => _currentState;
+        public TemperatureState CurrentState => _temperatureHandler.CurrentState;
+        
+        /// <summary>
+        /// The mesh that the user created through deformation
+        /// </summary>
+        public Mesh UserCreatedMesh => _partMeshHandler.PartMesh.mesh;
 
+        /// <summary>
+        /// The environment settings of the part to be used for JAX
+        /// </summary>
+        public JAXEnvironmentSettings EnvironmentSettings => new(transform, _partMeshHandler, Details);
+        
         ///<summary>
         /// The position of the part when it is out of the furnace
         /// </summary>
-        public Transform OutFurnacePosition => _outFurnacePosition;
-        
-        /// <summary>
-        /// The mesh of the part that is being deformed
-        /// </summary>
-        public MeshFilter PartMesh => _partMesh;
-        
-        /// <summary>
-        /// The desired mesh of the part
-        /// </summary>
-        public MeshFilter DesiredMesh => _desiredMesh;
-        
-        /// <summary>
-        /// The renderer for the heatmap score of the part
-        /// </summary>
-        public MeshRenderer HeatmapRenderer => _desiredMesh.GetComponent<MeshRenderer>();
-        
-        public MeshCollider PartCollider => _partMesh.GetComponent<MeshCollider>();
-        public MeshCollider DesiredCollider => _desiredMesh.GetComponent<MeshCollider>();
+        public Transform OutFurnacePosition => _positionHandler.OutFurnacePosition;
 
-        public Mesh Mesh => _material.GetComponent<MeshFilter>().sharedMesh;
-        
-        private List<PartBoundsLocker> _boundsLocker;
-        private List<Moveable> _moveables;
-        private PartState _currentState;
-        private float _temperature;
-        private Transform _outFurnacePosition;
-        private Transform _inFurnacePosition;
-        private Station _currentStation;
-        private bool _isSelected;
-        private static readonly int _temperature1 = Shader.PropertyToID("_Temperature");
-        
+        private Transform InFurnacePosition => _positionHandler.InFurnacePosition;
+
         private void Awake()
         {
-            _outFurnacePosition = new GameObject("@OutFurnacePosition").transform;
-            _inFurnacePosition = new GameObject("@InFurnacePosition").transform;
-            _outFurnacePosition.SetParent(transform.parent);
-            _inFurnacePosition.SetParent(transform.parent);
-            _boundsLocker = GetComponentsInChildren<PartBoundsLocker>().ToList();
-            _moveables = GetComponentsInChildren<Moveable>().ToList();
+            _positionHandler = GetComponent<PartPositionHandler>();
+            _temperatureHandler = GetComponent<PartTemperatureHandler>();
+            _partMeshHandler = GetComponent<PartMeshHandler>();
         }
 
         private void OnEnable()
         {
             if (Details == null) return;
-            _currentState = PartState.Ambient;
-            _temperature = ROOM_TEMPERATURE_KELVIN;
-            _material.material.SetFloat("_Temperature", _temperature);
             ToggleMovement(false);
             ToggleSelection(false);
             SetStation(Station.Heating);
             StartCoroutine(SetupPart(Details));
+            DeformationHandler.OnHit += DeformationHandler_OnHit;
         }
-
-        private IEnumerator SetupPart(PartDetails details)
-        {
-            Details = details;
-            yield return DeformationHandler.SetupPart(this);
-            
-            _outFurnacePosition.gameObject.SetActive(true);
-            _inFurnacePosition.gameObject.SetActive(true);
-
-            //generate positions for in and out of furnace
-            if (FurnaceSpotLocator.ReserveNewPosition(this, out var position, out var rotation))
-            {
-                ResetPosition(position, rotation);
-            }
-            else
-            {
-                Debug.Log("Unable to reserve position for part");
-                gameObject.SetActive(false);
-            }
-        }
-
+        
         private void OnDisable()
         {
-            FurnaceSpotLocator.VacatePosition(this);
-            _outFurnacePosition.gameObject.SetActive(false);
-            _inFurnacePosition.gameObject.SetActive(false);
+            DeformationHandler.OnHit -= DeformationHandler_OnHit;
         }
 
-        public void ResetPosition(Vector3 position, Quaternion rotation)
-        {
-            var shiftTowardsFurnace = Vector3.forward * 2f;
-            
-            _outFurnacePosition.SetPositionAndRotation(position, rotation);
-            _inFurnacePosition.SetPositionAndRotation(position + shiftTowardsFurnace, rotation);
-            ChangePosition(_outFurnacePosition);
-        }
 
         /// <summary>
         /// Changes the position of the part to be inside the furnace and starts heating the part
         /// </summary>
         public void StartHeating()
         {
-            _currentState = PartState.Heating;
             UpdateSelectionIndication();
-            ChangePosition(_inFurnacePosition);
-            StartCoroutine(Heat());
+            _positionHandler.JumpToPosition(InFurnacePosition);
+            _temperatureHandler.SetState(TemperatureState.Heating);
         }
-
-        /// <summary>
-        /// Returns the Bounding box of the part
-        /// </summary>
-        /// <returns>The bounding box of the part</returns>
-        public Bounds GetBounds()
-        {
-            return _material.bounds;
-        }
-
+        
         /// <summary>
         /// Changes the position of the part to be inside the water and starts cooling the part
         /// </summary>
         /// <param name="position">The transform that is inside the water</param>
         public void StartCooling(Transform position)
         {
-            _currentState = PartState.Cooling;
-            ChangePosition(position);
-            StartCoroutine(Cool());
+            _positionHandler.JumpToPosition(position);
+            _temperatureHandler.SetState(TemperatureState.Cooling);
         }
 
         /// <summary>
@@ -173,96 +99,66 @@ namespace NeoForge.Deformation
         /// <param name="coolPosition"></param>
         public void SetToAmbient(Transform coolPosition)
         {
-            ChangePosition(_currentState == PartState.Heating ? _outFurnacePosition : coolPosition);
-            StopAllCoroutines();
-            _currentState = PartState.Ambient;
+            var nextPosition = _temperatureHandler.CurrentState == TemperatureState.Heating ? 
+                OutFurnacePosition : coolPosition;
+            _positionHandler.JumpToPosition(nextPosition);
+            _temperatureHandler.SetState(TemperatureState.Ambient);
             UpdateSelectionIndication();
-        }
-
-        /// <summary>
-        /// Changes the position of the part to the target position
-        /// </summary>
-        /// <param name="target">A transform describing the target position and rotation</param>
-        public void ChangePosition(Transform target)
-        {
-            _boundsLocker.ForEach(x => x.enabled = false);
-            transform.position = target.position;
-            transform.rotation = target.rotation;
-            _boundsLocker.ForEach(x => x.enabled = true);
         }
         
         /// <summary>
-        /// Will toggle the movement of the part, when movement is disabled the part will be reset to its original
-        /// position.
+        /// Toggles whether the part can be moved or not by user input
         /// </summary>
         public void ToggleMovement(bool canMove)
         {
-            _moveables.ForEach(x => x.enabled = canMove);
-            if (!canMove) _moveables.ForEach(x => x.ResetPosition());
+            _positionHandler.ToggleMovement(canMove);
+        }
+        
+        /// <summary>
+        /// Teleports the part to the target transform details
+        /// </summary>
+        public void ChangePosition(Transform target)
+        {
+            _positionHandler.JumpToPosition(target);
         }
 
+        /// <summary>
+        /// Toggles whether the part is selected or not
+        /// </summary>
         public void ToggleSelection(bool selected)
         {
             _isSelected = selected;
             UpdateSelectionIndication();
         }
 
+        /// <summary>
+        /// Switches the station of the part to the specified station
+        /// </summary>
         public void SetStation(Station station)
         {
             _currentStation = station;
-            UpdateTemperatureDisplay();
-            var canKeepHeating = _currentState == PartState.Heating && station is Station.Heating or Station.Planning;
-            var canKeepCooling = _currentState == PartState.Cooling && station is Station.Cooling or Station.Planning;
-            if (!canKeepHeating && !canKeepCooling)
-            {
-                StopAllCoroutines();
-                _currentState = PartState.Ambient;
-            }
-            
+            _temperatureHandler.SetStation(station);
+
             UpdateSelectionIndication();
+        }
+        
+        private IEnumerator SetupPart(PartDetails details)
+        {
+            Details = details;
+            yield return DeformationHandler.SetupPart(EnvironmentSettings);
+            _positionHandler.SetupPosition();
         }
         
         private void UpdateSelectionIndication()
         {
             var needsToDisplaySelection = _isSelected && _currentStation == Station.Heating;
-            _moveables.ForEach(x =>
-            {
-                if (needsToDisplaySelection) AdjustPosition(x, _selectedOffset);
-                else x.ResetPosition();
-            });
+            _positionHandler.ToggleVerticalOffset(needsToDisplaySelection);
         }
         
-        private void AdjustPosition(Moveable moveable, float offset)
+        private void DeformationHandler_OnHit()
         {
-            var position = moveable.transform.localPosition;
-            position.y = offset;
-            moveable.transform.localPosition = position;
-        }
-
-        private IEnumerator Heat()
-        {
-            while (_currentState == PartState.Heating)
-            {
-                _temperature += TEMPERATURE_CHANGE_RATE;
-                UpdateTemperatureDisplay();
-                yield return new WaitForSeconds(Time.fixedDeltaTime);
-            }
-        }
-
-        private IEnumerator Cool()
-        {
-            while (_currentState == PartState.Cooling)
-            {
-                _temperature -= TEMPERATURE_CHANGE_RATE;
-                _temperature = Mathf.Max(ROOM_TEMPERATURE_KELVIN, _temperature);
-                UpdateTemperatureDisplay();
-                yield return new WaitForSeconds(Time.fixedDeltaTime);
-            }
-        }
-
-        private void UpdateTemperatureDisplay()
-        {
-            _material.material.SetFloat(_temperature1, _currentStation != Station.Planning ? _temperature : 0);
+            if (!_isSelected) return;
+            Details.Hits++;
         }
     }
 }

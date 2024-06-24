@@ -10094,6 +10094,9 @@ GameObject:
   - component: {fileID: 400262880}
   - component: {fileID: 400262879}
   - component: {fileID: 400262878}
+  - component: {fileID: 400262881}
+  - component: {fileID: 400262882}
+  - component: {fileID: 400262883}
   m_Layer: 0
   m_Name: '@Part Pair 3'
   m_TagString: Untagged
@@ -10113,10 +10116,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca742d56cd92c2448844084668be277c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _material: {fileID: 2126005832}
-  _selectedOffset: 0.5
-  _partMesh: {fileID: 2126005837}
-  _desiredMesh: {fileID: 2076173024}
 --- !u!114 &400262879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10151,6 +10150,48 @@ Transform:
   - {fileID: 2076173019}
   m_Father: {fileID: 1266098004}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &400262881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400262877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760bf2b196914bf1b0c295610c081e3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bounds: {fileID: 2126005832}
+  _verticalOffset: 0.5
+--- !u!114 &400262882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400262877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3599c0246f0b49e7a4166ad8d46dd398, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _temperatureDisplay: {fileID: 2126005832}
+  _furnaceTemperature: {fileID: 11400000, guid: 8000afb177bfd3747bad2367593a7ae2, type: 2}
+--- !u!114 &400262883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400262877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 116729650a01440f9287b83ac6b54676, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _partMesh: {fileID: 2126005837}
+  _desiredMesh: {fileID: 2076173024}
 --- !u!1 &412260490
 GameObject:
   m_ObjectHideFlags: 0
@@ -11450,6 +11491,9 @@ GameObject:
   - component: {fileID: 457592304}
   - component: {fileID: 457592303}
   - component: {fileID: 457592302}
+  - component: {fileID: 457592305}
+  - component: {fileID: 457592306}
+  - component: {fileID: 457592307}
   m_Layer: 0
   m_Name: '@Part Pair 2'
   m_TagString: Untagged
@@ -11469,10 +11513,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca742d56cd92c2448844084668be277c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _material: {fileID: 1356909879}
-  _selectedOffset: 0.5
-  _partMesh: {fileID: 1356909884}
-  _desiredMesh: {fileID: 1825977113}
 --- !u!114 &457592303
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11507,6 +11547,48 @@ Transform:
   - {fileID: 1825977108}
   m_Father: {fileID: 1266098004}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &457592305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 457592301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760bf2b196914bf1b0c295610c081e3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bounds: {fileID: 1356909879}
+  _verticalOffset: 0.5
+--- !u!114 &457592306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 457592301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3599c0246f0b49e7a4166ad8d46dd398, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _temperatureDisplay: {fileID: 1356909879}
+  _furnaceTemperature: {fileID: 11400000, guid: 8000afb177bfd3747bad2367593a7ae2, type: 2}
+--- !u!114 &457592307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 457592301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 116729650a01440f9287b83ac6b54676, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _partMesh: {fileID: 1356909884}
+  _desiredMesh: {fileID: 1825977113}
 --- !u!1 &458440808
 GameObject:
   m_ObjectHideFlags: 0
@@ -34121,8 +34203,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _selector: {fileID: 1948210031}
-  _part: {fileID: 1167986427}
-  _target: {fileID: 1427607744}
   _force: 0.1
   _hud: {fileID: 1961480217}
 --- !u!1001 &1394374035
@@ -43475,6 +43555,9 @@ GameObject:
   - component: {fileID: 1679221515}
   - component: {fileID: 1679221516}
   - component: {fileID: 1679221517}
+  - component: {fileID: 1679221518}
+  - component: {fileID: 1679221519}
+  - component: {fileID: 1679221520}
   m_Layer: 0
   m_Name: '@Part Pair'
   m_TagString: Untagged
@@ -43528,8 +43611,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca742d56cd92c2448844084668be277c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _material: {fileID: 1167986433}
-  _selectedOffset: 0.5
+--- !u!114 &1679221518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1679221514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760bf2b196914bf1b0c295610c081e3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bounds: {fileID: 1167986433}
+  _verticalOffset: 0.5
+--- !u!114 &1679221519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1679221514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3599c0246f0b49e7a4166ad8d46dd398, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _temperatureDisplay: {fileID: 1167986433}
+  _furnaceTemperature: {fileID: 11400000, guid: 8000afb177bfd3747bad2367593a7ae2, type: 2}
+--- !u!114 &1679221520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1679221514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 116729650a01440f9287b83ac6b54676, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _partMesh: {fileID: 1167986434}
   _desiredMesh: {fileID: 1427607750}
 --- !u!1 &1679603209
@@ -52123,6 +52244,9 @@ GameObject:
   - component: {fileID: 2112084080}
   - component: {fileID: 2112084079}
   - component: {fileID: 2112084078}
+  - component: {fileID: 2112084081}
+  - component: {fileID: 2112084082}
+  - component: {fileID: 2112084083}
   m_Layer: 0
   m_Name: '@Part Pair 4'
   m_TagString: Untagged
@@ -52142,10 +52266,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca742d56cd92c2448844084668be277c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _material: {fileID: 884065704}
-  _selectedOffset: 0.5
-  _partMesh: {fileID: 884065709}
-  _desiredMesh: {fileID: 1997730175}
 --- !u!114 &2112084079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52180,6 +52300,48 @@ Transform:
   - {fileID: 1997730170}
   m_Father: {fileID: 1266098004}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2112084081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2112084077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 760bf2b196914bf1b0c295610c081e3a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _bounds: {fileID: 884065704}
+  _verticalOffset: 0.5
+--- !u!114 &2112084082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2112084077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3599c0246f0b49e7a4166ad8d46dd398, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _temperatureDisplay: {fileID: 884065704}
+  _furnaceTemperature: {fileID: 11400000, guid: 8000afb177bfd3747bad2367593a7ae2, type: 2}
+--- !u!114 &2112084083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2112084077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 116729650a01440f9287b83ac6b54676, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _partMesh: {fileID: 884065709}
+  _desiredMesh: {fileID: 1997730175}
 --- !u!1001 &2112285601
 PrefabInstance:
   m_ObjectHideFlags: 0

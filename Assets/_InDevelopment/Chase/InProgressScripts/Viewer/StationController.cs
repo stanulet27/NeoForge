@@ -73,7 +73,7 @@ namespace NeoForge.Deformation
 
         private void Update()
         {
-            if (_aPartIsActive && _activePart.CurrentState != ForgedPart.PartState.Ambient)
+            if (_aPartIsActive && _activePart.CurrentState != TemperatureState.Ambient)
             {
                 UpdateTemperatureDisplays();
             }
@@ -122,7 +122,7 @@ namespace NeoForge.Deformation
         /// </summary>
         public void ToggleHeatingOrCooling()
         {
-            var partIsAmbient = _activePart.CurrentState == ForgedPart.PartState.Ambient;
+            var partIsAmbient = _activePart.CurrentState == TemperatureState.Ambient;
             var atHeatingStation = _currentStation.Value == Station.Heating;
             
             if (!partIsAmbient) _activePart.SetToAmbient(_partPositions[Station.Cooling]);
@@ -155,7 +155,7 @@ namespace NeoForge.Deformation
         public void SubmitPart()
         {
             var part = _activePart;
-            var results = new ForgingResults(_meshSimilarityCalculator, part.Details, part.Mesh);
+            var results = new ForgingResults(_meshSimilarityCalculator, part.Details, part.UserCreatedMesh);
             CompletedItem.CreateItem(results);
             
             _partCompletionScreen.Display(results, OnPartReviewed);
@@ -175,7 +175,7 @@ namespace NeoForge.Deformation
             _activePart = part;
             _aPartIsActive = part != null;
             if (_aPartIsActive) _activePart.ToggleSelection(true);
-            if (_aPartIsActive) StartCoroutine(_deformationHandler.PrepareEnvironment(part));
+            if (_aPartIsActive) StartCoroutine(_deformationHandler.PrepareEnvironment(part.EnvironmentSettings));
             UpdateHeatButtonText();
         }
 
@@ -183,7 +183,7 @@ namespace NeoForge.Deformation
         {
             if (!_aPartIsActive) return;
             var stationActionAvailable = _currentStation.Value == Station.Heating ? "Place in Furnace" : "Place in Water";
-            var awaitingStationAction = _activePart.CurrentState == ForgedPart.PartState.Ambient;
+            var awaitingStationAction = _activePart.CurrentState == TemperatureState.Ambient;
             
             _heatingCoolingButton.text = awaitingStationAction ? stationActionAvailable : "Remove";
         }
@@ -204,10 +204,9 @@ namespace NeoForge.Deformation
 
         private void SwapToPart(ForgedPart part)
         {
-            //TODO: Raise part to show its been selected.
             SetActivePart(part);
             _partPositions[Station.Heating] = _activePart.OutFurnacePosition;
-            _meshSimilarityCalculator.SetPart(part);
+            _meshSimilarityCalculator.SetPart(part.Details.ScoreDetails);
             ChangeUI();
             UpdateTemperatureDisplays();
         }

@@ -58,7 +58,7 @@ namespace NeoForge.Deformation
         /// <summary>
         /// Will setup the scoring details for the part so it can be scored.
         /// </summary>
-        public IEnumerator SetScoreDetails(ForgedPart part)
+        public IEnumerator SetScoreDetails(PartMeshHandler part)
         {
             ScoreDetails = new MeshSimilarityCalculator.ScoringDetails();
             yield return ScoreDetails.Setup(part);

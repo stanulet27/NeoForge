@@ -38,7 +38,6 @@ namespace NeoForge.Deformation.Scoring
         [SerializeField] private RaycastPoint.Mode _displayMode = RaycastPoint.Mode.Undershot;
 
         private float _initialScore;
-        private ForgedPart _part;
         private List<RaycastPoint> _undershotPoints = new();
         
         /// <summary>
@@ -88,18 +87,17 @@ namespace NeoForge.Deformation.Scoring
         /// <summary>
         /// Will setup the calculator to be able to score the specified part.
         /// </summary>
-        public void SetPart(ForgedPart part)
+        public void SetPart(ScoringDetails scoringDetails)
         {
-            _part = part;
-            _userMeshFilter = part.PartMesh;
-            _desiredMeshFilter = part.DesiredMesh;
-            _heatMapRenderer = part.DesiredMesh.GetComponent<Renderer>();
+            _userMeshFilter = scoringDetails.Part.PartMesh;
+            _desiredMeshFilter = scoringDetails.Part.DesiredMesh;
+            _heatMapRenderer = scoringDetails.Part.HeatmapRenderer;
             
             Debug.Assert(_userMeshFilter != null, "User mesh filter is null");
             Debug.Assert(_desiredMeshFilter != null, "Desired mesh filter is null");
             Debug.Assert(_heatMapRenderer != null, "Heat map renderer is null");
 
-            _undershotPoints = _part.Details.ScoreDetails.UndershotPoints;
+            _undershotPoints = scoringDetails.UndershotPoints;
         }
         
         /// <summary>
@@ -141,7 +139,6 @@ namespace NeoForge.Deformation.Scoring
 
         private void OnDeformationPerformed()
         {
-            if (_part != null) _part.Details.Hits++;
             UpdateScore();
         }
         
@@ -212,13 +209,16 @@ namespace NeoForge.Deformation.Scoring
             /// The points used for determining the score of the part regarding points inside the desired mesh.
             /// </summary>
             public List<RaycastPoint> UndershotPoints { get; private set; }
+            
+            public PartMeshHandler Part { get; private set; }
 
             /// <summary>
             /// Will setup up UndershotPoints for the specified part.
             /// </summary>
-            public IEnumerator Setup(ForgedPart part)
+            public IEnumerator Setup(PartMeshHandler part)
             {
                 yield return null; // Let mesh initialize
+                Part = part;
                 UndershotPoints = new List<RaycastPoint>(GeneratePoints(part.DesiredMesh, RaycastPoint.Mode.Undershot));
             }
         }

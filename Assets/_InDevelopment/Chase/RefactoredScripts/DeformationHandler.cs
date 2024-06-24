@@ -3,7 +3,6 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using NeoForge.Deformation.JSON;
-using NeoForge.Deformation.Scoring;
 using NeoForge.Deformation.UI;
 using NeoForge.Input;
 
@@ -11,17 +10,19 @@ namespace NeoForge.Deformation
 {
     public class DeformationHandler : MonoBehaviour
     {
+        /// <summary>
+        /// Occurs whenever a change is made to the mesh.
+        /// </summary>
         public static Action OnDeformationPerformed;
-        
+
+        /// <summary>
+        /// Occurs whenever a hit is performed.
+        /// </summary>
+        public static Action OnHit;
+
         [Tooltip("The trigger tracker that is used to determine parts and vertices that are hit.")]
         [SerializeField] private TriggerTracker _selector;
 
-        [Tooltip("This is the part that is being deformed.")]
-        [SerializeField] private GameObject _part;
-
-        [Tooltip("This is the target that the part is being deformed to.")]
-        [SerializeField] private GameObject _target;
-        
         [Range(0, 10)]
         [Tooltip("The force that is applied by the hit.")]
         [SerializeField] private float _force = 1f;
@@ -29,13 +30,10 @@ namespace NeoForge.Deformation
         [Tooltip("The HUD that is used to display the force and size of the selector.")]
         [SerializeField] private ForgeHUD _hud;
         
-        
-        private MeshFilter _partMesh => _part.GetComponent<MeshFilter>();
-        private MeshCollider _partMeshCollider => _target.GetComponent<MeshCollider>();
-        
-        private MeshFilter _targetMesh => _target.GetComponent<MeshFilter>();
-        private MeshCollider _targetMeshCollider => _target.GetComponent<MeshCollider>();
-        
+        private Transform _part;
+        private MeshFilter _partMesh;
+        private MeshCollider _targetCollider;
+
         private float _maxForce;
         
         private void OnEnable()
@@ -63,40 +61,40 @@ namespace NeoForge.Deformation
             StartCoroutine(UndoDeformation());
         }
 
-        public static IEnumerator SetupPart(ForgedPart part)
+        public static IEnumerator SetupPart(JAXEnvironmentSettings settings)
         {
-            var environmentChoices = new EnvironmentChoices(part.Details);
-            yield return WebServerConnectionHandler.SendPutRequest(JsonUtility.ToJson(environmentChoices), "/init");
+            yield return WebServerConnectionHandler.SendPutRequest(JsonUtility.ToJson(settings.Environment), "/init");
 
             yield return WebServerConnectionHandler.SendGetRequest("/starting-mesh");
-            var startingMeshData = JsonUtility.FromJson<MeshData>(WebServerConnectionHandler.ReturnData);
-            part.PartMesh.mesh = CreateMesh(startingMeshData);
-            part.PartCollider.sharedMesh = part.PartMesh.mesh;
+            var startingMeshData = CreateMesh(JsonUtility.FromJson<MeshData>(WebServerConnectionHandler.ReturnData));
+            settings.MeshData.PartMesh.mesh = startingMeshData;
+            settings.MeshData.PartCollider.sharedMesh = startingMeshData;
 
             yield return WebServerConnectionHandler.SendGetRequest("/target-mesh");
-            var targetMeshData = JsonUtility.FromJson<MeshData>(WebServerConnectionHandler.ReturnData);
-            part.DesiredMesh.mesh = CreateMesh(targetMeshData);
-            part.DesiredCollider.sharedMesh = part.DesiredMesh.mesh;
+            var targetMeshData = CreateMesh(JsonUtility.FromJson<MeshData>(WebServerConnectionHandler.ReturnData));
+            settings.MeshData.DesiredMesh.mesh = targetMeshData;
+            settings.MeshData.DesiredCollider.sharedMesh = targetMeshData;
 
             yield return WebServerConnectionHandler.SendGetRequest("/material");
             var jsonMaterial = JsonUtility.FromJson<JSONMaterial>(WebServerConnectionHandler.ReturnData);
-            part.Details.SetMaterialData(jsonMaterial);
+            settings.Details.SetMaterialData(jsonMaterial);
             
-            yield return part.Details.SetScoreDetails(part);
+            yield return settings.Details.SetScoreDetails(settings.MeshData);
         }
 
-        public IEnumerator PrepareEnvironment(ForgedPart part)
+        public IEnumerator PrepareEnvironment(JAXEnvironmentSettings settings)
         {
-            var environmentChoices = new EnvironmentChoices(part.Details) { HammerID = 0 };
-            yield return WebServerConnectionHandler.SendPutRequest(JsonUtility.ToJson(environmentChoices), "/init");
+            settings.Environment.HammerID = 0;
+            yield return WebServerConnectionHandler.SendPutRequest(JsonUtility.ToJson(settings.Environment), "/init");
             
             yield return WebServerConnectionHandler.SendGetRequest("/hammer");
             var hammerData = JsonUtility.FromJson<HammerData>(WebServerConnectionHandler.ReturnData);
             _selector.transform.localScale = new Vector3(hammerData.SizeY, 1, hammerData.SizeX);
             
-            _maxForce = part.Details.Material.MaximumForce;
-            _target = part.DesiredMesh.gameObject;
-            _part = part.gameObject;
+            _maxForce = settings.Details.Material.MaximumForce;
+            _partMesh = settings.MeshData.PartMesh;
+            _targetCollider = settings.MeshData.DesiredCollider;
+            _part = settings.Part;
         }
 
         private static Mesh CreateMesh(MeshData meshData)
@@ -125,17 +123,18 @@ namespace NeoForge.Deformation
         private IEnumerator UndoDeformation()
         {
             yield return WebServerConnectionHandler.SendGetRequest("/undo-strike");
-            var meshData = JsonUtility.FromJson<MeshData>(WebServerConnectionHandler.ReturnData);
-            _partMesh.mesh = CreateMesh(meshData);
-            _partMeshCollider.sharedMesh = _partMesh.mesh;
+            var meshData = CreateMesh(JsonUtility.FromJson<MeshData>(WebServerConnectionHandler.ReturnData));
+            _partMesh.mesh = meshData;
+            _targetCollider.sharedMesh = meshData;
             OnDeformationPerformed?.Invoke();
         }
         
         private IEnumerator HitIntersectedMesh(Deformable deformable)
         {
             _force = Mathf.Min(_force, _maxForce);    
-            yield return deformable.PerformHitOperation(_force, _part.transform, _selector.Contains);
+            yield return deformable.PerformHitOperation(_force, _part, _selector.Contains);
             OnDeformationPerformed?.Invoke();
+            OnHit?.Invoke();
         }
     }
 }
