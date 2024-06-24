@@ -520,7 +520,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1266098005}
         m_TargetAssemblyTypeName: StationController, Assembly-CSharp
-        m_MethodName: ChangeStation
+        m_MethodName: ChangeArea
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1769,7 +1769,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1266098005}
         m_TargetAssemblyTypeName: StationController, Assembly-CSharp
-        m_MethodName: ChangeStation
+        m_MethodName: ChangeArea
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -14731,7 +14731,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1266098005}
         m_TargetAssemblyTypeName: StationController, Assembly-CSharp
-        m_MethodName: ChangeStation
+        m_MethodName: ChangeArea
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -17292,7 +17292,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1266098005}
         m_TargetAssemblyTypeName: StationController, Assembly-CSharp
-        m_MethodName: ChangeStation
+        m_MethodName: ChangeArea
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -17875,7 +17875,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1266098005}
         m_TargetAssemblyTypeName: StationController, Assembly-CSharp
-        m_MethodName: ChangeStation
+        m_MethodName: ChangeArea
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -27886,7 +27886,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1266098005}
         m_TargetAssemblyTypeName: StationController, Assembly-CSharp
-        m_MethodName: ChangeStation
+        m_MethodName: ChangeArea
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

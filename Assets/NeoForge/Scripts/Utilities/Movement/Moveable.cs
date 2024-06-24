@@ -13,13 +13,11 @@ namespace NeoForge.Utilities.Movement
         [SerializeField] private bool _rotationLocked;
         [Tooltip("If true, the object will not be able to move.")]
         [SerializeField] private bool _positionLocked;
-
-        public bool InRotationMode { get; private set; }
-
+        
         private bool _beingSlowed;
         private Vector3 _moveDirection;
         private Vector3 _rotationDirection;
-        
+
         private void OnEnable()
         {
             ControllerManager.OnMove += ApplyMovement;
@@ -55,7 +53,6 @@ namespace NeoForge.Utilities.Movement
         
         private void SwapMode()
         {
-            InRotationMode = !InRotationMode;
             _moveDirection = Vector2.zero;
             _rotationDirection = Vector3.zero;
         }
@@ -67,13 +64,13 @@ namespace NeoForge.Utilities.Movement
 
         private void ApplyMovement(Vector2 moveDirection)
         {
-            if (_positionLocked || InRotationMode) return;
+            if (_positionLocked || ControllerManager.Instance.InRotationMode) return;
             _moveDirection = new Vector3(moveDirection.x, 0, moveDirection.y);
         }
 
         private void ApplyRotation(Vector3 rotationDirection)
         {
-            if (_rotationLocked || !InRotationMode) return;
+            if (_rotationLocked || !ControllerManager.Instance.InRotationMode) return;
             _rotationDirection = rotationDirection;
         }
     }

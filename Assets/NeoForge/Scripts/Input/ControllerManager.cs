@@ -133,12 +133,14 @@ namespace NeoForge.Input
         public static Action<bool> OnSlowDown;
         public static Action OnHit;
         public static Action OnOverlay;
-        public static Action<Station> OnChangeStation;
+        public static Action<ForgeArea> OnChangeStation;
         public static Action OnInteract;
         public static Action OnNextDay;
         public static Action OnMouseClick;
         public static Action OnSwapArea;
-
+        
+        public bool InRotationMode { get; private set; }
+        
         public void OnOverlayInput(InputValue context)
         {
             TryInvoke(OnOverlay);
@@ -156,27 +158,26 @@ namespace NeoForge.Input
         
         public void OnChangeToOverviewInput(InputValue context)
         {
-            TryInvoke(() => OnChangeStation?.Invoke(Station.Overview));
+            TryInvoke(() => OnChangeStation?.Invoke(ForgeArea.Overview));
         }
         public void OnChangeToHeatingInput(InputValue context)
         {
-            TryInvoke(() => OnChangeStation?.Invoke(Station.Heating));
+            TryInvoke(() => OnChangeStation?.Invoke(ForgeArea.Heating));
         }
-        
-        
+
         public void OnChangeToCoolingInput(InputValue context)
         {
-            TryInvoke(() => OnChangeStation?.Invoke(Station.Cooling));
+            TryInvoke(() => OnChangeStation?.Invoke(ForgeArea.Cooling));
         }
         
         public void OnChangeToForgingInput(InputValue context)
         {
-            TryInvoke(() => OnChangeStation?.Invoke(Station.Forging));
+            TryInvoke(() => OnChangeStation?.Invoke(ForgeArea.Forging));
         }
         
         public void OnChangeToPlanningInput(InputValue context)
         {
-            TryInvoke(() => OnChangeStation?.Invoke(Station.Planning));
+            TryInvoke(() => OnChangeStation?.Invoke(ForgeArea.Planning));
         }
 
         public void OnSwapAreaInput()
@@ -191,6 +192,7 @@ namespace NeoForge.Input
         
         public void OnSwapMovementInput()
         {
+            InRotationMode = !InRotationMode;
             TryInvoke(OnSwapMode);
         }
         

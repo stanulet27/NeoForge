@@ -1,6 +1,7 @@
 using SharedData;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace NeoForge.Deformation
 {
@@ -8,17 +9,17 @@ namespace NeoForge.Deformation
     {
         [Tooltip("The event that is invoked when the station is changed. Should be found in Station Controller")]
         [SerializeField]
-        private UnityEvent<Station> _changeStation;
+        private UnityEvent<ForgeArea> _changeStation;
 
-        [Tooltip("The station that the player will switch to")] [SerializeField]
-        private Station _station;
+        [FormerlySerializedAs("_forgeStation")] [FormerlySerializedAs("_station")] [Tooltip("The station that the player will switch to")] [SerializeField]
+        private ForgeArea _forgeArea;
 
         /// <summary>
         /// Changes the station to the one specified in the inspector
         /// </summary>
         public void Invoke()
         {
-            _changeStation.Invoke(_station);
+            _changeStation.Invoke(_forgeArea);
         }
     }
 }

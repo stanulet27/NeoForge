@@ -83,8 +83,8 @@ namespace NeoForge.Deformation
         {
             var lastPosition = previousPart.transform.position;
             var offsetDirection = previousPart.transform.right;
-            var lastSize = previousPart.GetBounds().size;
-            var currentSize = newPart.GetBounds().size;
+            var lastSize = previousPart.Bounds().size;
+            var currentSize = newPart.Bounds().size;
 
             var offsetAmount = lastSize.x / 2 + currentSize.x / 2 + BUFFER;
 

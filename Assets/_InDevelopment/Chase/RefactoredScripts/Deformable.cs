@@ -12,12 +12,6 @@ namespace NeoForge.Deformation
     [RequireComponent(typeof(MeshCollider))]
     public class Deformable : MonoBehaviour
     {
-        /// <summary>
-        /// Invoked when the user clicks on the part
-        /// </summary>
-        public Action<ForgedPart> Clicked;
-        
-        private ForgedPart _part;
         private MeshFilter _meshFilter;
         private MeshCollider _meshCollider;
         
@@ -25,12 +19,6 @@ namespace NeoForge.Deformation
         {
             _meshFilter = GetComponent<MeshFilter>();
             _meshCollider = GetComponent<MeshCollider>();
-            _part = transform.parent.gameObject.GetComponent<ForgedPart>();
-        }
-        
-        private void OnMouseDown()
-        {
-            Clicked?.Invoke(_part);
         }
         
         /// <summary>

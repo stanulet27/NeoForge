@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NeoForge.Utilities.Movement;
+using SharedData;
 using UnityEngine;
 
 namespace NeoForge.Deformation
@@ -13,26 +15,24 @@ namespace NeoForge.Deformation
         [SerializeField] private MeshRenderer _bounds;
         [Tooltip("The vertical offset of the part to apply when selected")]
         [SerializeField] private float _verticalOffset = 0.5f;
-        
+
         private readonly List<PartBoundsLocker> _boundsLocker = new();
         private readonly List<Moveable> _moveables = new();
-
-        /// <summary>
-        /// The position of the part when it is out of the furnace in the heating area
-        /// </summary>
-        public Transform OutFurnacePosition { get; private set; }
+        private ForgingPositions _positions;
+        private Transform _outFurnacePosition;
+        private Transform _inFurnacePosition;
         
         /// <summary>
-        /// The position of the part when it is in the furnace in the heating area
+        /// Returns the bounding box of the part
         /// </summary>
-        public Transform InFurnacePosition { get; private set; }
+        public Bounds Bounds() => _bounds.bounds;
 
         private void Awake()
         {
-            OutFurnacePosition = new GameObject("@OutFurnacePosition").transform;
-            InFurnacePosition = new GameObject("@InFurnacePosition").transform;
-            OutFurnacePosition.SetParent(transform.parent);
-            InFurnacePosition.SetParent(transform.parent);
+            _outFurnacePosition = new GameObject("@OutFurnacePosition").transform;
+            _inFurnacePosition = new GameObject("@InFurnacePosition").transform;
+            _outFurnacePosition.SetParent(transform.parent);
+            _inFurnacePosition.SetParent(transform.parent);
             GetComponentsInChildren(_boundsLocker);
             GetComponentsInChildren(_moveables);
         }
@@ -40,6 +40,15 @@ namespace NeoForge.Deformation
         private void OnDisable()
         {
             FurnaceSpotLocator.VacatePosition(this);
+        }
+        
+        /// <summary>
+        /// Will initialize the forging positions of the part. These are used for knowing where to go when jumping
+        /// between stations
+        /// </summary>
+        public void InitializeForgingPositions(ForgingPositions positions)
+        {
+            _positions = new ForgingPositions(positions);
         }
         
         /// <summary>
@@ -65,21 +74,34 @@ namespace NeoForge.Deformation
         {
             var shiftTowardsFurnace = Vector3.forward * SHIFT_TOWARDS_FURNACE;
             
-            OutFurnacePosition.SetPositionAndRotation(position, rotation);
-            InFurnacePosition.SetPositionAndRotation(position + shiftTowardsFurnace, rotation);
-            JumpToPosition(OutFurnacePosition);
+            _outFurnacePosition.SetPositionAndRotation(position, rotation);
+            _inFurnacePosition.SetPositionAndRotation(position + shiftTowardsFurnace, rotation);
+            _positions.PartPositions[ForgeArea.Heating] = _outFurnacePosition;
+            JumpToPosition(_outFurnacePosition);
         }
         
         /// <summary>
-        /// Changes the position of the part to the target position
+        /// Will move the part to the station corresponding to the given forge area
         /// </summary>
-        /// <param name="target">A transform describing the target position and rotation</param>
-        public void JumpToPosition(Transform target)
+        public void JumpToStation(ForgeArea forgeArea)
         {
-            _boundsLocker.ForEach(x => x.enabled = false);
-            transform.position = target.position;
-            transform.rotation = target.rotation;
-            _boundsLocker.ForEach(x => x.enabled = true);
+            JumpToPosition(_positions.PartPositions[forgeArea]);
+        }
+        
+        /// <summary>
+        /// Will move the part to the in water position.
+        /// </summary>
+        public void SubmergeInWater()
+        {
+            JumpToPosition(_positions.InWaterPosition);
+        }
+        
+        /// <summary>
+        /// Will move the part to the in furnace position
+        /// </summary>
+        public void PutIntoFurnace()
+        {
+            JumpToPosition(_inFurnacePosition);
         }
         
         /// <summary>
@@ -91,16 +113,7 @@ namespace NeoForge.Deformation
             _moveables.ForEach(x => x.enabled = canMove);
             if (!canMove) _moveables.ForEach(x => x.ResetPosition());
         }
-        
-        /// <summary>
-        /// Returns the Bounding box of the part
-        /// </summary>
-        /// <returns>The bounding box of the part</returns>
-        public Bounds GetBounds()
-        {
-            return _bounds.bounds;
-        }
-        
+
         /// <summary>
         /// Will apply / remove a vertical offset to / from the part
         /// </summary>
@@ -112,6 +125,14 @@ namespace NeoForge.Deformation
                 if (shouldOffset) AdjustPosition(x.transform, _verticalOffset);
                 else x.ResetPosition();
             });
+        }
+        
+        private void JumpToPosition(Transform target)
+        {
+            _boundsLocker.ForEach(x => x.enabled = false);
+            transform.position = target.position;
+            transform.rotation = target.rotation;
+            _boundsLocker.ForEach(x => x.enabled = true);
         }
         
         private static void AdjustPosition(Transform moveable, float offset)

@@ -29,7 +29,7 @@ namespace NeoForge.Input
         {
             _part.material = _isOverlayActive ? _opaqueMaterial : _transparentMaterial;
              
-            _scoreCamera.cullingMask = _scoreCamera.cullingMask ^ (1 << LayerMask.NameToLayer("Desired"));
+            _scoreCamera.cullingMask ^= 1 << LayerMask.NameToLayer("Desired");
             _isOverlayActive = !_isOverlayActive;
         }
     }

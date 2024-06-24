@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NeoForge.Deformation;
 using NeoForge.UI.Inventory;
@@ -11,10 +12,10 @@ namespace NeoForge.Stations.Warehosue
     {
         [Tooltip("The parent object that contains all the crates.")]
         [SerializeField] private GameObject _cratesParent;
-        [Tooltip("The pool of forged parts.")]
-        [SerializeField] private List<ForgedPart> _forgedPartsPool;
+        
         [Tooltip("The UI display for the warehouse station.")]
         [SerializeField] private WarehouseUIDisplay _uiDisplay;
+        
 
         private List<ItemCrate> _crates;
         private ItemCrate _materialCrate;
@@ -24,7 +25,6 @@ namespace NeoForge.Stations.Warehosue
         private void Start()
         {
             _crates = _cratesParent.GetComponentsInChildren<ItemCrate>().ToList();
-            _forgedPartsPool.ForEach(part => part.gameObject.SetActive(false));
             _uiDisplay.CloseUI();
         }
 
@@ -53,7 +53,7 @@ namespace NeoForge.Stations.Warehosue
         [Button]
         public void SendItemToForge()
         {
-            var forgedPart = _forgedPartsPool.FirstOrDefault(x => !x.gameObject.activeInHierarchy);
+            var forgedPart = ForgePartPool.Instance.GetPart();
             
             if (_materialCrate.Item is not MaterialItem m || _bonusCrate.Item is not ItemWithBonus b) return;
             if (forgedPart == default) return;

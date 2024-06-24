@@ -38,6 +38,7 @@ namespace NeoForge.Deformation.Scoring
         [SerializeField] private RaycastPoint.Mode _displayMode = RaycastPoint.Mode.Undershot;
 
         private float _initialScore;
+        private bool _hasPart;
         private List<RaycastPoint> _undershotPoints = new();
         
         /// <summary>
@@ -85,10 +86,16 @@ namespace NeoForge.Deformation.Scoring
         }
 
         /// <summary>
-        /// Will setup the calculator to be able to score the specified part.
+        /// Will setup the calculator to be able to score the specified part. If the part is null, it will clear the part.
         /// </summary>
         public void SetPart(ScoringDetails scoringDetails)
         {
+            if (scoringDetails == null)
+            {
+                ClearPart();
+                return;
+            }
+            
             _userMeshFilter = scoringDetails.Part.PartMesh;
             _desiredMeshFilter = scoringDetails.Part.DesiredMesh;
             _heatMapRenderer = scoringDetails.Part.HeatmapRenderer;
@@ -100,12 +107,20 @@ namespace NeoForge.Deformation.Scoring
             _undershotPoints = scoringDetails.UndershotPoints;
         }
         
+        private void ClearPart()
+        {
+            _hasPart = false;
+            _undershotPoints = new List<RaycastPoint>();
+        }
+        
         /// <summary>
         /// Will refresh the score of the part and save it to the shared float, _score.
         /// Score can be retrieved by calling Score.
         /// </summary>
         public void UpdateScore()
         {
+            if (!_hasPart) return;
+            
             GeneratePoints(_userMeshFilter, RaycastPoint.Mode.Overshot);
             DisplayHeatMap();
             _score.Value = DetermineScore();

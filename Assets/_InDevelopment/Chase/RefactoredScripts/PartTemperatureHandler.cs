@@ -12,12 +12,22 @@ namespace NeoForge.Deformation
         private const string TEMPERATURE = "_Temperature";
         private static readonly int _temperatureProperty = Shader.PropertyToID(TEMPERATURE);
         
+        /// <summary>
+        /// Will be called when the temperature of the part changes
+        /// </summary>
+        public event Action<float> OnTemperatureChanged;
+        
+        /// <summary>
+        /// Will be called when the state of the part changes
+        /// </summary>
+        public event Action<TemperatureState> OnStateChanged;
+
         [Tooltip("The temperature display for the part, must have a shader with a _Temperature property")]
         [SerializeField] private MeshRenderer _temperatureDisplay;
         [Tooltip("The current temperature of the furnace")]
         [SerializeField] private SharedFloat _furnaceTemperature;
         
-        private Station _currentStation;
+        private ForgeArea _currentForgeArea;
         
         /// <summary>
         /// The temperature of the part in kelvin
@@ -39,6 +49,7 @@ namespace NeoForge.Deformation
         private void Update()
         {
             if (CurrentState == TemperatureState.Ambient) return;
+            
             Temperature += CurrentState == TemperatureState.Heating ? TEMPERATURE_CHANGE_RATE : -TEMPERATURE_CHANGE_RATE;
             Temperature = Mathf.Clamp(Temperature, ROOM_TEMPERATURE_KELVIN, _furnaceTemperature);
             UpdateTemperatureDisplay();
@@ -49,14 +60,17 @@ namespace NeoForge.Deformation
         /// be hidden from the user. When the station is not a temperature station nor planning, the part will enter
         /// the Ambient state.
         /// </summary>
-        /// <param name="station"></param>
-        public void SetStation(Station station)
+        public void SetStation(ForgeArea forgeArea)
         {
-            _currentStation = station;
+            _currentForgeArea = forgeArea;
             UpdateTemperatureDisplay();
             
-            var canKeepHeating = CurrentState == TemperatureState.Heating && station is Station.Heating or Station.Planning;
-            var canKeepCooling = CurrentState == TemperatureState.Cooling && station is Station.Cooling or Station.Planning;
+            var canKeepHeating = CurrentState == TemperatureState.Heating 
+                                 && forgeArea is ForgeArea.Heating or ForgeArea.Planning;
+            
+            var canKeepCooling = CurrentState == TemperatureState.Cooling 
+                                 && forgeArea is ForgeArea.Cooling or ForgeArea.Planning;
+            
             if (!canKeepHeating && !canKeepCooling)
             {
                 SetState(TemperatureState.Ambient);
@@ -71,11 +85,14 @@ namespace NeoForge.Deformation
         public void SetState(TemperatureState state)
         {
             CurrentState = state;
+            OnStateChanged?.Invoke(CurrentState);
         }
 
         private void UpdateTemperatureDisplay()
         {
-            _temperatureDisplay.material.SetFloat(_temperatureProperty, _currentStation != Station.Planning ? Temperature : 0);
+            var temperatureToDisplay = _currentForgeArea != ForgeArea.Planning ? Temperature : 0f;
+            _temperatureDisplay.material.SetFloat(_temperatureProperty, temperatureToDisplay);
+            OnTemperatureChanged?.Invoke(Temperature);
         }
     }
 }
