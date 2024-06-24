@@ -21,12 +21,14 @@ namespace NeoForge.Deformation
         [SerializeField] private TemperatureHUD _temperatureHUD;
         [Tooltip("Will handle displaying the results for a part")]
         [SerializeField] private PartCompletionScreen _partCompletionScreen;
+        [SerializeField] private AreaSwapper _areaSwapper;
 
         private GameObject _activeUI;
         
         private void Awake()
         {
             _activeUI = _uiElements[ForgeArea.Overview];
+            _areaSwapper.gameObject.SetActive(false);
         }
 
         /// <summary>
@@ -35,6 +37,7 @@ namespace NeoForge.Deformation
         public void OpenUI()
         {
             _uiElements.Values.ToList().ForEach(ui => ui.SetActive(false));
+            _areaSwapper.gameObject.SetActive(true);
         }
 
         /// <summary>
@@ -75,6 +78,7 @@ namespace NeoForge.Deformation
         {
             _uiElements.Values.ToList().ForEach(ui => ui.SetActive(false));
             _activeUI.SetActive(false);
+            _areaSwapper.gameObject.SetActive(false);
         }
         
         /// <summary>

@@ -63,7 +63,11 @@ namespace NeoForge.Deformation
 
         private void OnEnable()
         {
-            if (Details == null) gameObject.SetActive(false);
+            if (Details == null)
+            {
+                gameObject.SetActive(false);
+                return;
+            }
             
             _positionHandler.ToggleMovement(false);
             ToggleSelection(false);
@@ -122,7 +126,7 @@ namespace NeoForge.Deformation
         {
             var currentlyBeingHeated = newArea == ForgeArea.Heating 
                                        && _temperatureHandler.CurrentState == TemperatureState.Heating;
-            var inValidMovementArea = newArea is ForgeArea.Heating or ForgeArea.Planning;
+            var inValidMovementArea = newArea is ForgeArea.Forging or ForgeArea.Planning;
             
             _currentForgeArea = newArea;
             _temperatureHandler.SetStation(newArea);

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace NeoForge.Deformation.UI
 {
-    public class ForgeHUD : MonoBehaviour
+    public class PlanningHUD : MonoBehaviour
     {
         [Tooltip("Text field that displays the HUD for the score, force, and size.")]
         [SerializeField] private TMP_Text _hudDisplay;

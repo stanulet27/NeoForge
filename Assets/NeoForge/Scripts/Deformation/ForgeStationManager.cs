@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NeoForge.Deformation.Scoring;
@@ -12,6 +13,11 @@ namespace NeoForge.Deformation
 {
     public class ForgeStationManager : MonoBehaviour, IStation
     {
+        /// <summary>
+        /// Invoked when the player changes the station they are in.
+        /// </summary>
+        public event Action<ForgeArea> OnChangeStation;
+        
         [Header("References")]
         [Tooltip("The mesh similarity calculator that is used to compare the current mesh to the target mesh")]
         [SerializeField] private MeshSimilarityCalculator _meshSimilarityCalculator;
@@ -56,12 +62,14 @@ namespace NeoForge.Deformation
         /// </summary>
         public void ChangeArea(ForgeArea newArea)
         {
+            Debug.Log("Changing Area to: " + newArea);
             if (newArea == ForgeArea.Planning) _meshSimilarityCalculator.UpdateScore();
             if (_aPartIsActive) _activePart.SetStation(newArea);
             
             _currentArea = newArea;
             _forgingHUD.ChangeUI(newArea, _aPartIsActive);
             _forgingCamera.ChangeCameraView(newArea);
+            OnChangeStation?.Invoke(newArea);
         }
 
         /// <summary>

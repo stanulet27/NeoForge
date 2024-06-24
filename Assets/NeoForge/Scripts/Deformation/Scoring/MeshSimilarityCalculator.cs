@@ -16,30 +16,22 @@ namespace NeoForge.Deformation.Scoring
         private const float MAX_SCORE = 100.0f;
         private static readonly Color _successColor = Color.green;
         private static readonly Color _failureColor = Color.red;
-
-        [Header("References")]
-        [Tooltip("The mesh filter of the current mesh.")]
-        [SerializeField] private MeshFilter _userMeshFilter;
-        [Tooltip("The mesh filter of the desired mesh.")]
-        [SerializeField] private MeshFilter _desiredMeshFilter;
-        [Tooltip("The renderer to display the heat map of successful points.")]
-        [SerializeField] private Renderer _heatMapRenderer;
-        [Tooltip("A scriptable object that contains the current score.")]
+        
+        [Tooltip("The shared float that will store the score of the part.")]
         [SerializeField] private SharedFloat _score;
 
-        [Header("Settings")]
         [Tooltip("The buffer that is used to expand the bounding box of the current mesh.")]
         [SerializeField] private float _buffer = 0.05f;
-        [Tooltip("The material that is used to color the vertices of the desired mesh to show score")]
-        [SerializeField] private Material _vertexColorMaterial;
         
-        [Header("Debug Display")]
         [Tooltip("Determines which points to display in editor.")]
         [SerializeField] private RaycastPoint.Mode _displayMode = RaycastPoint.Mode.Undershot;
 
         private float _initialScore;
         private bool _hasPart;
         private List<RaycastPoint> _undershotPoints = new();
+        private MeshFilter _userMeshFilter;
+        private MeshFilter _desiredMeshFilter;
+        private Renderer _heatMapRenderer;
         
         /// <summary>
         /// The current score of the part.
@@ -50,11 +42,6 @@ namespace NeoForge.Deformation.Scoring
         /// The score for machine cost.
         /// </summary>
         public static float MachineCostScore => RaycastPoint.GetScore(RaycastPoint.Mode.Overshot);
-
-        private void Awake()
-        {
-            _heatMapRenderer.material = _vertexColorMaterial;
-        }
 
         private void Start()
         {
@@ -90,13 +77,14 @@ namespace NeoForge.Deformation.Scoring
         /// </summary>
         public void SetPart(ScoringDetails scoringDetails)
         {
-            if (scoringDetails == null)
+            _hasPart = scoringDetails != null;
+            if (!_hasPart)
             {
                 ClearPart();
                 return;
             }
             
-            _userMeshFilter = scoringDetails.Part.PartMesh;
+            _userMeshFilter = scoringDetails!.Part.PartMesh;
             _desiredMeshFilter = scoringDetails.Part.DesiredMesh;
             _heatMapRenderer = scoringDetails.Part.HeatmapRenderer;
             
@@ -110,7 +98,6 @@ namespace NeoForge.Deformation.Scoring
         private void ClearPart()
         {
             _hasPart = false;
-            _undershotPoints = new List<RaycastPoint>();
         }
         
         /// <summary>

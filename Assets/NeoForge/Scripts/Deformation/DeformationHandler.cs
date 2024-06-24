@@ -28,7 +28,7 @@ namespace NeoForge.Deformation
         [SerializeField] private float _force = 1f;
         
         [Tooltip("The HUD that is used to display the force and size of the selector.")]
-        [SerializeField] private ForgeHUD _hud;
+        [SerializeField] private PlanningHUD _hud;
         
         private Transform _part;
         private MeshFilter _partMesh;

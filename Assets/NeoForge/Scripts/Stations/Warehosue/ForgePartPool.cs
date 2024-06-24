@@ -26,7 +26,6 @@ namespace NeoForge.Stations.Warehosue
             for (var i = 0; i < _totalParts; i++)
             {
                 var part = Instantiate(_forgedPartPrefab, transform);
-                part.gameObject.SetActive(false);
                 part.SetPositions(_forgingPositions);
                 part.transform.parent = transform;
                 ForgedPartsPool.Add(part);
