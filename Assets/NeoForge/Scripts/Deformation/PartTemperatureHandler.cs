@@ -26,6 +26,10 @@ namespace NeoForge.Deformation
         [SerializeField] private MeshRenderer _temperatureDisplay;
         [Tooltip("The current temperature of the furnace")]
         [SerializeField] private SharedFloat _furnaceTemperature;
+        [Tooltip("Flames that will be displayed when the part is heating")]
+        [SerializeField] private ParticleSystem _heatingFlames;
+        [Tooltip("Smoke that will be displayed when the part is cooling")]
+        [SerializeField] private ParticleSystem _coolingSmoke;
         
         private ForgeArea _currentForgeArea;
         
@@ -44,6 +48,7 @@ namespace NeoForge.Deformation
             CurrentState = TemperatureState.Ambient;
             Temperature = ROOM_TEMPERATURE_KELVIN;
             _temperatureDisplay.material.SetFloat(_temperatureProperty, Temperature);
+            UpdateParticles();
         }
         
         private void Update()
@@ -75,6 +80,8 @@ namespace NeoForge.Deformation
             {
                 SetState(TemperatureState.Ambient);
             }
+
+            UpdateParticles();
         }
         
         /// <summary>
@@ -85,6 +92,7 @@ namespace NeoForge.Deformation
         public void SetState(TemperatureState state)
         {
             CurrentState = state;
+            UpdateParticles();
             OnStateChanged?.Invoke(CurrentState);
         }
 
@@ -92,7 +100,36 @@ namespace NeoForge.Deformation
         {
             var temperatureToDisplay = _currentForgeArea != ForgeArea.Planning ? Temperature : 0f;
             _temperatureDisplay.material.SetFloat(_temperatureProperty, temperatureToDisplay);
+            UpdateParticles();
             OnTemperatureChanged?.Invoke(Temperature);
+        }
+        
+        private void UpdateParticles()
+        {
+            if (CurrentState == TemperatureState.Heating && _currentForgeArea is ForgeArea.Heating)
+            {
+                if (_heatingFlames.isPlaying == false)
+                {
+                    _heatingFlames.Play();
+                }
+            }
+            else
+            {
+                _heatingFlames.Stop();
+            }
+            
+            if (CurrentState == TemperatureState.Cooling && _currentForgeArea is ForgeArea.Cooling 
+                                                         && Temperature > ROOM_TEMPERATURE_KELVIN)
+            {
+                if (_coolingSmoke.isPlaying == false)
+                {
+                    _coolingSmoke.Play();
+                }
+            }
+            else
+            {
+                _coolingSmoke.Stop();
+            }
         }
     }
 }
