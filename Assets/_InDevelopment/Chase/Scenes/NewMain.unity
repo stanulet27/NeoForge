@@ -6300,6 +6300,7 @@ MonoBehaviour:
     - Key: {fileID: 11400000, guid: f82bdcbac1dd7eb44bf0d6ee6ebd01ab, type: 2}
       Value: 3
   _currentGold: 600
+  _currentRenown: 0
 --- !u!1001 &220094281
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9148,6 +9149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 455d4e74eafb40a2a08cdc5c63682df7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _currentDay: {fileID: 11400000, guid: 08797f06d54246745a735ca8913d00c2, type: 2}
   _ordersInGame: []
   _activeOrders: []
 --- !u!1001 &353079335
@@ -10153,6 +10155,7 @@ Transform:
   - {fileID: 760639125}
   - {fileID: 345023732}
   - {fileID: 218962565}
+  - {fileID: 1227103354}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &391708715
@@ -25740,6 +25743,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dailyOrders:
   - {fileID: 11400000, guid: 95ec23743ca6f484c9a1f391186091f2, type: 2}
+  - {fileID: 11400000, guid: 2b17bd99908231e4a87ae7397c95a04a, type: 2}
+  - {fileID: 11400000, guid: d27fe76a860cbb7409e1e420e86d5607, type: 2}
+  - {fileID: 11400000, guid: 9d8100a0c0b780343b0d06c8390ab0a4, type: 2}
+  - {fileID: 11400000, guid: 591e211b8d341aa48bb232992163d74c, type: 2}
   _currentDay: {fileID: 11400000, guid: 08797f06d54246745a735ca8913d00c2, type: 2}
   _readyForNextDay: {fileID: 11400000, guid: b18b294b26ba49248bca88dc59713926, type: 2}
   _customerShell: {fileID: 1893621398}
@@ -29627,6 +29634,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4853380568151822, guid: 2a5e40133219fcc46b13a502e8ee9268, type: 3}
   m_PrefabInstance: {fileID: 1226954510}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1227103353
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1227103354}
+  - component: {fileID: 1227103355}
+  m_Layer: 0
+  m_Name: Day Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1227103354
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1227103353}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 385886646}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1227103355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1227103353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a94bcb8c0dc4615939bbf759ea1566a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dateTracker: {fileID: 11400000, guid: 08797f06d54246745a735ca8913d00c2, type: 2}
+  _lockDayResetOnStart: 0
 --- !u!1 &1228410892
 GameObject:
   m_ObjectHideFlags: 0
@@ -30323,7 +30376,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 80
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -34414,12 +34467,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f33f430110c642bfbb835ece84b2376a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _userMeshFilter: {fileID: 0}
-  _desiredMeshFilter: {fileID: 0}
-  _heatMapRenderer: {fileID: 0}
   _score: {fileID: 11400000, guid: f6b8e6b7a53c4524baf10146749b465d, type: 2}
   _buffer: 0.025
-  _vertexColorMaterial: {fileID: 2100000, guid: 2ddf1cd21cc895d448408c9892d01d77, type: 2}
   _displayMode: 1
 --- !u!114 &1391299701
 MonoBehaviour:

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
 using NeoForge.Utilities;
+using SharedData;
 using UnityEngine;
 
 namespace NeoForge.UI.Inventory
@@ -10,26 +11,63 @@ namespace NeoForge.UI.Inventory
     public class InventorySystem : SingletonMonoBehaviour<InventorySystem>
     {
         /// <summary>
+        /// Invoked when the player's gold amount changes.
+        /// Will pass the amount of gold gained or lost as a parameter.
+        /// </summary>
+        public static event Action<int> OnGoldChanged;
+        
+        /// <summary>
+        /// Invoked when the player's renown amount changes.
+        /// Will pass the amount of renown gained or lost as a parameter.
+        /// </summary>
+        public static event Action<int> OnRenownChanged;
+
+        /// <summary>
         /// Will be invoked when an item is added to the inventory.
         /// The item that was added will be passed as a parameter.
         /// </summary>
-        public Action<ItemBase> OnItemAdded;
+        public static event Action<ItemBase> OnItemAdded;
         
         /// <summary>
         /// Will be invoked when an item is removed from the inventory.
         /// The item that was removed will be passed as a parameter.
         /// </summary>
-        public Action<ItemBase> OnItemRemoved;
+        public static event Action<ItemBase> OnItemRemoved;
 
         [Tooltip("The current inventory of the player.")]
         [SerializeField] private SerializedDictionary<ItemBase, int> _inventory = new();
         [Tooltip("The current amount of gold the player has.")]
         [SerializeField] private int _currentGold;
+        [Tooltip("The current renown the player has.")]
+        [SerializeField] private int _currentRenown;
+        
+        private List<CompletedItem> _completedItems = new();
         
         /// <summary>
         /// The current total amount of gold the player has. This value will not be negative.
         /// </summary>
-        public int CurrentGold {get => _currentGold ; set => _currentGold = Mathf.Max(value, 0); }
+        public int CurrentGold 
+        {
+            get => _currentGold;
+            set
+            {
+                OnGoldChanged?.Invoke(value - _currentGold);
+                _currentGold = Mathf.Max(value, 0); 
+            }
+        }
+        
+        /// <summary>
+        /// The current total amount of renown the player has. This value will not be negative.
+        /// </summary>
+        public int CurrentRenown 
+        {
+            get => _currentRenown;
+            set
+            {
+                OnRenownChanged?.Invoke(value - _currentRenown);
+                _currentRenown = Mathf.Max(value, 0); 
+            }
+        }
         
         /// <summary>
         /// Will add the item to the inventory.
@@ -44,6 +82,10 @@ namespace NeoForge.UI.Inventory
             else
             {
                 _inventory.Add(item, 1);
+                if (item is CompletedItem completedItem)
+                {
+                    _completedItems.Add(completedItem);
+                }
             }
             
             OnItemAdded?.Invoke(item);

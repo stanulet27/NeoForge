@@ -8,6 +8,8 @@ namespace NeoForge.Stations.Warehosue
         [SerializeField] private Vector3 _rotationSpeed = new(4, 5, -6);
         [Tooltip("The mesh filter that will display the part mesh.")]
         [SerializeField] private MeshFilter _partMeshDisplay;
+        [Tooltip("The camera used to view the part mesh.")]
+        [SerializeField] private Camera _partCamera;
         
         private void Update()
         {
@@ -21,6 +23,15 @@ namespace NeoForge.Stations.Warehosue
         {
             _partMeshDisplay.gameObject.SetActive(mesh != null);
             _partMeshDisplay.mesh = mesh;
+        }
+
+        public RenderTexture Setup()
+        {
+            var renderTexture = new RenderTexture(256, 256, 24);
+            renderTexture.Create();
+            _partCamera.targetTexture = renderTexture;
+
+            return renderTexture;
         }
     }
 }

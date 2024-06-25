@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NeoForge.Utilities;
+using SharedData;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
@@ -11,12 +12,15 @@ namespace NeoForge.Stations.Orders
     {
         private const string ORDER_FOLDER = "Orders";
         
+        [Tooltip("The current day")]
+        [SerializeField] private SharedInt _currentDay;
+        
         [Tooltip("The orders in the game")]
         [SerializeField, ReadOnly] private List<Order> _ordersInGame;
         
         [Tooltip("The active orders the player currently has")]
         [SerializeField, ReadOnly] private List<Order> _activeOrders;
-
+        
         /// <summary>
         /// The active orders the player currently has
         /// </summary>
@@ -39,7 +43,9 @@ namespace NeoForge.Stations.Orders
             var giver = eventTriggered.Split("-")[1];
             var part = eventTriggered.Split("-")[2];
 
-            _activeOrders.Add(GetOrder(giver, part));
+            var order = GetOrder(giver, part);
+            order.DueDate = _currentDay + order.Time;
+            _activeOrders.Add(order);
         }
         
         /// <summary>
