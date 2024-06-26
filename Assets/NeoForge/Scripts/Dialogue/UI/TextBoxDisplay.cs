@@ -13,7 +13,7 @@ namespace NeoForge.Dialogue.UI
         [Tooltip("The object that contains the speaker's name")]
         [SerializeField] private GameObject _nameField;
         [Tooltip("The object that indicates that the player can continue the dialogue")]
-        [SerializeField] private GameObject _continueIndicator;
+        [SerializeField] protected GameObject _continueIndicator;
 
         private ConversantType _conversant;
 
@@ -22,7 +22,7 @@ namespace NeoForge.Dialogue.UI
             ToggleChildrenDisplay(true);
         }
 
-        public void SetDialogueText(string speakerName, string dialogue)
+        public virtual void SetDialogueText(string speakerName, string dialogue)
         {
             _nameTextField.text = speakerName;
             _nameField.SetActive(_nameTextField.text != "");
@@ -31,7 +31,7 @@ namespace NeoForge.Dialogue.UI
             _continueIndicator.SetActive(false);
         }
         
-        public void UpdateDialogueText(string text)
+        public virtual void UpdateDialogueText(string text)
         {
             _dialogueTextField.maxVisibleCharacters = text.Length;
             _continueIndicator.SetActive(_dialogueTextField.text != "" &&

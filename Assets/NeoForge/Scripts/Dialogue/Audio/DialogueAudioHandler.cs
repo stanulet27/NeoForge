@@ -2,7 +2,9 @@
 using System.Linq;
 using AYellowpaper.SerializedCollections;
 using NeoForge.Dialogue.Helper;
+using Sirenix.OdinInspector;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace NeoForge.Dialogue.Audio
 {
@@ -22,6 +24,14 @@ namespace NeoForge.Dialogue.Audio
         [SerializeField] private int _frequency = 3;
 
         private float _pitch = 1;
+        private AudioClip _defaultClip;
+        private int _defaultFrequency;
+
+        private void Awake()
+        {
+            _defaultClip = _blipSound;
+            _defaultFrequency = _frequency;
+        }
 
         private void OnEnable()
         {
@@ -36,8 +46,20 @@ namespace NeoForge.Dialogue.Audio
             DialogueManager.OnTextUpdated -= PlayBlip;
         }
         
-        [ContextMenu("Create Audio Dictionary")]
-        public void EditorCreateAudioDictionary()
+        /// <summary>
+        /// Will adjust the sound of the dialogue audio handler. If no clip is provided, the default clip will be used.
+        /// If no frequency is provided, the default frequency will be used.
+        /// </summary>
+        /// <param name="clip">The audio clip to play when the dialogue clip is triggered.</param>
+        /// <param name="frequency">The amount of characters per triggering the clip.</param>
+        public void SetSound(AudioClip clip = default, int frequency = 0)
+        {
+            _blipSound = clip ? clip : _defaultClip;
+            _frequency = frequency > 0 ? frequency : _defaultFrequency;
+        }
+        
+        [Button]
+        private void EditorCreateAudioDictionary()
         {
             _characterPitches = new SerializedDictionary<string, float>();
             Resources.LoadAll<ConversationDataSO>("Dialogue")

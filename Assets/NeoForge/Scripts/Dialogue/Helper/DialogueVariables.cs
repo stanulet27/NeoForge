@@ -12,5 +12,6 @@
         public static readonly string EVENT_MARKER = "*";
         public static readonly string VARIATION_MARKER = "Variation";
         public static readonly string MUSIC_MARKER = "Cue Audio";
+        public static readonly string CHARACTER_NAME_MARKER = "Zoey";
     }
 }
