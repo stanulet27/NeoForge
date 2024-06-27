@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NeoForge.Dialogue.Character;
 using NeoForge.Dialogue.Helper;
 using NeoForge.Input;
 using NeoForge.UI.Scenes;
@@ -51,10 +52,11 @@ namespace NeoForge.Dialogue
 
         public DialogueData CurrentDialogue => _currentDialogue;
         
-        [ContextMenu("Display World State")]
+        [Button]
         private void DisplayWorldState() => Debug.Log(WorldState.GetCurrentWorldState());
+        [Button]
         private void SetWorldState(string key, int value) => WorldState.SetState(key, _ => value);
-        [ContextMenu("Clear World State")]
+        [Button]
         private void ClearWorldState() => WorldState.ClearAllStates();
 
         [Button]

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff4c86d78dfd55d47a03b069c598849c, type: 3}
-  m_Name: Baker-Start1
+  m_Name: Baker-Start2
   m_EditorClassIdentifier: 
   _conversationData:
     ID: Baker-Start
@@ -18,26 +18,25 @@ MonoBehaviour:
     - dialogues:
       - Speaker: 1
         SpeakerName: Roland the Baker
-        Dialogue: Zoey! It's great to see you after the bar run we had last night.
-          Hey would you be able to help me out? I need a basic iron bar for my bakery.
+        Dialogue: "Is the iron bar ready yet? I\u2019m eager to use it in my bakery."
     LeadsTo:
-    - _path: 'Prompt: Of course Leads to: Baker-Acceptance'
-      Prompt: Of course
-      NextID: Baker-Acceptance
-      IsEvent: 0
-    - _path: 'Prompt: Sorry, not right now Leads to: exit'
-      Prompt: Sorry, not right now
+    - _path: 'Prompt: Yep, I have it right here Triggers Event: TurnIn-Baker-BasicBar'
+      Prompt: Yep, I have it right here
+      NextID: TurnIn-Baker-BasicBar
+      IsEvent: 1
+    - _path: 'Prompt: Yep, let me go grab it from the furnace Triggers Event: Stay'
+      Prompt: Yep, let me go grab it from the furnace
+      NextID: Stay
+      IsEvent: 1
+    - _path: 'Prompt: Not yet Leads to: exit'
+      Prompt: Not yet
       NextID: exit
       IsEvent: 0
     StateChanges: []
     StateRequirements:
     - _components:
-      - '!baker-accepted'
-      _requirement: '!baker-accepted'
+      - baker-accepted
+      _requirement: baker-accepted
       State: baker-accepted
-    - _components:
-      - friendly
-      _requirement: friendly
-      State: friendly
-    Variation: 1
+    Variation: 2
     AudioCue: 

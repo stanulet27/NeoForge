@@ -1,12 +1,15 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace NeoForge.UI.Tools
+namespace NeoForge.Dialogue.Character
 {
     public class CharacterTraitTracker : MonoBehaviour
     {
+        /// <summary>
+        /// Will be invoked when the object is clicked on.
+        /// Will pass the object and its new state
+        /// </summary>
         public event Action<CharacterTraitTracker, bool> OnClicked; 
 
         [Tooltip("The graphic that will have its color changed")]

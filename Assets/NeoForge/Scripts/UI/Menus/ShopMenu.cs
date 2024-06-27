@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
 using NeoForge.Dialogue;
+using NeoForge.Dialogue.Character;
 using NeoForge.Input;
 using NeoForge.UI.Buttons;
 using NeoForge.UI.Inventory;
+using NeoForge.UI.Tools;
 using TMPro;
 using UnityEngine;
 
@@ -41,6 +43,9 @@ namespace NeoForge.UI.Menus
         
         [Tooltip("The pages of the shop and the items that are available on those pages")]
         [SerializeField] private SerializedDictionary<string, ShopItemList> _shopPages = new();
+        
+        [Tooltip("The discount given to merchants, will apply (1 - x) * cost")]
+        [SerializeField] private float _merchantDiscount = 0.1f;
 
         private readonly List<ShopButton> _buttons = new();
         private string _currentShopPage;
@@ -125,15 +130,15 @@ namespace NeoForge.UI.Menus
             for (int i = 0; i < items.Count; i++)
             {
                 var item = items[i];
-                _buttons[i].SetupBuy(item.Name, item.Cost, 
+                _buttons[i].SetupBuy(item.Name, ApplyPriceModifiers(item.Cost), 
                     () => AttemptPurchase(item), () => _descriptionField.text = item.Description);
             }
         }
 
         private void AttemptPurchase(ItemBase item)
         {
-            if (InventorySystem.Instance.CurrentGold < item.Cost) return;
-            InventorySystem.Instance.CurrentGold -= item.Cost;
+            if (InventorySystem.Instance.CurrentGold < ApplyPriceModifiers(item.Cost)) return;
+            InventorySystem.Instance.CurrentGold -= ApplyPriceModifiers(item.Cost);
             InventorySystem.Instance.AddItem(item);
             RefreshPage();
         }
@@ -144,6 +149,12 @@ namespace NeoForge.UI.Menus
             var newButton = Instantiate(prefab, _buttonParent.transform).GetComponent<ShopButton>(); 
             _buttons.Add(newButton);
             newButton.Hide();
+        }
+
+        private int ApplyPriceModifiers(int cost)
+        {
+            var isMerchant = WorldState.InState(CharacterData.Family.Merchants);
+            return isMerchant ? Mathf.CeilToInt(cost * (1 - _merchantDiscount)) : cost;
         }
     }
 }

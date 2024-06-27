@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff4c86d78dfd55d47a03b069c598849c, type: 3}
-  m_Name: Backstory-Nobles
+  m_Name: Backstory-Start2
   m_EditorClassIdentifier: 
   _conversationData:
-    ID: Backstory-Nobles
+    ID: Backstory-Start
     DialoguesSeries:
     - dialogues:
       - Speaker: 2
@@ -26,8 +26,16 @@ MonoBehaviour:
           castle\u2019s forge, watching the blacksmiths shape metal with a combination
           of strength and precision. It was there, amidst the heat and the sparks,
           that Zoey discovered zier true calling, much to the surprise of zier family"
-    LeadsTo: []
+    LeadsTo:
+    - _path: 'Prompt:  Leads to: Backstory Trait'
+      Prompt: 
+      NextID: Backstory Trait
+      IsEvent: 0
     StateChanges: []
-    StateRequirements: []
-    Variation: 
+    StateRequirements:
+    - _components:
+      - nobles
+      _requirement: nobles
+      State: nobles
+    Variation: 2
     AudioCue: 

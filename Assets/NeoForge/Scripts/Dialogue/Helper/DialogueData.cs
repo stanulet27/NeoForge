@@ -1,4 +1,5 @@
 ﻿using System;
+using NeoForge.Dialogue.Character;
 using NeoForge.UI.Tools;
 using UnityEngine;
 using static NeoForge.Dialogue.Helper.DialogueVariables;

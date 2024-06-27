@@ -10,28 +10,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff4c86d78dfd55d47a03b069c598849c, type: 3}
-  m_Name: Backstory-Careful
+  m_Name: Backstory-Trait0
   m_EditorClassIdentifier: 
   _conversationData:
-    ID: Backstory-Careful
+    ID: Backstory-Trait
     DialoguesSeries:
     - dialogues:
       - Speaker: 2
         SpeakerName: 
         Dialogue: For, in the prime of youth, Zoey earned an apprenticeship and began
-          zier journey as a blacksmith. Known for zier meticulous nature, Zoey approached
-          each project with great care, ensuring every step of the process was executed
-          perfectly. Zey would spend hours refining zier techniques, paying close
-          attention to the smallest details to create flawless pieces. Over the years,
-          Zoey's dedication to precision and quality earned zem a reputation as a
-          master blacksmith, respected and sought after throughout the region for
-          zier exceptional craftsmanship.
+          zier journey as a blacksmith. Known for zier friendly demeanor, Zoey turned
+          zier forge into a gathering place where laughter and stories flowed as
+          freely as the sparks. Zey had a knack for making each customer feel like
+          an old friend, often brewing a pot of tea to share while discussing their
+          needs. Over the years, Zoey's warmth and exceptional skill made zem a beloved
+          figure in the region, where people came not just for zier craftsmanship
+          but for the joy of zier company.
     LeadsTo:
     - _path: 'Prompt:  Leads to: Backstory-Conclusion'
       Prompt: 
       NextID: Backstory-Conclusion
       IsEvent: 0
     StateChanges: []
-    StateRequirements: []
-    Variation: 
+    StateRequirements:
+    - _components:
+      - friendly
+      _requirement: friendly
+      State: friendly
+    Variation: 0
     AudioCue: 

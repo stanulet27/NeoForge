@@ -26,7 +26,11 @@ MonoBehaviour:
           needs. Over the years, Zoey's warmth and exceptional skill made zem a beloved
           figure in the region, where people came not just for zier craftsmanship
           but for the joy of zier company.
-    LeadsTo: []
+    LeadsTo:
+    - _path: 'Prompt:  Leads to: Backstory-Conclusion'
+      Prompt: 
+      NextID: Backstory-Conclusion
+      IsEvent: 0
     StateChanges: []
     StateRequirements: []
     Variation: 

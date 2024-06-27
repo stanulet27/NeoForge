@@ -25,7 +25,11 @@ MonoBehaviour:
           pieces that reflected their needs and dreams. Over the years, Zoey's dedication
           and creativity flourished, and zier name became known far and wide as the
           region's most beloved blacksmith
-    LeadsTo: []
+    LeadsTo:
+    - _path: 'Prompt:  Leads to: Backstory-Conclusion'
+      Prompt: 
+      NextID: Backstory-Conclusion
+      IsEvent: 0
     StateChanges: []
     StateRequirements: []
     Variation: 

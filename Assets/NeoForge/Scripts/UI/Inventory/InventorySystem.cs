@@ -4,6 +4,7 @@ using System.Linq;
 using AYellowpaper.SerializedCollections;
 using NeoForge.Utilities;
 using SharedData;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace NeoForge.UI.Inventory
@@ -67,6 +68,17 @@ namespace NeoForge.UI.Inventory
                 OnRenownChanged?.Invoke(value - _currentRenown);
                 _currentRenown = Mathf.Max(value, 0); 
             }
+        }
+
+        /// <summary>
+        /// Will clear the inventory and use the starting equipment to fill it.
+        /// </summary>
+        public void ResetInventory(int startingGold, int startingRenown, Dictionary<ItemBase, int> startingItems)
+        {
+            _currentGold = startingGold;
+            _currentRenown = startingRenown;
+            _inventory.Clear();
+            startingItems.ForEach(x => _inventory.Add(x.Key, x.Value));
         }
         
         /// <summary>

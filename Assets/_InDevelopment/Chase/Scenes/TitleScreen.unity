@@ -19956,6 +19956,7 @@ GameObject:
   - component: {fileID: 1307394707}
   - component: {fileID: 1307394706}
   - component: {fileID: 1307394708}
+  - component: {fileID: 1307394709}
   m_Layer: 5
   m_Name: '@UI'
   m_TagString: Untagged
@@ -20090,11 +20091,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _display: {fileID: 520508026}
-  _sharedCharacterData: {fileID: 11400000, guid: 28f52fefe61d4194a92a9d515490547e, type: 2}
   _writingSound: {fileID: 8300000, guid: 7bbdbfb3c52be0d4294976e89ab4f107, type: 3}
   _writingSoundFrequency: 12
   _backstorySong: {fileID: 8300000, guid: 76844c483972f254abd50b49c99a6bf5, type: 3}
   _backgroundMusicPlayer: {fileID: 245438130}
+  _gameStarter: {fileID: 1307394709}
+--- !u!114 &1307394709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1307394701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 030a9e0b552f45ae8452f015b0b381f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _startingItems
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[NeoForge.UI.Inventory.ItemBase,
+        Assembly-CSharp],[System.Int32, mscorlib]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.ObjectEqualityComparer`1[[NeoForge.UI.Inventory.ItemBase,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  _startingGold: 200
+  _startingRenown: 0
+  _nobilityGold: 500
+  _nobilityRenown: 25
 --- !u!1001 &1332805898
 PrefabInstance:
   m_ObjectHideFlags: 0
