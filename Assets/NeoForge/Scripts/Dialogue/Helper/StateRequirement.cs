@@ -13,6 +13,8 @@ namespace NeoForge.Dialogue.Helper
         [SerializeField, ReadOnly] private string _requirement;
         [HideInInspector] public string State;
             
+        public string Requirement => _requirement;
+        
         public Predicate<int> IsMet
         {
             get

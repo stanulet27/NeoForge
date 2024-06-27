@@ -13,6 +13,8 @@ namespace NeoForge.Dialogue.Helper
         [SerializeField, ReadOnly] private string _change;
         [HideInInspector] public string State;
 
+        public string Change => _change;
+        
         public Func<int, int> Modifier
         {
             get

@@ -13,6 +13,13 @@ namespace NeoForge.Dialogue.Helper
         public string SpeakerName;
         [SerializeField, TextArea] public string Dialogue;
             
+        public DialogueData()
+        {
+            Speaker = ConversantType.Conversant;
+            SpeakerName = "";
+            Dialogue = "";
+        }
+        
         public DialogueData(DialogueData dialogueData)
         {
             Speaker = dialogueData.Speaker;
