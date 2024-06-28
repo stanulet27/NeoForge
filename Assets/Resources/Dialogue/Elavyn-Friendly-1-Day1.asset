@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4c86d78dfd55d47a03b069c598849c, type: 3}
+  m_Name: Elavyn-Friendly-1-Day1
+  m_EditorClassIdentifier: 
+  _conversationData:
+    ID: Elavyn-Friendly-1-Day1
+    DialoguesSeries:
+    - dialogues:
+      - Speaker: 1
+        SpeakerName: Elavyn
+        Dialogue: "Oh, they are quite the pair! King Leoric is all muscle and might,
+          but Queen Elara, she\u2019s the real strategist. They say she once outwitted
+          an entire council of foreign diplomats, securing peace and trade for years
+          to come. Though, some say she secretly practices magic\u2014can you believe
+          it?"
+    LeadsTo:
+    - _path: "Prompt: That\u2019s wonderful to hear. Do they get along well? Leads
+        to: Elavyn-Friendly-2"
+      Prompt: "That\u2019s wonderful to hear. Do they get along well?"
+      NextID: Elavyn-Friendly-2
+      IsEvent: 0
+    - _path: 'Prompt: How do the townsfolk view them? Leads to: Elavyn-Friendly-3'
+      Prompt: How do the townsfolk view them?
+      NextID: Elavyn-Friendly-3
+      IsEvent: 0
+    StateChanges:
+    - _components:
+      - Learned_About_King_Leoric
+      _change: Learned_About_King_Leoric
+      State: Learned_About_King_Leoric
+    - _components:
+      - Learned_About_Queen_Elara
+      _change: Learned_About_Queen_Elara
+      State: Learned_About_Queen_Elara
+    StateRequirements:
+    - _components:
+      - friendly
+      _requirement: friendly
+      State: friendly
+    Variation: 
+    AudioCue: 

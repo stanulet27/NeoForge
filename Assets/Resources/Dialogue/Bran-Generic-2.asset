@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4c86d78dfd55d47a03b069c598849c, type: 3}
+  m_Name: Bran-Generic-2
+  m_EditorClassIdentifier: 
+  _conversationData:
+    ID: Bran-Generic-2
+    DialoguesSeries:
+    - dialogues:
+      - Speaker: 1
+        SpeakerName: Bran
+        Dialogue: "Just wanted to see how the new blacksmith is settling in. It\u2019s
+          important for us craftsmen to stick together."
+    LeadsTo:
+    - _path: 'Prompt: I appreciate that. My mother spoke highly of you. Leads to:
+        Bran-Blacksmiths-1'
+      Prompt: I appreciate that. My mother spoke highly of you.
+      NextID: Bran-Blacksmiths-1
+      IsEvent: 0
+    - _path: "Prompt: Thank you, Bran. It\u2019s been a busy start, but I\u2019m
+        getting there. Leads to: Bran-Generic-3"
+      Prompt: "Thank you, Bran. It\u2019s been a busy start, but I\u2019m getting
+        there."
+      NextID: Bran-Generic-3
+      IsEvent: 0
+    StateChanges: []
+    StateRequirements: []
+    Variation: 
+    AudioCue: 

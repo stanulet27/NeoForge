@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4c86d78dfd55d47a03b069c598849c, type: 3}
+  m_Name: Bran-Blacksmiths-3-Day1
+  m_EditorClassIdentifier: 
+  _conversationData:
+    ID: Bran-Blacksmiths-3-Day1
+    DialoguesSeries:
+    - dialogues:
+      - Speaker: 1
+        SpeakerName: Bran
+        Dialogue: "Always focus on quality over speed. Your mother\u2019s work was
+          exceptional because she never cut corners. Take your time to get it right."
+    LeadsTo:
+    - _path: "Prompt: That\u2019s great advice. I\u2019ll remember that. Leads to:
+        Bran-Generic-4"
+      Prompt: "That\u2019s great advice. I\u2019ll remember that."
+      NextID: Bran-Generic-4
+      IsEvent: 0
+    - _path: 'Prompt: Thank you, Bran. It means a lot coming from someone who worked
+        with her. Leads to: Bran-Generic-5'
+      Prompt: Thank you, Bran. It means a lot coming from someone who worked with
+        her.
+      NextID: Bran-Generic-5
+      IsEvent: 0
+    StateChanges: []
+    StateRequirements:
+    - _components:
+      - blacksmiths
+      _requirement: blacksmiths
+      State: blacksmiths
+    Variation: 
+    AudioCue: 

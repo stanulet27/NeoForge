@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4c86d78dfd55d47a03b069c598849c, type: 3}
+  m_Name: Elavyn-Friendly-2-Day1
+  m_EditorClassIdentifier: 
+  _conversationData:
+    ID: Elavyn-Friendly-2-Day1
+    DialoguesSeries:
+    - dialogues:
+      - Speaker: 1
+        SpeakerName: Elavyn
+        Dialogue: "They do! Despite their differences, they have a deep respect for
+          each other. It\u2019s quite heartwarming to see. They say Elara once saved
+          Leoric from a political blunder that could have led to war by pretending
+          he had planned a surprise celebration all along!"
+    LeadsTo:
+    - _path: "Prompt: It sounds like they\u2019re a perfect match. Leads to: Elavyn-Friendly-4"
+      Prompt: "It sounds like they\u2019re a perfect match."
+      NextID: Elavyn-Friendly-4
+      IsEvent: 0
+    - _path: "Prompt: How do they handle the kingdom\u2019s affairs? Leads to: Elavyn-Friendly-5"
+      Prompt: "How do they handle the kingdom\u2019s affairs?"
+      NextID: Elavyn-Friendly-5
+      IsEvent: 0
+    StateChanges:
+    - _components:
+      - Learned_About_Leoric_And_Elara_Respect
+      _change: Learned_About_Leoric_And_Elara_Respect
+      State: Learned_About_Leoric_And_Elara_Respect
+    StateRequirements:
+    - _components:
+      - friendly
+      _requirement: friendly
+      State: friendly
+    Variation: 
+    AudioCue: 

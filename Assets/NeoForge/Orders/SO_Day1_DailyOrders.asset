@@ -13,9 +13,15 @@ MonoBehaviour:
   m_Name: SO_Day1_DailyOrders
   m_EditorClassIdentifier: 
   _orders:
-  - CustomerName: Merchant
-    Dialogue: Baker-Start
-  - CustomerName: Headsman
-    Dialogue: Huntsman-Start
-  _ordersToGive: 2
+  - CustomerName: PeasantF
+    Dialogue: Mira-Start
+  - CustomerName: SoliderF
+    Dialogue: Thalia-Start
+  - CustomerName: PeasantM
+    Dialogue: Bran-Start
+  - CustomerName: Jester
+    Dialogue: Jester-Start
+  - CustomerName: Princess
+    Dialogue: Thalia-Start
+  _ordersToGive: 5
   _randomizeOrder: 0

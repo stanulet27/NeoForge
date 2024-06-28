@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4c86d78dfd55d47a03b069c598849c, type: 3}
+  m_Name: Mira-Start
+  m_EditorClassIdentifier: 
+  _conversationData:
+    ID: Mira-Start
+    DialoguesSeries:
+    - dialogues:
+      - Speaker: 1
+        SpeakerName: Mira
+        Dialogue: Oh, hello there! You must be the new blacksmith in town. I'm Mira
+          Fairbloom, it's lovely to meet you!
+    LeadsTo:
+    - _path: 'Prompt: [Friendly] Hi Mira! It''s great to meet you too. How can I
+        help you today? Leads to: Mira-Friendly-1'
+      Prompt: '[Friendly] Hi Mira! It''s great to meet you too. How can I help you
+        today?'
+      NextID: Mira-Friendly-1
+      IsEvent: 0
+    - _path: 'Prompt: [Curious] Nice to meet you, Mira. What brings you to my workshop?
+        Leads to: Mira-Curious-1'
+      Prompt: '[Curious] Nice to meet you, Mira. What brings you to my workshop?'
+      NextID: Mira-Curious-1
+      IsEvent: 0
+    - _path: 'Prompt: [Careful] Hello, Mira. What do you need from me? Leads to:
+        Mira-Careful-1'
+      Prompt: '[Careful] Hello, Mira. What do you need from me?'
+      NextID: Mira-Careful-1
+      IsEvent: 0
+    - _path: 'Prompt: Hi Mira! What can I do for you? Leads to: Mira-Generic-1'
+      Prompt: Hi Mira! What can I do for you?
+      NextID: Mira-Generic-1
+      IsEvent: 0
+    - _path: 'Prompt: Nice to meet you, Mira. How can I assist you today? Leads to:
+        Mira-Generic-1'
+      Prompt: Nice to meet you, Mira. How can I assist you today?
+      NextID: Mira-Generic-1
+      IsEvent: 0
+    StateChanges: []
+    StateRequirements: []
+    Variation: 
+    AudioCue: 

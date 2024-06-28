@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4c86d78dfd55d47a03b069c598849c, type: 3}
+  m_Name: Thalia-Curious-5-Day1
+  m_EditorClassIdentifier: 
+  _conversationData:
+    ID: Thalia-Curious-5-Day1
+    DialoguesSeries:
+    - dialogues:
+      - Speaker: 1
+        SpeakerName: Thalia
+        Dialogue: Actually, yes! Any help is appreciated. But today, I'm just here
+          to chat and get to know you better.
+    LeadsTo:
+    - _path: 'Prompt: I''d be happy to chat! What''s your favorite part of the tournament?
+        Leads to: Thalia-Curious-9'
+      Prompt: I'd be happy to chat! What's your favorite part of the tournament?
+      NextID: Thalia-Curious-9
+      IsEvent: 0
+    - _path: 'Prompt: Sure, let''s chat. What do you enjoy doing in your free time?
+        Leads to: Thalia-Curious-7'
+      Prompt: Sure, let's chat. What do you enjoy doing in your free time?
+      NextID: Thalia-Curious-7
+      IsEvent: 0
+    StateChanges: []
+    StateRequirements:
+    - _components:
+      - curious
+      _requirement: curious
+      State: curious
+    Variation: 
+    AudioCue: 

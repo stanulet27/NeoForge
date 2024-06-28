@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4c86d78dfd55d47a03b069c598849c, type: 3}
+  m_Name: Jester-Start
+  m_EditorClassIdentifier: 
+  _conversationData:
+    ID: Jester-Start
+    DialoguesSeries:
+    - dialogues:
+      - Speaker: 1
+        SpeakerName: Jester
+        Dialogue: "Ah, the new blacksmith in town! Welcome, welcome! I\u2019m Jester,
+          the town\u2019s entertainer and occasional nuisance. How are you finding
+          our little slice of the world?"
+    LeadsTo:
+    - _path: "Prompt: It\u2019s quite charming, thank you. What brings you here today?
+        Leads to: Jester-Generic-1"
+      Prompt: "It\u2019s quite charming, thank you. What brings you here today?"
+      NextID: Jester-Generic-1
+      IsEvent: 0
+    - _path: "Prompt: Hello, Jester. What\u2019s on your mind? Leads to: Jester-Generic-2"
+      Prompt: "Hello, Jester. What\u2019s on your mind?"
+      NextID: Jester-Generic-2
+      IsEvent: 0
+    - _path: "Prompt: I\u2019m still getting used to it, but it\u2019s nice. How
+        can I help you? Leads to: Jester-Generic-3"
+      Prompt: "I\u2019m still getting used to it, but it\u2019s nice. How can I help
+        you?"
+      NextID: Jester-Generic-3
+      IsEvent: 0
+    StateChanges: []
+    StateRequirements: []
+    Variation: 
+    AudioCue: 

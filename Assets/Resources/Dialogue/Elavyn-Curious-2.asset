@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4c86d78dfd55d47a03b069c598849c, type: 3}
+  m_Name: Elavyn-Curious-2
+  m_EditorClassIdentifier: 
+  _conversationData:
+    ID: Elavyn-Curious-2
+    DialoguesSeries:
+    - dialogues:
+      - Speaker: 1
+        SpeakerName: Elavyn
+        Dialogue: "Oh, they do! Leoric trusts Elara\u2019s judgment completely. They
+          may seem like an odd couple, but their partnership works wonders for the
+          kingdom. Did you know she once convinced a rival kingdom to trade their
+          best horses for mere sacks of grain?"
+    LeadsTo:
+    - _path: 'Prompt: It must be interesting to see them in action. Leads to: Elavyn-Curious-4'
+      Prompt: It must be interesting to see them in action.
+      NextID: Elavyn-Curious-4
+      IsEvent: 0
+    - _path: 'Prompt: Do they have any particular strengths that stand out? Leads
+        to: Elavyn-Curious-5'
+      Prompt: Do they have any particular strengths that stand out?
+      NextID: Elavyn-Curious-5
+      IsEvent: 0
+    StateChanges:
+    - _components:
+      - Learned_About_Leoric_Trusts_Elara
+      _change: Learned_About_Leoric_Trusts_Elara
+      State: Learned_About_Leoric_Trusts_Elara
+    StateRequirements:
+    - _components:
+      - curious
+      _requirement: curious
+      State: curious
+    Variation: 
+    AudioCue: 

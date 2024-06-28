@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4c86d78dfd55d47a03b069c598849c, type: 3}
+  m_Name: Thalia-Generic-4-Day1
+  m_EditorClassIdentifier: 
+  _conversationData:
+    ID: Thalia-Generic-4-Day1
+    DialoguesSeries:
+    - dialogues:
+      - Speaker: 1
+        SpeakerName: Thalia
+        Dialogue: Oh, I don't need anything specific. Just wanted to say hi and welcome
+          you to the town.
+    LeadsTo:
+    - _path: 'Prompt: Thanks, Thalia! It''s nice to feel welcomed. Leads to: Thalia-Generic-5'
+      Prompt: Thanks, Thalia! It's nice to feel welcomed.
+      NextID: Thalia-Generic-5
+      IsEvent: 0
+    - _path: 'Prompt: Appreciate it! Do you know much about the tournament? Leads
+        to: Thalia-Generic-6'
+      Prompt: Appreciate it! Do you know much about the tournament?
+      NextID: Thalia-Generic-6
+      IsEvent: 0
+    StateChanges: []
+    StateRequirements: []
+    Variation: 
+    AudioCue: 

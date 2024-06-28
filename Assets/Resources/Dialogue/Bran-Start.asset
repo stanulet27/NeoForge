@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4c86d78dfd55d47a03b069c598849c, type: 3}
+  m_Name: Bran-Start
+  m_EditorClassIdentifier: 
+  _conversationData:
+    ID: Bran-Start
+    DialoguesSeries:
+    - dialogues:
+      - Speaker: 1
+        SpeakerName: Bran
+        Dialogue: "Greetings, Zoey. I\u2019m Bran Stonehand, the town\u2019s mason.
+          Your mother and I used to work together on various projects. It\u2019s
+          good to see you continuing the family tradition."
+    LeadsTo:
+    - _path: "Prompt: [Blacksmiths] It\u2019s nice to meet you, Bran. My mother spoke
+        highly of you. Leads to: Bran-Blacksmiths-1"
+      Prompt: "[Blacksmiths] It\u2019s nice to meet you, Bran. My mother spoke highly
+        of you."
+      NextID: Bran-Blacksmiths-1
+      IsEvent: 0
+    - _path: "Prompt: It\u2019s great to meet you, Bran. What kind of projects did
+        you work on with my mother? Leads to: Bran-Generic-1"
+      Prompt: "It\u2019s great to meet you, Bran. What kind of projects did you work
+        on with my mother?"
+      NextID: Bran-Generic-1
+      IsEvent: 0
+    - _path: 'Prompt: Hello, Bran. What brings you to my workshop today? Leads to:
+        Bran-Generic-2'
+      Prompt: Hello, Bran. What brings you to my workshop today?
+      NextID: Bran-Generic-2
+      IsEvent: 0
+    StateChanges: []
+    StateRequirements: []
+    Variation: 
+    AudioCue: 

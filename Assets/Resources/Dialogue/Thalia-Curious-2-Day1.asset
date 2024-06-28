@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4c86d78dfd55d47a03b069c598849c, type: 3}
+  m_Name: Thalia-Curious-2-Day1
+  m_EditorClassIdentifier: 
+  _conversationData:
+    ID: Thalia-Curious-2-Day1
+    DialoguesSeries:
+    - dialogues:
+      - Speaker: 1
+        SpeakerName: Thalia
+        Dialogue: The tournament is going to be so exciting! There are all kinds
+          of events, not just combat. I'm especially looking forward to the catapult
+          competition!
+    LeadsTo:
+    - _path: 'Prompt: That sounds fun! Do you compete in these events? Leads to:
+        Thalia-Curious-4'
+      Prompt: That sounds fun! Do you compete in these events?
+      NextID: Thalia-Curious-4
+      IsEvent: 0
+    - _path: 'Prompt: Interesting! Do you need any help preparing for it? Leads to:
+        Thalia-Curious-5'
+      Prompt: Interesting! Do you need any help preparing for it?
+      NextID: Thalia-Curious-5
+      IsEvent: 0
+    StateChanges: []
+    StateRequirements:
+    - _components:
+      - curious
+      _requirement: curious
+      State: curious
+    Variation: 
+    AudioCue: 
