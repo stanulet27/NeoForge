@@ -137,13 +137,20 @@ namespace NeoForge.UI.Menus
         {
             if (item is TemplateMaterialItem materialItem)
             {
-                _weightScreen.OpenWeightScreen(materialItem, RefreshPage);
+                _weightScreen.OpenWeightScreen(materialItem, OnWeightScreenClose);
+                ControllerManager.OnGoBack -= TryGoBack;
                 return;
             }
             
             if (InventorySystem.Instance.CurrentGold < item.Cost) return;
             InventorySystem.Instance.CurrentGold -= item.Cost;
             InventorySystem.Instance.AddItem(item);
+            RefreshPage();
+        }
+        
+        private void OnWeightScreenClose()
+        {
+            ControllerManager.OnGoBack += TryGoBack;
             RefreshPage();
         }
 
