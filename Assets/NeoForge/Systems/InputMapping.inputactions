@@ -609,6 +609,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "CloseInput",
+                    "type": "Button",
+                    "id": "248bdc1e-8a3a-421e-a60f-7d88fbe0f5f6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1104,6 +1113,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "GoBackInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "17433347-b094-490b-855a-7228e8c4a6fd",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CloseInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3af6d213-c63c-4dd3-8935-e1baf568b79d",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CloseInput",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

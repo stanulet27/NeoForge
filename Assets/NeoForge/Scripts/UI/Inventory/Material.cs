@@ -14,6 +14,7 @@ namespace NeoForge.UI.Inventory
         [Tooltip("The weight of the material in pounds.")]
         public float Weight;
         
+        public override int Cost => Data.Cost * (int)(Weight / 100f);
         public override string Name => $"{Data.Name} ({Weight}lbs)";
         public override string Description => Data.Description;
     }

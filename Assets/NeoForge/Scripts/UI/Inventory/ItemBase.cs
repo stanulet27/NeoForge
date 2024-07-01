@@ -4,8 +4,7 @@ namespace NeoForge.UI.Inventory
 {
     public abstract class ItemBase : ScriptableObject
     {
-        [Tooltip("The cost of the item in the shop.")]
-        public int Cost;
+        public abstract int Cost { get; }
         
         /// <summary>
         /// The name that appears in the shop

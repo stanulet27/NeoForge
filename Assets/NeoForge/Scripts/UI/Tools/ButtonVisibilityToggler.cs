@@ -3,6 +3,8 @@ using UnityEngine;
 
 namespace NeoForge.UI.Tools
 {
+    [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(AnimatorEventListener))]
     public class ButtonVisibilityToggler : MonoBehaviour
     {
         [Tooltip("The game objects to toggle the visibility of. The key is the game object and the value is the visibility theme.")]

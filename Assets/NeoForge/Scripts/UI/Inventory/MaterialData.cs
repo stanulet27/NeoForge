@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace NeoForge.UI.Inventory
 {
@@ -9,27 +10,37 @@ namespace NeoForge.UI.Inventory
         public string Name;
         
         [Tooltip("The description of the material.")]
+        [TextArea(2, 5)]
         public string Description;
-        
+
         [Tooltip("The icon that will be used in the journal.")]
         public Sprite Icon;
         
-        [Tooltip("The minimum temperature that this material must be heated at.")]
-        public float MinTemperature;
-        
-        [Tooltip("The maximum temperature that this material can be heated at before degrading.")]
-        public float MaxTemperature;
-        
-        [Tooltip("The time it takes to cook this material when at desired temperature.")]
-        public float CookingTime;
-        
-        [Tooltip("The rate at which this material cools down.")]
-        public float CoolingRate;
+        [Tooltip("The temperature information for the material.")]
+        public TemperatureInfo[] TemperatureInfos;
         
         [Tooltip("The strength of the material when at normal temperature.")]
         public float NormalStrength;
         
         [Tooltip("The strength of the material when heated.")]
         public float HeatedStrength;
+        
+        [Tooltip("The cost per 100lbs of the material.")]
+        public int Cost;
+        
+        [Tooltip("The flavor text of the material.")]
+        [TextArea(2, 5)]
+        public string FlavorText;
+        
+        [Serializable]
+        public class TemperatureInfo
+        {
+            [Tooltip("The desired temperature for the entry.")]
+            public float Temperature;
+            [Tooltip("The minimum time to reach the desired temperature.")]
+            public int MinimumTime;
+            [Tooltip("The maximum time to reach the desired temperature.")]
+            public int MaximumTime;
+        }
     }
 }
