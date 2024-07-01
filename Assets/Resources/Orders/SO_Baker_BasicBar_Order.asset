@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 1
   _objectToCraft: 0
-  _giverName: Baker
+  _giverName: Mira
   _paymentAmount: 200
   _time: 2
   _requirements: None

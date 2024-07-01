@@ -20,10 +20,10 @@ MonoBehaviour:
         SpeakerName: Roland the Baker
         Dialogue: This isn't what I needed. I asked for a basic iron bar.
     LeadsTo:
-    - _path: 'Prompt: Oh, my mistake, one moment Leads to: TurnIn-Baker-BasicBar'
+    - _path: 'Prompt: Oh, my mistake, one moment Triggers Event: TurnIn-Baker-BasicBar'
       Prompt: Oh, my mistake, one moment
       NextID: TurnIn-Baker-BasicBar
-      IsEvent: 0
+      IsEvent: 1
     - _path: 'Prompt: I must have left it in, one moment Triggers Event: Leave'
       Prompt: I must have left it in, one moment
       NextID: Leave

@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4c86d78dfd55d47a03b069c598849c, type: 3}
+  m_Name: Elavyn-Start
+  m_EditorClassIdentifier: 
+  _conversationData:
+    ID: Elavyn-Start
+    DialoguesSeries:
+    - dialogues:
+      - Speaker: 1
+        SpeakerName: Elavyn
+        Dialogue: "Oh, hello there! You must be Zoey, the new blacksmith. I'm Elavyn
+          Flusterwink, the town gossip\u2014er, I mean, news-bringer. Have you heard
+          about our king and queen?"
+    LeadsTo:
+    - _path: 'Prompt: [Curious] I haven''t, actually. What can you tell me about
+        them? Leads to: Elavyn-Curious-1'
+      Prompt: '[Curious] I haven''t, actually. What can you tell me about them?'
+      NextID: Elavyn-Curious-1
+      IsEvent: 0
+    - _path: "Prompt: [Friendly] Nice to meet you, Elavyn! I\u2019d love to hear
+        more about the royal family. Leads to: Elavyn-Friendly-1"
+      Prompt: "[Friendly] Nice to meet you, Elavyn! I\u2019d love to hear more about
+        the royal family."
+      NextID: Elavyn-Friendly-1
+      IsEvent: 0
+    - _path: 'Prompt: Hello, Elavyn. What news do you have about the king and queen?
+        Leads to: Elavyn-Generic-1'
+      Prompt: Hello, Elavyn. What news do you have about the king and queen?
+      NextID: Elavyn-Generic-1
+      IsEvent: 0
+    StateChanges: []
+    StateRequirements: []
+    Variation: 
+    AudioCue: 

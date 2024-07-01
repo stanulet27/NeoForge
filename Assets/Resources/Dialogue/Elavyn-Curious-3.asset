@@ -28,9 +28,9 @@ MonoBehaviour:
       IsEvent: 0
     StateChanges:
     - _components:
-      - 
-      _change: 
-      State: 
+      - Learned_About_Town_Feelings_Towards_Royals
+      _change: Learned_About_Town_Feelings_Towards_Royals
+      State: Learned_About_Town_Feelings_Towards_Royals
     StateRequirements:
     - _components:
       - curious

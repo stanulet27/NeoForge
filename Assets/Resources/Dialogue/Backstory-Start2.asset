@@ -27,9 +27,9 @@ MonoBehaviour:
           of strength and precision. It was there, amidst the heat and the sparks,
           that Zoey discovered zier true calling, much to the surprise of zier family"
     LeadsTo:
-    - _path: 'Prompt:  Leads to: Backstory Trait'
+    - _path: 'Prompt:  Leads to: Backstory-Trait'
       Prompt: 
-      NextID: Backstory Trait
+      NextID: Backstory-Trait
       IsEvent: 0
     StateChanges: []
     StateRequirements:

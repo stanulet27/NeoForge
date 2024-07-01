@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using NeoForge.Dialogue;
+using NeoForge.Dialogue.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -21,6 +22,11 @@ public class MainMenuUI
 
         GUILayout.Label("Conversation Nodes:");
         _scrollPosition = GUILayout.BeginScrollView(_scrollPosition, false, true);
+        if (GUILayout.Button("Validate Nodes"))
+        {
+            DialogueValidator.ValidateAllConversations(_dataHandler.ConversationDataSOList);
+        }
+        
         foreach (var dataSO in _dataHandler.ConversationDataSOList)
         {
             var displayName = $"{dataSO.Data.ID} #{dataSO.Data.Variation}";

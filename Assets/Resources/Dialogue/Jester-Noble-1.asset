@@ -35,8 +35,8 @@ MonoBehaviour:
     StateChanges: []
     StateRequirements:
     - _components:
-      - noble
-      _requirement: noble
-      State: noble
+      - nobles
+      _requirement: nobles
+      State: nobles
     Variation: 
     AudioCue: 

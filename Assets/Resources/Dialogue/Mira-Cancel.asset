@@ -10,21 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ff4c86d78dfd55d47a03b069c598849c, type: 3}
-  m_Name: Jester-Goodbye-1
+  m_Name: Mira-Cancel
   m_EditorClassIdentifier: 
   _conversationData:
-    ID: Jester-Goodbye-1
+    ID: Mira-Cancel
     DialoguesSeries:
     - dialogues:
       - Speaker: 1
-        SpeakerName: Jester
-        Dialogue: "You\u2019re welcome, Zoey! Enjoy your time here, and don\u2019t
-          hesitate to find me if you need a laugh or some company. Until next time!"
-    LeadsTo:
-    - _path: 'Prompt:  Leads to: exit'
-      Prompt: 
-      NextID: exit
-      IsEvent: 0
+        SpeakerName: Mira
+        Dialogue: Oh, that's unfortunate. Maybe another time, then.
+    LeadsTo: []
     StateChanges: []
     StateRequirements: []
     Variation: 

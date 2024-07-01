@@ -21,9 +21,9 @@ MonoBehaviour:
         Dialogue: Thank you so much, Zoey! I'll be back this evening to pick it up.
           Have a great day!
     LeadsTo:
-    - _path: 'Prompt:  Triggers Event: GainOrder-Mira-CurtainRod'
+    - _path: 'Prompt:  Triggers Event: GainOrder-Mira-1'
       Prompt: 
-      NextID: GainOrder-Mira-CurtainRod
+      NextID: GainOrder-Mira-1
       IsEvent: 1
     StateChanges: []
     StateRequirements: []

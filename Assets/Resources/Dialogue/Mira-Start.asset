@@ -46,7 +46,13 @@ MonoBehaviour:
       Prompt: Nice to meet you, Mira. How can I assist you today?
       NextID: Mira-Generic-1
       IsEvent: 0
-    StateChanges: []
+    StateChanges:
+    - _components:
+      - MiraSpokenTo
+      - =
+      - 1
+      _change: MiraSpokenTo = 1
+      State: MiraSpokenTo
     StateRequirements: []
     Variation: 
     AudioCue: 

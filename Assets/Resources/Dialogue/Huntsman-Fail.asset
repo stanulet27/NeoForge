@@ -20,10 +20,10 @@ MonoBehaviour:
         SpeakerName: Teft the Huntsman
         Dialogue: Wrong part. I need a handle.
     LeadsTo:
-    - _path: 'Prompt: Oh, my mistake, one moment Leads to: TurnIn-Huntsman-BasicBar'
+    - _path: 'Prompt: Oh, my mistake, one moment Triggers Event: TurnIn-Huntsman-BasicBar'
       Prompt: Oh, my mistake, one moment
       NextID: TurnIn-Huntsman-BasicBar
-      IsEvent: 0
+      IsEvent: 1
     - _path: 'Prompt: One second, I have to grab it from the furnace Triggers Event:
         Stay'
       Prompt: One second, I have to grab it from the furnace

@@ -46,7 +46,7 @@ namespace NeoForge.Stations.Warehosue
         /// </summary>
         /// <param name="dialogueEvent">
         /// The order that the part is being used to fulfill,
-        /// format: {prefix}-{giverName}-{desiredPart}
+        /// format: {prefix}-{giverName}-{desiredPartIndex}
         /// </param>
         public void OpenForSelection(string dialogueEvent)
         {
