@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4c86d78dfd55d47a03b069c598849c, type: 3}
+  m_Name: Backstory-Trait1
+  m_EditorClassIdentifier: 
+  _conversationData:
+    ID: Backstory-Trait
+    DialoguesSeries:
+    - dialogues:
+      - Speaker: 2
+        SpeakerName: 
+        Dialogue: For, in the prime of youth, Zoey earned an apprenticeship and began
+          zier journey as a blacksmith. With a curious heart, Zoey wasn't just interested
+          in metal but also in the stories of those who came to zier forge. Zey would
+          listen intently to each customer's tale, crafting unique and beautiful
+          pieces that reflected their needs and dreams. Over the years, Zoey's dedication
+          and creativity flourished, and zier name became known far and wide as the
+          region's most beloved blacksmith
+    LeadsTo:
+    - _path: 'Prompt:  Leads to: Backstory-Conclusion'
+      Prompt: 
+      NextID: Backstory-Conclusion
+      IsEvent: 0
+    StateChanges: []
+    StateRequirements:
+    - _components:
+      - curious
+      _requirement: curious
+      State: curious
+    Variation: 1
+    AudioCue: 

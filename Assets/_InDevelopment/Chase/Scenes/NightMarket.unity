@@ -9322,6 +9322,7 @@ MonoBehaviour:
   _dialogueSpeed: 25
   _dialogueFastSpeed: 50
   _conversationGroup: []
+  _playerCharacter: {fileID: 11400000, guid: 28f52fefe61d4194a92a9d515490547e, type: 2}
 --- !u!1 &1368744454
 GameObject:
   m_ObjectHideFlags: 0

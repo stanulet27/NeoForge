@@ -18,8 +18,8 @@ MonoBehaviour:
     - dialogues:
       - Speaker: 1
         SpeakerName: Roland the Baker
-        Dialogue: Good day, Blacksmith! I need a basic iron bar for my bakery. Can
-          you make one for me?
+        Dialogue: Good day Zoey! I need a basic iron bar for my bakery. Can you make
+          one for me?
     LeadsTo:
     - _path: 'Prompt: Of course Leads to: Baker-Acceptance'
       Prompt: Of course

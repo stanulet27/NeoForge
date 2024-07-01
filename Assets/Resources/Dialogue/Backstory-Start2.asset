@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4c86d78dfd55d47a03b069c598849c, type: 3}
+  m_Name: Backstory-Start2
+  m_EditorClassIdentifier: 
+  _conversationData:
+    ID: Backstory-Start
+    DialoguesSeries:
+    - dialogues:
+      - Speaker: 2
+        SpeakerName: 
+        Dialogue: "Ah, gather 'round and hear the tale of young Zoey, born into a
+          noble family where the halls were adorned with fine tapestries and the
+          air was filled with the scent of polished wood and aged parchment. Though
+          zier upbringing was one of privilege and comfort, Zoey's heart yearned
+          for something more than the duties of nobility. Zey spent hours in the
+          castle\u2019s forge, watching the blacksmiths shape metal with a combination
+          of strength and precision. It was there, amidst the heat and the sparks,
+          that Zoey discovered zier true calling, much to the surprise of zier family"
+    LeadsTo:
+    - _path: 'Prompt:  Leads to: Backstory Trait'
+      Prompt: 
+      NextID: Backstory Trait
+      IsEvent: 0
+    StateChanges: []
+    StateRequirements:
+    - _components:
+      - nobles
+      _requirement: nobles
+      State: nobles
+    Variation: 2
+    AudioCue: 

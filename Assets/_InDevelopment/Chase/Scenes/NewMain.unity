@@ -444,7 +444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.015686275}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -18939,6 +18939,7 @@ MonoBehaviour:
   _dialogueSpeed: 25
   _dialogueFastSpeed: 50
   _conversationGroup: []
+  _playerCharacter: {fileID: 11400000, guid: 28f52fefe61d4194a92a9d515490547e, type: 2}
 --- !u!1001 &768823862
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35274,6 +35275,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rotationSpeed: {x: 4, y: 5, z: -6}
   _partMeshDisplay: {fileID: 2108908439}
+  _partCamera: {fileID: 0}
 --- !u!1001 &1420500973
 PrefabInstance:
   m_ObjectHideFlags: 0

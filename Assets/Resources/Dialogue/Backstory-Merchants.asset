@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4c86d78dfd55d47a03b069c598849c, type: 3}
+  m_Name: Backstory-Merchants
+  m_EditorClassIdentifier: 
+  _conversationData:
+    ID: Backstory-Merchants
+    DialoguesSeries:
+    - dialogues:
+      - Speaker: 2
+        SpeakerName: 
+        Dialogue: "Ah, let me tell you the tale of young Zoey, born into a bustling
+          merchant family where the clink of coins and the hum of trade were the
+          rhythms of daily life. From an early age, zey accompanied zier parents
+          to markets, observing the art of negotiation and the value of quality goods.
+          Zoey\u2019s keen eye for detail and a knack for understanding what people
+          desired set zem apart even as a child. However, even then it was clear
+          that while the family dealt in goods, Zoey's heart was drawn to the craftsmanship
+          behind those goods, setting the stage for the remarkable journey that lay
+          ahead."
+    LeadsTo: []
+    StateChanges: []
+    StateRequirements: []
+    Variation: 
+    AudioCue: 

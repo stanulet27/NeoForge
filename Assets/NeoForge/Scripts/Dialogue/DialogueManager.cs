@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NeoForge.Dialogue.Character;
 using NeoForge.Dialogue.Helper;
 using NeoForge.Input;
 using NeoForge.UI.Scenes;
+using NeoForge.UI.Tools;
 using NeoForge.Utilities;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -31,6 +33,8 @@ namespace NeoForge.Dialogue
         [SerializeField] float _dialogueFastSpeed;
         [Tooltip("Loaded in from resources"), ReadOnly]
         [SerializeField] List<ConversationDataSO> _conversationGroup;
+        [Tooltip("The character the player selected")]
+        [SerializeField] private SharedCharacterData _playerCharacter;
 
         private readonly Dictionary<string, int> _dialogueProgress = new();
     
@@ -48,10 +52,11 @@ namespace NeoForge.Dialogue
 
         public DialogueData CurrentDialogue => _currentDialogue;
         
-        [ContextMenu("Display World State")]
+        [Button]
         private void DisplayWorldState() => Debug.Log(WorldState.GetCurrentWorldState());
+        [Button]
         private void SetWorldState(string key, int value) => WorldState.SetState(key, _ => value);
-        [ContextMenu("Clear World State")]
+        [Button]
         private void ClearWorldState() => WorldState.ClearAllStates();
 
         [Button]
@@ -135,8 +140,8 @@ namespace NeoForge.Dialogue
         private void ExitDialogue()
         {
             _inDialogue = false;
-            OnDialogueEnded?.Invoke();
             ControllerManager.Instance.SwapMode(ControllerManager.Mode.Gameplay);
+            OnDialogueEnded?.Invoke();
         }
         
         private void AdvanceDialogue(string data)
@@ -252,17 +257,16 @@ namespace NeoForge.Dialogue
 
         private IEnumerator ProcessDialogue(DialogueData dialogue)
         {
-            var speakerName = dialogue.SpeakerName;
+            _currentDialogue = dialogue.GetCharacterDialogue(_playerCharacter.Data);
             
-            _currentDialogue = dialogue;
-            OnTextSet?.Invoke(dialogue);
+            OnTextSet?.Invoke(_currentDialogue);
             OnTextUpdated?.Invoke("");
             yield return new WaitUntil(() => FadeToBlackSystem.FadeOutComplete);
 
             _continueInputReceived = false;
 
             ControllerManager.OnNextDialogue += SpeedUpText;
-            yield return TypewriterDialogue(speakerName, dialogue);
+            yield return TypewriterDialogue(_currentDialogue);
             ControllerManager.OnNextDialogue -= SpeedUpText;
             
             ControllerManager.OnNextDialogue += OnContinueInput;
@@ -270,7 +274,7 @@ namespace NeoForge.Dialogue
             ControllerManager.OnNextDialogue -= OnContinueInput;
         }
 
-        private IEnumerator TypewriterDialogue(string name, DialogueData dialogue)
+        private IEnumerator TypewriterDialogue(DialogueData dialogue)
         {
             _currentDialogueSpeed = _dialogueSpeed;
             var loadedText = "";
@@ -288,7 +292,7 @@ namespace NeoForge.Dialogue
 
                 if (_abortDialogue)
                 {
-                    OnTextUpdated?.Invoke(name + line);
+                    OnTextUpdated?.Invoke(dialogue.SpeakerName + line);
                     break;
                 }
             }

@@ -75,19 +75,25 @@ namespace NeoForge.Dialogue
         /// <summary>
         /// Will return the current state of the world state property
         /// </summary>
-        /// <param name="key">The world state property in question</param>
         public static int GetState(string key)
         {
             return _currentState.TryGetValue(key, out var value) ? value : 0;
         }
-        
+
         /// <summary>
         /// Will return true if the world state property is greater than 0 / is true
         /// </summary>
-        /// <param name="key">The world state property in question</param>
         public static bool InState(string key)
         {
             return _currentState.ContainsKey(key) && _currentState[key] > 0;
+        }
+        
+        /// <summary>
+        /// Will return true if the world state property is set to the given enum value
+        /// </summary>
+        public static bool InState<T>(T key) where T : Enum
+        {
+            return InState(key.ToString().ToLower());
         }
         
         /// <summary>
