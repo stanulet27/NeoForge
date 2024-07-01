@@ -11930,13 +11930,13 @@ MonoBehaviour:
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1481267570}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 1481267572}
+        m_TargetAssemblyTypeName: NeoForge.UI.Inventory.ShopItemWeightScreen, Assembly-CSharp
+        m_MethodName: UpdateWeight
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -12363,7 +12363,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _display: {fileID: 1730594536}
-  _weightTextField: {fileID: 0}
+  _weightTextField: {fileID: 1447571912}
   _paymentButton: {fileID: 1526342196}
   _canPayColor: {r: 0.8862746, g: 0.7490196, b: 0.43921572, a: 1}
   _cannotPayColor: {r: 0.4509804, g: 0.039215688, b: 0, a: 1}
