@@ -2,10 +2,12 @@
 using NeoForge.Deformation;
 using NeoForge.Input;
 using NeoForge.UI.Buttons;
+using NeoForge.UI.Inventory;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 
-namespace NeoForge.Stations.Warehosue
+namespace NeoForge.Stations.Warehouse
 {
     public class WarehouseUIDisplay : MonoBehaviour
     {
@@ -20,18 +22,22 @@ namespace NeoForge.Stations.Warehosue
         [SerializeField] private TMP_Text _recipeLabel;
         [Tooltip("The button that allows the player to craft the selected recipe.")]
         [SerializeField] private SimpleButton _craftButton;
+        [Tooltip("The starting part selection display")]
+        [SerializeField] private WarehousePartSelector _partSelector;
         
         private Action<CraftableParts> _onRecipeSet;
+        private Action<MaterialItem> _onPartSelected;
         private static string FormattedRecipeDisplay(string recipe) => string.Format(RECIPE_LABEL, recipe);
 
         /// <summary>
         /// Will open the UI.
         /// When the player selects a recipe, the onRecipeSet action will be invoked with the selected recipe.
         /// </summary>
-        public void OpenUI(Action<CraftableParts> onRecipeSet)
+        public void OpenUI(Action<CraftableParts> onRecipeSet, Action<MaterialItem> onPartSelected)
         {
             _hud.SetActive(true);
             _onRecipeSet = onRecipeSet;
+            _onPartSelected = onPartSelected;
             _recipeLabel.text = FormattedRecipeDisplay(EMPTY_RECIPE);
         }
 
@@ -53,7 +59,7 @@ namespace NeoForge.Stations.Warehosue
             _ui.SetActive(false);
             _hud.SetActive(false);
         }
-        
+
         /// <summary>
         /// Will set the craft button to be interactable or not.
         /// </summary>
@@ -74,6 +80,19 @@ namespace NeoForge.Stations.Warehosue
             _ui.SetActive(false);
             _hud.SetActive(true);
             ControllerManager.Instance.SwapMode(ControllerManager.Mode.Gameplay);
+        }
+
+        public void OpenPartSelector()
+        {
+            _partSelector.OpenDisplay(_onPartSelected, ClosePartSelector);
+            ControllerManager.Instance.SwapMode(ControllerManager.Mode.UI);
+            _hud.SetActive(false);
+        }
+
+        private void ClosePartSelector()
+        {
+            ControllerManager.Instance.SwapMode(ControllerManager.Mode.Gameplay);
+            _hud.SetActive(true);
         }
     }
 }

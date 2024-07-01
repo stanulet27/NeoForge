@@ -4,27 +4,31 @@ using System.Linq;
 using NeoForge.Deformation;
 using NeoForge.UI.Inventory;
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
 
-namespace NeoForge.Stations.Warehosue
+namespace NeoForge.Stations.Warehouse
 {
     public class WarehouseStation : MonoBehaviour, IStation
     {
         [Tooltip("The parent object that contains all the crates.")]
         [SerializeField] private GameObject _cratesParent;
         
+        [Tooltip("The part selection crate that will display current part selected")]
+        [SerializeField] private TMP_Text _partSelectionLabel;
+        
         [Tooltip("The UI display for the warehouse station.")]
         [SerializeField] private WarehouseUIDisplay _uiDisplay;
-        
 
         private List<ItemCrate> _crates;
-        private ItemCrate _materialCrate;
+        private MaterialItem _materialItem;
         private ItemCrate _bonusCrate;
         private CraftableParts _selectedRecipe = CraftableParts.None;
         
         private void Start()
         {
             _crates = _cratesParent.GetComponentsInChildren<ItemCrate>().ToList();
+            _partSelectionLabel.text = "Click to select an item to forge";
             _uiDisplay.CloseUI();
         }
 
@@ -32,7 +36,7 @@ namespace NeoForge.Stations.Warehosue
         {
             _crates.ForEach(crate => crate.RefreshDisplay());
             _crates.ForEach(crate => crate.OnSelected += OnCrateSelected);
-            _uiDisplay.OpenUI(SelectedRecipe);
+            _uiDisplay.OpenUI(SelectedRecipe, SetMaterialItem);
             RefreshCraftability();
         }
 
@@ -40,7 +44,7 @@ namespace NeoForge.Stations.Warehosue
         {
             _crates.ForEach(crate => crate.OnSelected -= OnCrateSelected);
             _uiDisplay.CloseUI();
-            _materialCrate = null;
+            SetMaterialItem(null);
             _bonusCrate = null;
             _selectedRecipe = CraftableParts.None;
         }
@@ -55,16 +59,16 @@ namespace NeoForge.Stations.Warehosue
         {
             var forgedPart = ForgePartPool.Instance.GetPart();
             
-            if (_materialCrate.Item is not MaterialItem m || _bonusCrate.Item is not ItemWithBonus b) return;
+            if (_materialItem == null || _bonusCrate.Item is not ItemWithBonus bonusItem) return;
             if (forgedPart == default) return;
             
-            var partDetails = new PartDetails(m.StartingMesh, m.Data, _selectedRecipe, b);
+            var partDetails = new PartDetails(_materialItem.Mesh, _materialItem.Data, _selectedRecipe, bonusItem);
             
             forgedPart.Details = partDetails;
             forgedPart.gameObject.SetActive(true);
             
-            InventorySystem.Instance.RemoveItem(m);
-            InventorySystem.Instance.RemoveItem(b);
+            InventorySystem.Instance.RemoveItem(_materialItem);
+            InventorySystem.Instance.RemoveItem(bonusItem);
             ClearCrateSelection();
             RefreshCraftability();
         }
@@ -74,12 +78,6 @@ namespace NeoForge.Stations.Warehosue
             var crateItem = crate.Item;
             switch (crateItem)
             {
-                case MaterialItem:
-                {
-                    if (_materialCrate != crate && _materialCrate != null) _materialCrate.Deselect();
-                    _materialCrate = crate;
-                    break;
-                }
                 case ItemWithBonus:
                 {
                     if (_bonusCrate != crate && _bonusCrate != null) _bonusCrate.Deselect();
@@ -93,9 +91,8 @@ namespace NeoForge.Stations.Warehosue
         private void ClearCrateSelection()
         {
             _bonusCrate.RefreshDisplay(shouldDeselect: true);
-            _materialCrate.RefreshDisplay(shouldDeselect: true);
             _bonusCrate = null;
-            _materialCrate = null;
+            SetMaterialItem(null);
         }
         
         private void SelectedRecipe(CraftableParts recipe)
@@ -106,12 +103,19 @@ namespace NeoForge.Stations.Warehosue
 
         private bool CanCraft()
         {
-            return _materialCrate != null && _bonusCrate != null && _selectedRecipe != CraftableParts.None;
+            return _materialItem != null && _bonusCrate != null && _selectedRecipe != CraftableParts.None;
         }
         
         private void RefreshCraftability()
         {
             _uiDisplay.SetCanCraft(CanCraft());
+        }
+        
+        private void SetMaterialItem(MaterialItem item)
+        {
+            _materialItem = item;
+            RefreshCraftability();
+            _partSelectionLabel.text = item == null ? "Click to select an item to forge" : $"Selected: {item.Name}";
         }
     }
 }

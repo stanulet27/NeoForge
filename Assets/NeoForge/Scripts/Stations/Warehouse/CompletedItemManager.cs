@@ -2,7 +2,7 @@
 using System.Linq;
 using NeoForge.UI.Inventory;
 
-namespace NeoForge.Stations.Warehosue
+namespace NeoForge.Stations.Warehouse
 {
     public class CompletedItemManager
     {

@@ -8,7 +8,7 @@ namespace NeoForge.UI.Inventory
     {
         public enum JSONType
         {
-            Copper = 0,
+            Steel = 0,
             Iron = 1,
         }
 
@@ -66,7 +66,7 @@ namespace NeoForge.UI.Inventory
             material.HeatedStrength = 5;
             material.Cost = 50;
             material.FlavorText = "Flavor Text";
-            material.MaterialType = JSONType.Copper;
+            material.MaterialType = JSONType.Steel;
             material.MaximumForce = 10;
             return material;
         }

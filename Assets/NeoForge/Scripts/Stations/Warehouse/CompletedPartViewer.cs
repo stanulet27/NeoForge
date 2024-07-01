@@ -4,7 +4,7 @@ using NeoForge.Stations.Orders;
 using NeoForge.UI.Inventory;
 using UnityEngine;
 
-namespace NeoForge.Stations.Warehosue
+namespace NeoForge.Stations.Warehouse
 {
     public class CompletedPartViewer : MonoBehaviour
     {

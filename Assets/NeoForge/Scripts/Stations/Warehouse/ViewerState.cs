@@ -1,4 +1,4 @@
-﻿namespace NeoForge.Stations.Warehosue
+﻿namespace NeoForge.Stations.Warehouse
 {
     public enum ViewerState
     {

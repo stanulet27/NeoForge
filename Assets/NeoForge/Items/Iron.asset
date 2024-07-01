@@ -12,26 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea6f6dd5166f48059dad9b9110fb537b, type: 3}
   m_Name: Iron
   m_EditorClassIdentifier: 
-  Name: Iron
-  Description: A basic neccessity to any blacksmith
-  Icon: {fileID: 21300000, guid: c0298fda06c1fbd489be3013a4c68338, type: 3}
-  TemperatureInfos:
-  - Temperature: 125
-    MinimumTime: 20
-    MaximumTime: 30
-  - Temperature: 225
-    MinimumTime: 10
-    MaximumTime: 15
-  - Temperature: 325
-    MinimumTime: 5
-    MaximumTime: 7
-  - Temperature: 425
-    MinimumTime: 3
-    MaximumTime: 6
+  Name: ???
+  Description: ???????????
+  Icon: {fileID: 21300000, guid: f39cb9c8272e1f54dbd3224ceff64951, type: 3}
+  TemperatureInfos: []
   NormalStrength: 5
   HeatedStrength: 10
   Cost: 50
-  FlavorText: Insert the flavor text here for iron. I swear this will be filled out
-    at some point
+  FlavorText: ????????
   MaterialType: 1
-  MaximumForce: 20
+  MaximumForce: 0

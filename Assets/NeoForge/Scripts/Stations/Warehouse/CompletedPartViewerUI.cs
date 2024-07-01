@@ -3,7 +3,7 @@ using NeoForge.UI.Buttons;
 using TMPro;
 using UnityEngine;
 
-namespace NeoForge.Stations.Warehosue
+namespace NeoForge.Stations.Warehouse
 {
     public class CompletedPartViewerUI : MonoBehaviour
     {

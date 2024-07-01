@@ -2,6 +2,7 @@
 using NeoForge.Deformation.JSON;
 using NeoForge.Deformation.Scoring;
 using NeoForge.UI.Inventory;
+using UnityEngine;
 
 namespace NeoForge.Deformation
 {
@@ -10,7 +11,7 @@ namespace NeoForge.Deformation
         /// <summary>
         /// The part the player is starting from.
         /// </summary>
-        public readonly MaterialItem.StartingOption StartingMesh;
+        public readonly Mesh StartingMesh;
         
         /// <summary>
         /// The material the part is made from.
@@ -37,7 +38,7 @@ namespace NeoForge.Deformation
         /// </summary>
         public MeshSimilarityCalculator.ScoringDetails ScoreDetails;
 
-        public PartDetails(MaterialItem.StartingOption startingMesh, MaterialData material, 
+        public PartDetails(Mesh startingMesh, MaterialData material, 
             CraftableParts desiredMesh, ItemWithBonus coal)
         {
             StartingMesh = startingMesh;

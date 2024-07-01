@@ -65,13 +65,6 @@ namespace NeoForge.Deformation
         {
             yield return WebServerConnectionHandler.SendPutRequest(JsonUtility.ToJson(settings.Environment), "/init");
 
-            yield return WebServerConnectionHandler.SendGetRequest("/starting-mesh");
-            //var startingMeshData = CreateMesh(JsonUtility.FromJson<MeshData>(WebServerConnectionHandler.ReturnData));
-            var startingMeshData = 
-                PartMeshDatabase.Instance.GetPartMesh(PartMeshDatabase.Shape.Rectangular, PartMeshDatabase.Size.Small, 1.4f);
-            settings.MeshData.PartMesh.mesh = startingMeshData;
-            settings.MeshData.PartCollider.sharedMesh = startingMeshData;
-
             yield return WebServerConnectionHandler.SendGetRequest("/target-mesh");
             var targetMeshData = CreateMesh(JsonUtility.FromJson<MeshData>(WebServerConnectionHandler.ReturnData));
             settings.MeshData.DesiredMesh.mesh = targetMeshData;

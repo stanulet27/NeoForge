@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NeoForge.Stations.Warehosue
+namespace NeoForge.Stations.Warehouse
 {
     public class ViewerStateManager
     {

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using NeoForge.Input;
-using NeoForge.Stations.Warehosue;
+using NeoForge.Stations.Warehouse;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;

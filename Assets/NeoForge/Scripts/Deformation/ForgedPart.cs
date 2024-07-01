@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using AYellowpaper.SerializedCollections;
+using NeoForge.Deformation.JSON;
 using SharedData;
 using UnityEngine;
 
@@ -149,9 +150,17 @@ namespace NeoForge.Deformation
         private IEnumerator SetupPart(PartDetails details)
         {
             Details = details;
+            
             yield return DeformationHandler.SetupPart(EnvironmentSettings);
+            SetupPartMesh(details.StartingMesh);
             _positionHandler.SetupPosition();
             SetStation(ForgeArea.Heating);
+        }
+
+        private void SetupPartMesh(Mesh mesh)
+        {
+            _partMeshHandler.PartMesh.mesh = mesh;
+            _partMeshHandler.PartCollider.sharedMesh = mesh;
         }
         
         private void UpdateSelectionIndication()

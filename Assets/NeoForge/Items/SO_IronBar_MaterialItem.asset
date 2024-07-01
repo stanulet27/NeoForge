@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a3dd1b096ad4d5c9b965f526f514c0d, type: 3}
   m_Name: SO_IronBar_MaterialItem
   m_EditorClassIdentifier: 
-  Data: {fileID: 11400000, guid: ce1b51f4883c7744791a58a19a20390d, type: 2}
-  StartingMesh: 1
-  Weight: 200
+  Data: {fileID: 11400000, guid: eed0ddbd99b9da34cb8fdbc75b62600b, type: 2}
+  Weight: 20
+  Mesh: {fileID: 0}
+  TEMP_shape: 0
+  TEMP_size: 0

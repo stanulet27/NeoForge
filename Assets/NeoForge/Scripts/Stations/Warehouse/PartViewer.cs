@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace NeoForge.Stations.Warehosue
+namespace NeoForge.Stations.Warehouse
 {
     public class PartViewer : MonoBehaviour
     {

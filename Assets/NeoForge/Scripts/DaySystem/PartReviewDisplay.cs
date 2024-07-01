@@ -1,5 +1,5 @@
 ﻿using System;
-using NeoForge.Stations.Warehosue;
+using NeoForge.Stations.Warehouse;
 using NeoForge.UI.Inventory;
 using TMPro;
 using UnityEngine;

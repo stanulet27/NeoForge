@@ -4,7 +4,7 @@ using System.Linq;
 using NeoForge.Deformation.Scoring;
 using NeoForge.Input;
 using NeoForge.Stations;
-using NeoForge.Stations.Warehosue;
+using NeoForge.Stations.Warehouse;
 using NeoForge.UI.Inventory;
 using SharedData;
 using UnityEngine;

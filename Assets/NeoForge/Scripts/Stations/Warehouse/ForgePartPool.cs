@@ -7,7 +7,7 @@ using NeoForge.UI.Scenes;
 using NeoForge.Utilities;
 using UnityEngine;
 
-namespace NeoForge.Stations.Warehosue
+namespace NeoForge.Stations.Warehouse
 {
     public class ForgePartPool : SingletonMonoBehaviour<ForgePartPool>
     {
