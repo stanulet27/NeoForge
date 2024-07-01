@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using NeoForge.UI.Buttons;
 using NeoForge.UI.Inventory;
-using NeoForge.UI.Journal;
 using UnityEngine;
 
 namespace NeoForge.UI.Journal

@@ -31,7 +31,7 @@ namespace NeoForge.UI.Buttons
         /// </summary>
         public bool IsInteractable()
         {
-            return _button.interactable;
+            return _button.interactable && gameObject.activeInHierarchy;
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace NeoForge.UI.Buttons
             _button.Select();
         }
         
-        protected void ToggleInteractable(bool value)
+        public void ToggleInteractable(bool value)
         {
             _button.interactable = value;
         }

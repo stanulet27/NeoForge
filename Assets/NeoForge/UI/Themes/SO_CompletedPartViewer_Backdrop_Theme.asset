@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f065a1e6b87418c901e10e0974f19af, type: 3}
+  m_Name: SO_CompletedPartViewer_Backdrop_Theme
+  m_EditorClassIdentifier: 
+  Normal: {r: 0.16470589, g: 0.3647059, b: 0.49411768, a: 1}
+  Highlighted: {r: 0.23944461, g: 0.5293776, b: 0.7169812, a: 1}
+  Pressed: {r: 0.1507832, g: 0.30553007, b: 0.4056604, a: 1}
+  Disabled: {r: 0.16470589, g: 0.3647059, b: 0.49411768, a: 1}
+  Selected: {r: 0.2392157, g: 0.5294118, b: 0.7176471, a: 1}

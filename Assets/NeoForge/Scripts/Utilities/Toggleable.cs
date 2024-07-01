@@ -10,7 +10,7 @@
 using System;
 using UnityEngine;
 
-namespace Utilities
+namespace NeoForge.Utilities
 {
     /// <summary>
     ///     This will add the ability to swap a game object from off to on and visa versa

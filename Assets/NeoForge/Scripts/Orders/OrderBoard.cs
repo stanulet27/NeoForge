@@ -3,7 +3,7 @@ using System.Linq;
 using NeoForge.Input;
 using UnityEngine;
 
-namespace NeoForge.Orders
+namespace NeoForge.Stations.Orders
 {
     public class OrderBoard : MonoBehaviour, IStation
     {
@@ -38,9 +38,10 @@ namespace NeoForge.Orders
 
         public void EnterStation()
         {
+            UpdateOrders();
             _selectedDisplayIndex = 0;
             SelectedDisplay.SetHighlight(true);
-            
+
             SubscribeToController();
         }
 

@@ -5,7 +5,6 @@ using NeoForge.UI.Tools;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 
 namespace NeoForge.UI.Menus
 {

@@ -12,18 +12,24 @@ namespace NeoForge.Deformation.Scoring
             Undershot
         }
         
+        /// <summary>
+        /// The collection of points to be scored
+        /// </summary>
         public static Dictionary<Mode, List<RaycastPoint>> Points { get; } = new ()
         {
             {Mode.Undershot, new List<RaycastPoint>()},
             {Mode.Overshot, new List<RaycastPoint>()}
         };
         
+        /// <summary>
+        /// The origin, in world space, of the raycast point
+        /// </summary>
         public Vector3 Origin => _parent.TransformPoint(_origin);
 
         private readonly int _layerMask;
         private readonly Transform _parent;
         private readonly Vector3 _origin;
-
+        
         public RaycastPoint(Vector3 position, Transform parent, Mode mode)
         {
             _parent = parent;
@@ -33,16 +39,33 @@ namespace NeoForge.Deformation.Scoring
             _layerMask = LayerMask.GetMask(mode == Mode.Undershot ? "Part" : "Desired");
         }
 
+        /// <summary>
+        /// Will clear the points for the given mode from the points collection
+        /// </summary>
         public static void ClearPoints(Mode mode)
         {
             Points[mode].Clear();
         }
         
+        /// <summary>
+        /// Will return the percent of points that score for the given mode
+        /// </summary>
         public static float GetScore(Mode mode)
         {
-            return (float)Points[mode].Count(point => point.DoesItScore()) / Points[mode].Count * 100f;
+            return GetScore(Points[mode]);
         }
         
+        /// <summary>
+        /// Will return the percent of points that score from the given list of points
+        /// </summary>
+        public static float GetScore(List<RaycastPoint> points)
+        {
+            return (float)points.Count(point => point.DoesItScore()) / points.Count * 100f;
+        }
+        
+        /// <summary>
+        /// Will return whether or not the point scores
+        /// </summary>
         public bool DoesItScore()
         {
             return IsInCollider();

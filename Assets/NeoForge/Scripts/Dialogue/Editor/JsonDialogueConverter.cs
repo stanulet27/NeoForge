@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NeoForge.Dialogue.Helper;
+using Sirenix.Utilities;
 using UnityEditor;
 using UnityEngine;
 using static NeoForge.Dialogue.Helper.DialogueVariables;
@@ -18,9 +19,11 @@ namespace NeoForge.Dialogue.Editor
         public static void ConvertToJson(string text)
         {
             text = text.Split("BEGIN DIALOGUE")[1].Trim();
+            text = string.Join("\n", text.Split('\n').Where(x => !x.StartsWith("#") && !x.IsNullOrWhitespace()));
+            Debug.Log(text);
             var dialogueAdded = new List<string>();
             foreach (var dialogueScene in text.Split(ID_MARKER, StringSplitOptions.RemoveEmptyEntries)) {
-                Debug.Log(dialogueScene);
+                Debug.Log("Processing Scene: " + dialogueScene);
                 ConversationDataSO conversation = ScriptableObject.CreateInstance<ConversationDataSO>();
                 conversation.SetConversation(ConvertFromJson(ConvertToJson(ConvertToConversation(dialogueScene))));
 
@@ -71,7 +74,6 @@ namespace NeoForge.Dialogue.Editor
             string MarkerText() => NextLine().Split(":")[1].Trim();
 
             conversation.ID = NextLine();
-            Debug.Log($"Converting {NextLine()}");
             RemoveLine();
         
             var markerActions = new Dictionary<string, Action>

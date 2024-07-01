@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4c86d78dfd55d47a03b069c598849c, type: 3}
+  m_Name: Huntsman-Fail
+  m_EditorClassIdentifier: 
+  _conversationData:
+    ID: Huntsman-Fail
+    DialoguesSeries:
+    - dialogues:
+      - Speaker: 1
+        SpeakerName: Teft the Huntsman
+        Dialogue: Wrong part. I need a handle.
+    LeadsTo:
+    - _path: 'Prompt: Oh, my mistake, one moment Leads to: TurnIn-Huntsman-BasicBar'
+      Prompt: Oh, my mistake, one moment
+      NextID: TurnIn-Huntsman-BasicBar
+      IsEvent: 0
+    - _path: 'Prompt: One second, I have to grab it from the furnace Triggers Event:
+        Stay'
+      Prompt: One second, I have to grab it from the furnace
+      NextID: Stay
+      IsEvent: 1
+    - _path: 'Prompt: Oh shoot, sorry I don''t have it Leads to: Huntsman-Reject'
+      Prompt: Oh shoot, sorry I don't have it
+      NextID: Huntsman-Reject
+      IsEvent: 0
+    StateChanges: []
+    StateRequirements: []
+    Variation: 
+    AudioCue: 

@@ -1,5 +1,4 @@
-﻿using System;
-using CustomInspectors;
+﻿using CustomInspectors;
 using SharedData;
 using UnityEngine;
 

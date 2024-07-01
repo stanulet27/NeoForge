@@ -4,7 +4,7 @@ using NeoForge.Dialogue;
 using UnityEditor;
 using UnityEngine;
 
-namespace NeoForge.Orders.Editor
+namespace NeoForge.Stations.Orders.Editor
 {
     public class OrderCompilier : EditorWindow
     {

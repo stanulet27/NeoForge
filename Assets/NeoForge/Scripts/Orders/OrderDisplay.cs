@@ -1,9 +1,8 @@
 ﻿using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-namespace NeoForge.Orders
+namespace NeoForge.Stations.Orders
 {
     public class OrderDisplay : MonoBehaviour
     {

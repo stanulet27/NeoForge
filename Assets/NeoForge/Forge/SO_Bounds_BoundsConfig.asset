@@ -15,8 +15,8 @@ MonoBehaviour:
   _bounds:
   - Min: -2
     Max: 2
-  - Min: 0
-    Max: 0
+  - Min: -10
+    Max: 10
   - Min: -2
     Max: 2
   _fromStartingPosition: 1
