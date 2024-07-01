@@ -10156,6 +10156,7 @@ Transform:
   - {fileID: 345023732}
   - {fileID: 218962565}
   - {fileID: 1227103354}
+  - {fileID: 1132532916}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &391708715
@@ -27772,6 +27773,67 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4932489854580100, guid: 64d241d0915f83448a574a7401b68ec4, type: 3}
   m_PrefabInstance: {fileID: 1128640387}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1132532915
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1132532916}
+  - component: {fileID: 1132532917}
+  m_Layer: 0
+  m_Name: Part Database
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1132532916
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132532915}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 385886646}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1132532917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132532915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b346f96eaef94f169f5ef47963d36dcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _partMeshes:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: -2432090755550338912, guid: 78ae49a89004c4c448ed5e16e7bac8ad, type: 3}
+    - Key: 1
+      Value: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  _partSizes:
+    _serializedList:
+    - Key: 0
+      Value: 0.0508
+    - Key: 1
+      Value: 0.1016
+    - Key: 2
+      Value: 0.2032
+  _overrideParameters: 0
+  _overrideShape: 0
+  _overrideSize: 0
 --- !u!1001 &1134971362
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35274,6 +35336,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rotationSpeed: {x: 4, y: 5, z: -6}
   _partMeshDisplay: {fileID: 2108908439}
+  _partCamera: {fileID: 0}
 --- !u!1001 &1420500973
 PrefabInstance:
   m_ObjectHideFlags: 0
