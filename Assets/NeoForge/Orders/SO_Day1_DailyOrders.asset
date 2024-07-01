@@ -9,9 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 629ca4e7a2cf1014bb8319aa7ea16548, type: 3}
-  m_Name: SO_Day_SharedInt
+  m_Script: {fileID: 11500000, guid: bcfa9687a55a4912b28e329383749860, type: 3}
+  m_Name: SO_Day1_DailyOrders
   m_EditorClassIdentifier: 
-  _minValue: 0
-  _maxValue: 10
-  _value: 2
+  _orders:
+  - CustomerName: Merchant
+    Dialogue: Baker-Start
+  - CustomerName: Headsman
+    Dialogue: Huntsman-Start
+  _ordersToGive: 2
+  _randomizeOrder: 0

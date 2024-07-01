@@ -91,6 +91,11 @@ namespace NeoForge.Stations.Orders
         /// The money bonus for reaching the bonus score
         /// </summary>
         public int PaymentWithBonus => _paymentAmount + _paymentBonus;
+        
+        /// <summary>
+        /// The date the order is due
+        /// </summary>
+        public int DueDate { get; set; }
 
         /// <summary>
         /// Takes in a csv line in the format of "ID, ObjectToCraft, GiverName, PaymentAmount, Time, Requirements,
