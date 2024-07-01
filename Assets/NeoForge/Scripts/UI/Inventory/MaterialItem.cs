@@ -34,6 +34,9 @@ namespace NeoForge.UI.Inventory
             _name = values._name;
         }
         
+        /// <summary>
+        /// Will create a material item with the given data and purchase details.
+        /// </summary>
         public static MaterialItem CreateMaterial(MaterialData data, PartMeshDetails purchaseDetails)
         {
             var material = CreateInstance<MaterialItem>();

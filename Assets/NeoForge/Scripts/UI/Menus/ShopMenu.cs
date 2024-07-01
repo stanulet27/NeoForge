@@ -41,6 +41,9 @@ namespace NeoForge.UI.Menus
         
         [Tooltip("The pages of the shop and the items that are available on those pages")]
         [SerializeField] private SerializedDictionary<string, ShopItemList> _shopPages = new();
+        
+        [Tooltip("Manages selecting the weight of a material item")]
+        [SerializeField] private ShopItemWeightScreen _weightScreen;
 
         private readonly List<ShopButton> _buttons = new();
         private string _currentShopPage;
@@ -132,6 +135,12 @@ namespace NeoForge.UI.Menus
 
         private void AttemptPurchase(ItemBase item)
         {
+            if (item is TemplateMaterialItem materialItem)
+            {
+                _weightScreen.OpenWeightScreen(materialItem, RefreshPage);
+                return;
+            }
+            
             if (InventorySystem.Instance.CurrentGold < item.Cost) return;
             InventorySystem.Instance.CurrentGold -= item.Cost;
             InventorySystem.Instance.AddItem(item);

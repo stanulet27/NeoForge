@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using NeoForge.Deformation;
 using NeoForge.UI.Inventory;
@@ -15,7 +14,7 @@ namespace NeoForge.Stations.Warehouse
         [SerializeField] private GameObject _cratesParent;
         
         [Tooltip("The part selection crate that will display current part selected")]
-        [SerializeField] private TMP_Text _partSelectionLabel;
+        [SerializeField] private ForgeablePartsCrate _partSelectionCrate;
         
         [Tooltip("The UI display for the warehouse station.")]
         [SerializeField] private WarehouseUIDisplay _uiDisplay;
@@ -28,7 +27,6 @@ namespace NeoForge.Stations.Warehouse
         private void Start()
         {
             _crates = _cratesParent.GetComponentsInChildren<ItemCrate>().ToList();
-            _partSelectionLabel.text = "Click to select an item to forge";
             _uiDisplay.CloseUI();
         }
 
@@ -114,8 +112,8 @@ namespace NeoForge.Stations.Warehouse
         private void SetMaterialItem(MaterialItem item)
         {
             _materialItem = item;
+            _partSelectionCrate.SetPart(item);
             RefreshCraftability();
-            _partSelectionLabel.text = item == null ? "Click to select an item to forge" : $"Selected: {item.Name}";
         }
     }
 }

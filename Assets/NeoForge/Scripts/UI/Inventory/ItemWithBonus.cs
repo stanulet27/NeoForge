@@ -55,7 +55,7 @@ namespace NeoForge.UI.Inventory
         {
             return _bonusType switch
             {
-                BonusType.Multiply => originalValue * (1 + _bonusValue),
+                BonusType.Multiply => originalValue * (_bonusValue),
                 BonusType.Add => originalValue + _bonusValue,
                 _ => originalValue
             };

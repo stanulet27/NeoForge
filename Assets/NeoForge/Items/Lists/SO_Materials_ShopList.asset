@@ -13,7 +13,15 @@ MonoBehaviour:
   m_Name: SO_Materials_ShopList
   m_EditorClassIdentifier: 
   _shopItems:
-  - Item: {fileID: 11400000, guid: 78afc5601f8484e4590f1adc58ec29bd, type: 2}
+  - Item: {fileID: 11400000, guid: f2cb8dd2ee742fe41bcd3184f0b9fa93, type: 2}
     DayUnlocked: 0
-  - Item: {fileID: 11400000, guid: f82bdcbac1dd7eb44bf0d6ee6ebd01ab, type: 2}
+  - Item: {fileID: 11400000, guid: 2e67bd593e621a147bc1c099cd78b9d8, type: 2}
+    DayUnlocked: 0
+  - Item: {fileID: 11400000, guid: b3575223992dac247916e77e13b9e3eb, type: 2}
+    DayUnlocked: 0
+  - Item: {fileID: 11400000, guid: c7a9788148574f641846d63546f0b7ec, type: 2}
+    DayUnlocked: 0
+  - Item: {fileID: 11400000, guid: 9b8d5e756335f5d4ebbefff200d40e8c, type: 2}
+    DayUnlocked: 0
+  - Item: {fileID: 11400000, guid: 3979e005c5592504f9b98275f5dabd42, type: 2}
     DayUnlocked: 0

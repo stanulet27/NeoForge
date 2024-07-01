@@ -82,6 +82,11 @@ namespace NeoForge.Stations.Warehouse
             ControllerManager.Instance.SwapMode(ControllerManager.Mode.Gameplay);
         }
 
+        /// <summary>
+        /// Opens the part selector. Will close the part selector when a part is selected.
+        /// If a part is selected, the onPartSelected action will be invoked with the selected part.
+        /// Will swap the controller mode to UI and hide the HUD.
+        /// </summary>
         public void OpenPartSelector()
         {
             _partSelector.OpenDisplay(_onPartSelected, ClosePartSelector);

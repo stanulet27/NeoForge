@@ -1,6 +1,7 @@
 ﻿using System;
 using AYellowpaper.SerializedCollections;
 using NeoForge.Utilities;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace NeoForge.Deformation.JSON
@@ -13,12 +14,24 @@ namespace NeoForge.Deformation.JSON
         public enum Shape { Rectangular, Spherical }
         public enum Size { Small, Medium, Large }
         
+        [Tooltip("The mesh frames for different shapes that will serve as the base.")]
         [SerializeField] private SerializedDictionary<Shape, Mesh> _partMeshes = new();
+        [Tooltip("The different face sizes that the parts can be.")]
         [SerializeField] private SerializedDictionary<Size, float> _partSizes = new();
+        
+        [Header("Debug Properties")]
+        [Tooltip("When true, the parameters will be overridden and will use the below parameters.")]
         [SerializeField] private bool _overrideParameters;
+        [ShowIf("_overrideParameters")]
+        [Tooltip("The shape to use when the parameters are overridden.")]
         [SerializeField] private Shape _overrideShape = Shape.Rectangular;
+        [ShowIf("_overrideParameters")]
+        [Tooltip("The size to use when the parameters are overridden.")]
         [SerializeField] private Size _overrideSize = Size.Small;
 
+        /// <summary>
+        /// Will return a newly created mesh that represents the part with the given details.
+        /// </summary>
         public Mesh GetPartMesh(PartMeshDetails details)
         {
             var shapeToUse = _overrideParameters ? _overrideShape : details.Shape;
@@ -91,20 +104,6 @@ namespace NeoForge.Deformation.JSON
             var lengthInMeters = lengthInInches * INCHES_TO_METERS;
 
             return lengthInMeters;
-        }
-    }
-
-    public class PartMeshDetails
-    {
-        public readonly PartMeshDatabase.Shape Shape;
-        public readonly PartMeshDatabase.Size Size;
-        public readonly float Weight;
-        
-        public PartMeshDetails(PartMeshDatabase.Shape shape, PartMeshDatabase.Size size, float weight)
-        {
-            Shape = shape;
-            Size = size;
-            Weight = weight;
         }
     }
 }

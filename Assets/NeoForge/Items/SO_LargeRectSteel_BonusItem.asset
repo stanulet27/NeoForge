@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef6dcb078fca44fb97ca3a1ea9b6f816, type: 3}
-  m_Name: SO_BasicCoal_BonusItem
+  m_Script: {fileID: 11500000, guid: 059d4db0f22948518bf12cf4f0b628ec, type: 3}
+  m_Name: SO_LargeRectSteel_BonusItem
   m_EditorClassIdentifier: 
-  _cost: 20
-  _bonusType: 0
-  _bonusTarget: 1
-  _bonusValue: 0
+  _shape: 0
+  _size: 2
+  _materialData: {fileID: 11400000, guid: eed0ddbd99b9da34cb8fdbc75b62600b, type: 2}

@@ -7195,6 +7195,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 250109943}
+  - component: {fileID: 250109944}
   m_Layer: 0
   m_Name: Forgable Parts Chest
   m_TagString: Untagged
@@ -7219,6 +7220,23 @@ Transform:
   - {fileID: 1666398111}
   m_Father: {fileID: 67288252}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &250109944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250109942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 010eac68e7a1499da593bce3a19f3637, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _label: {fileID: 1666398112}
+  _emptyLabel: Click to select a part to use for forging
+  _meshRenderer: {fileID: 800461882}
+  _defaultMaterial: {fileID: 2100000, guid: e76f30f3161bf4f4eb5c3d22f9073987, type: 2}
+  _highlightMaterial: {fileID: 2100000, guid: 264da0aa4d4530945806a34f0e8f9109, type: 2}
 --- !u!1001 &251494577
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22923,7 +22941,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cratesParent: {fileID: 1576242834}
-  _partSelectionLabel: {fileID: 1666398112}
+  _partSelectionCrate: {fileID: 250109944}
   _uiDisplay: {fileID: 1909167285}
 --- !u!1 &966480562
 GameObject:
@@ -35658,7 +35676,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rotationSpeed: {x: 4, y: 5, z: -6}
   _partMeshDisplay: {fileID: 2108908439}
-  _partCamera: {fileID: 0}
+  _partCamera: {fileID: 1237710488}
 --- !u!1001 &1420500973
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43804,7 +43822,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -1.8774, y: 0}
-  m_SizeDelta: {x: 4.7157, y: 1}
+  m_SizeDelta: {x: 3.5, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1666398112
 MonoBehaviour:
